@@ -21,7 +21,7 @@ public class Game {
         pickClass();
     }
     public void addName(){
-        System.out.println("Podaj swoją nazwę bohatera");
+        System.out.println("Enter your character's name");
         String name = scanner.nextLine();
         setName(name);
     }
@@ -29,36 +29,36 @@ public class Game {
         Warrior warrior=new Warrior();
         Assassin assassin= new Assassin();
         Sorcerer sorcerer= new Sorcerer();
-        System.out.println("Statystyki wszystkich klas:");
-        System.out.println("Statystyki wojownika/wojowniczki: ");
+        System.out.println("All class stats:");
+        System.out.println("Warrior stats: ");
         warrior.showStats();
-        System.out.println("Statystyki zabójcy/zabójczyni");
+        System.out.println("Assassin stats:");
         assassin.showStats();
-        System.out.println("Statystyki czarodzieja/czarodziejki");
+        System.out.println("Sorcerer stats: ");
         sorcerer.showStats();
     }
     public void pickClass(){
-        System.out.println("Wybierz klasę:");
-        System.out.println("1.Wojownik/Wojowniczka");
-        System.out.println("2.Zabójca/Zabójczyni");
-        System.out.println("3.Czarodziej/Czarodziejka");
-        System.out.println("4.Wyjdź z aplikacji");
+        System.out.println("Choose a class");
+        System.out.println("1.Warrior");
+        System.out.println("2.Assassin");
+        System.out.println("3.Sorcerer");
+        System.out.println("4.Exit the game");
         userChoice = scanner.nextInt();
 
         if (userChoice > 0 && userChoice < 5) {
             switch (userChoice) {
                 case 1 -> {
-                    System.out.println("Wybrałeś wojownika/wojowniczke");
+                    System.out.println("You chose a warrior");
                     myHero=new Warrior();
                     mainMENU();
                 }
                 case 2 -> {
-                    System.out.println("Wybrałeś zabójce/zabójczyni");
+                    System.out.println("You chose a assassin");
                     myHero=new Assassin();
                     mainMENU();
                 }
                 case 3 -> {
-                    System.out.println("Wybrałeś czarodzieja/czarodziejke");
+                    System.out.println("You chose a sorcerer");
                     myHero=new Sorcerer();
                     mainMENU();
                 }
@@ -67,17 +67,17 @@ public class Game {
         }
         else {
             pickClass();
-            System.out.println("Spróbuj ponownie");
+            System.out.println("Try again");
         }
     }
     public void mainMENU() {
-            System.out.println("Witaj " + getName());
-            System.out.println("Gotowy na przygodę ?");
-            System.out.println("Twoje możliwości wyboru:");
-            System.out.println("1.Walka");
-            System.out.println("2.Sprawdź statystyki");
-            System.out.println("3.Dodaj punkty statystyk");
-            System.out.println("4.Wyjdź");
+            System.out.println("Hello " + getName());
+            System.out.println("Are you ready for adventure ?");
+            System.out.println("Your choice possibilities:");
+            System.out.println("1.Fight");
+            System.out.println("2.Look at stats");
+            System.out.println("3.Add stats points");
+            System.out.println("4.Exit the game");
             userChoice = scanner.nextInt();
             if (userChoice > 0 && userChoice < 5) {
                 switch (userChoice) {
@@ -93,7 +93,7 @@ public class Game {
                     case 4 ->{}
                 }
             } else {
-                System.out.println("Spróbuj ponownie");
+                System.out.println("Try again");
                 mainMENU();
             }
         }
@@ -101,11 +101,11 @@ public class Game {
             Enemy enemy = new Enemy();
             enemy.duelStats();
             myHero.duelStats();
-            System.out.println("1.Atak");
-            System.out.println("2.Zaklęcia");
-            System.out.println("3.Krok w przód");
-            System.out.println("4.Krok w tył");
-            System.out.println("5.Odpoczynek");
+            System.out.println("1.Attack");
+            System.out.println("2.Skills");
+            System.out.println("3.Step forward");
+            System.out.println("4.Step back");
+            System.out.println("5.Rest");
             userChoice = scanner.nextInt();
             if (userChoice > 0 && userChoice < 6) {
                 switch (userChoice) {
@@ -116,7 +116,7 @@ public class Game {
                         duelMENU();
                         }
                     else {
-                        System.out.println("Nie możesz uderzyć przeciwnika, twój zasięg ataku jest za mały");
+                        System.out.println("You can't have to hit enemy. Your attack range is too small");
                         duelMENU();
                         }
                     }
@@ -128,7 +128,7 @@ public class Game {
 
                         }
                         else {
-                            System.out.println("Masz za mało many");
+                            System.out.println("You don't have enough mana points");
                             duelMENU();
                         }
                     }
@@ -151,7 +151,7 @@ public class Game {
                 }
             }
             else{
-                System.out.println("Wpisałeś złą liczbę");
+                System.out.println("You entered the wrong number. Try again");
                 duelMENU();
             }
             // dodać zwycięzce, expa ,lvl up'y

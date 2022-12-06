@@ -13,63 +13,59 @@ class Assassin extends Classes {
         int enemyChance = enemy.enemyStats.getCurrentDodge() + draw.nextInt(101);
         int critChance = stats.getCurrentCritC() + draw.nextInt(101);
 
-        System.out.println("1.Cios w plecy (20MP)");
-        System.out.println("2.Zwiększenie uniku i zręczności (20MP)");
-        System.out.println("3.Atak krytyczny (30MP)");
+        System.out.println("1.Hit in the back (20MP)");
+        System.out.println("2.Boost dodge and dexterity (20MP)");
+        System.out.println("3.Critical attack (30MP)");
         int userChoice = scanner.nextInt();
         if (userChoice > 0 & userChoice < 4) {
             switch (userChoice) {
                 case 1 -> {
-                    if (stats.getCurrentMP() >= 20 && stats.getAttackRange() <= game.range) {
+                    if (stats.getAttackRange() <= game.range) {
                         if (heroChance > enemyChance) {
                             damage = 30 + (stats.getDexterity() / 5) - (enemy.enemyStats.getCurrentArm() / 20);
                             if (critChance < 100) {
-                                System.out.println("Uderzenie za " + damage);
+                                System.out.println("Attack for " + damage);
                                 stats.setCurrentMP(stats.getCurrentMP() - 20);
                             } else {
                                 damage = 2 * damage;
-                                System.out.println("Uderzenie KRYTYCZNE !!!! za " + damage + "!!!!");
+                                System.out.println("Critical attack !!!! for " + damage + "!!!!");
                                 stats.setCurrentMP(stats.getCurrentHP() - 20);
                             }
                             enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage);
 
                         } else {
-                            System.out.println("Nie trafiłeś przeciwnika");
+                            System.out.println("You missed");
                         }
 
                     } else {
-                        System.out.println("masz za mało MP lub za mały zasięg ataku");
+                        System.out.println("Your attack range is too small");
                     }
                 }
                 case 2 -> {
-                    if (stats.getCurrentMP() >= 20) {
                         stats.setCurrentDex(stats.getCurrentDex() + 10);
                         stats.setCurrentDodge(stats.getCurrentDodge() + 5);
                         stats.setCurrentMP(stats.getCurrentMP() - 20);
-                        System.out.println("Czuje się zwinny jak ninja");
-                    } else {
-                        System.out.println("masz za mało MP");
-                    }
+                        System.out.println("I'm feeling agile like ninja");
                 }
                 case 3 -> {
-                    if (stats.getCurrentMP() >= 30 && stats.getAttackRange() <= game.range) {
+                    if (stats.getCurrentMP() >= 30 || stats.getAttackRange() <= game.range) {
                         if (heroChance > enemyChance) {
                             damage = 40 + (stats.getDexterity() / 5) - (enemy.enemyStats.getCurrentArm() / 20);
-                            System.out.println("Uderzenie za " + damage);
+                            System.out.println("Attack for " + damage);
                             stats.setCurrentMP(stats.getCurrentMP() - 30);
 
                             enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage); // nie działa
 
                         } else {
-                            System.out.println("Nie trafiłeś przeciwnika");
+                            System.out.println("You missed");
                         }
                     } else {
-                        System.out.println("masz za mało MP lub za mały zasięg ataku");
+                        System.out.println("You don't have enough mana point or your attack range is too small");
                     }
                 }
             }
         } else {
-            System.out.println("Wpisałeś złą cyfre");
+            System.out.println("You entered the wrong number. Try again");
         }
     }
 }

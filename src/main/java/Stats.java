@@ -181,14 +181,14 @@ class Stats {
     }
 
     public void showStats() {
-        System.out.println("Siła: " + this.Strength);
-        System.out.println("Zręczność: " + this.Dexterity);
-        System.out.println("Inteligencja: " + this.Intelligence);
+        System.out.println("Strength: " + this.Strength);
+        System.out.println("Dexterity: " + this.Dexterity);
+        System.out.println("Intelligence: " + this.Intelligence);
         System.out.println("HP: " + this.HP);
         System.out.println("MP: " + this.MP);
-        System.out.println("Unik: " + this.Dodge);
-        System.out.println("Pancerz: " + this.Armor);
-        System.out.println("Szansa na krytyczne uderzenie: " + this.CriticalChance);
+        System.out.println("Dodge: " + this.Dodge);
+        System.out.println("Armor: " + this.Armor);
+        System.out.println("Critical attack chance: " + this.CriticalChance);
     }
 
     // add stats after lvl up
@@ -198,43 +198,43 @@ class Stats {
         double actuallypoints = 0;
         if (getLVL() == getLVLtocompare()) {
             actuallypoints = 10;
-            System.out.println("Masz do wydania" + actuallypoints + "punktów doświadczenia");
-            System.out.println("Twoje statystyki,które możesz zmienić:");
-            System.out.println("Siła:" + getStrength());
-            System.out.println("Zręczność:" + getDexterity());
-            System.out.println("Inteligencja:" + getIntelligence());
-            System.out.println("Dodaj punkty statystyki");
-            System.out.println("1.Siła");
-            System.out.println("2.Zręczność");
-            System.out.println("3.Inteligencja");
-            System.out.println("4.Cofnij do menu");
+            System.out.println("Your experience points "+ actuallypoints);
+            System.out.println("Your stats for change:");
+            System.out.println("Strength:" + getStrength());
+            System.out.println("Dexterity:" + getDexterity());
+            System.out.println("Intelligence:" + getIntelligence());
+            System.out.println("Add stats points");
+            System.out.println("1.Strength");
+            System.out.println("2.Dexterity");
+            System.out.println("3.Intelligence");
+            System.out.println("4.Back to the menu");
             int userChoice = scanner.nextInt();
             if (userChoice > 0 && userChoice < 5) {
                 switch (userChoice) {
                     case 1 -> {
                         setStrength(this.Strength + 5);
-                        System.out.println("Siła:" + getStrength());
+                        System.out.println("Strength: " + getStrength());
                         actuallypoints = actuallypoints - 5;
                         if (actuallypoints == 0) {
-                            System.out.println("Nie masz już punktów");
+                            System.out.println("You don't have enough points");
                             game.mainMENU();
                         }
                     }
                     case 2 -> {
                         setDexterity(this.Dexterity + 5);
-                        System.out.println("Zręczność:" + getDexterity());
+                        System.out.println("Dexterity: " + getDexterity());
                         actuallypoints = actuallypoints - 5;
                         if (actuallypoints == 0) {
-                            System.out.println("Nie masz już punktów");
+                            System.out.println("You don't have enough points");
                             game.mainMENU();
                         }
                     }
                     case 3 -> {
                         setIntelligence(this.Intelligence + 5);
-                        System.out.println("Inteligencja:" + getIntelligence());
+                        System.out.println("Intelligence:" + getIntelligence());
                         actuallypoints = actuallypoints - 5;
                         if (actuallypoints == 0) {
-                            System.out.println("Nie masz już punktów");
+                            System.out.println("You don't have enough points");
                             game.mainMENU();
                         }
                     }
@@ -243,10 +243,10 @@ class Stats {
                 }
             } else {
                 addStats();
-                System.out.println("Wpisałeś złą cyfrę");
+                System.out.println("You entered the wrong number. Try again");
             }
         } else {
-            System.out.println("Nie wzrósł Ci poziom. Brakuje " + (100 - getEXP()) + " expa do następnego poziomu");
+            System.out.println("You need " + (100 - getEXP()) + " experience points to next level");
         }
     }
     // dualstats need in duelmenu

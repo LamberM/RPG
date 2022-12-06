@@ -8,7 +8,7 @@ public class Enemy{
         Game game = new Game();
         MyClass hero = new MyClass();
         int damage;
-        System.out.println("Przeciwnik");
+        System.out.println("Enemy");
         if (enemyStats.getAttackRange()<=game.range) {
             Random draw = new Random();
 
@@ -19,18 +19,18 @@ public class Enemy{
             if (enemyChance>heroChance) {
                 damage = enemyStats.getStrength() + enemyStats.getDexterity() + enemyStats.getIntelligence() - (hero.stats.getCurrentArm() / 10);
                 if (critChance < 100) {
-                    System.out.println("Uderzenie za " + damage);
+                    System.out.println("Attack for " + damage);
 
                 }
                 else {
                     damage=damage*2;
-                    System.out.println("Uderzenie KRYTYCZNE !!!! za " + damage + "!!!!");
+                    System.out.println("Critical attack !!!! for " + damage + "!!!!");
                 }
                 int currHP=(hero.stats.getCurrentHP() - damage);
                 hero.stats.setCurrentHP(currHP);
             }
             else {
-                System.out.println("Nie trafiłeś przeciwnika");
+                System.out.println("You missed");
             }
         }
         else { stepForward();}
@@ -41,7 +41,7 @@ public class Enemy{
         enemyStats.setIntelligence(enemyStats.getIntelligence()+5);
     }
     public void duelStats() {
-        System.out.println("Przeciwnik:");
+        System.out.println("Enemy:");
         enemyStats.duelStats();
     }
 

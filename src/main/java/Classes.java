@@ -13,7 +13,7 @@ abstract class Classes{
         stats.showStats();
     }
     public void duelStats() {
-        System.out.println("Mój bohater");
+        System.out.println("My hero");
         stats.duelStats();
     }
     public void lvlUP() {
@@ -35,48 +35,48 @@ abstract class Classes{
         int enemyChance=enemy.enemyStats.getCurrentDodge() + draw.nextInt(101);
         int critChance=stats.getCurrentCritC() + draw.nextInt(101);
 
-        System.out.println("1.Atak");
-        System.out.println("2.Mocny Atak");
+        System.out.println("1.Attack");
+        System.out.println("2.Strong Attack");
         int userChoice = scanner.nextInt();
         if (userChoice > 0 && userChoice < 3) {
             switch (userChoice) {
                 case 1 -> {
-                    System.out.println("Mój bohater");
+                    System.out.println("My hero: ");
                     if (heroChance > enemyChance) {
                         damage = ((stats.getStrength()+ (stats.getDexterity())) - (enemy.enemyStats.getCurrentArm() / 20));
                         if (critChance> 100) {
-                            System.out.println("Uderzenie KRYTYCZNE !!!! za " + damage + "!!!!");
+                            System.out.println("Critical attack !!!! for " + damage + "!!!!");
                         } else {
                             damage = 2 * damage;
-                            System.out.println("Uderzenie za " + damage);
+                            System.out.println("Attack for " + damage);
                         }
                         int currHP=(enemy.enemyStats.getCurrentHP() - damage);
                         enemy.enemyStats.setCurrentHP(currHP);
                     }
                     else {
-                        System.out.println("Nie trafiłeś przeciwnika");
+                        System.out.println("You missed");
                     }
                 }
                 case 2 -> {
                     if (heroChance > enemyChance) {
                         damage = 2*((stats.getStrength()+ (stats.getDexterity())) - (enemy.enemyStats.getCurrentArm() / 20));
                         if (critChance > 100) {
-                            System.out.println("Uderzenie KRYTYCZNE !!!! za " + damage + "!!!!");
+                            System.out.println("Critical attack !!!! for " + damage + "!!!!");
                         } else {
                             damage = 2 * damage;
-                            System.out.println("Uderzenie za " + damage);
+                            System.out.println("Attack for " + damage);
                         }
                         int currHP=(enemy.enemyStats.getCurrentHP() - damage);
                         enemy.enemyStats.setCurrentHP(currHP);
                     }
                     else {
-                        System.out.println("Nie trafiłeś przeciwnika");
+                        System.out.println("You missed");
                     }
                 }
             }
         }
         else {
-            System.out.println("Wpisałeś złą cyfre");
+            System.out.println("You entered the wrong number. Try again");
         }
     }
     public void skills(){}

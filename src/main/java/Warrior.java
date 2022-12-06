@@ -13,60 +13,52 @@ class Warrior extends Classes {
         int enemyChance = enemy.enemyStats.getCurrentDodge() + draw.nextInt(101);
         int critChance = stats.getCurrentCritC() + draw.nextInt(101);
 
-        System.out.println("1.Okrzyk bojowy (20MP)");
-        System.out.println("2.Okrzyk obronny (20MP)");
-        System.out.println("3.Podwójny atak (20MP)");
+        System.out.println("1.Battle cry (20MP)");
+        System.out.println("2.Defensive cry (20MP)");
+        System.out.println("3.Double attack (20MP)");
         int userChoice = scanner.nextInt();
         if (userChoice > 0 && userChoice < 4) {
             switch (userChoice) {
                 case 1 -> {
-                    if (stats.getCurrentMP() >= 20) {
                         stats.setCurrentStr(stats.getCurrentStr() + 10);
                         stats.setCurrentDex(stats.getCurrentDex() + 5);
                         stats.setCurrentCritC(stats.getCurrentCritC() + 2);
-                        stats.setCurrentMP(stats.getCurrentMP() - 10);
+                        stats.setCurrentMP(stats.getCurrentMP() - 20);
                         System.out.println("WAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRR");
-                    } else {
-                        System.out.println("masz za mało MP");
-                    }
+
                 }
                 case 2 -> {
-                    if (stats.getCurrentMP() >= 20) {
                         stats.setCurrentHP(stats.getCurrentHP() + 20);
                         stats.setCurrentArm(stats.getCurrentArm() + 10);
                         stats.setCurrentDodge(stats.getCurrentDodge() + 2);
-                        stats.setCurrentMP(stats.getCurrentMP() - 10);
+                        stats.setCurrentMP(stats.getCurrentMP() - 20);
                         System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAACCCCCKKKKKKKKKKKKKK");
-
-                    } else {
-                        System.out.println("masz za mało MP");
-                    }
                 }
                 case 3 -> {
-                    if (stats.getCurrentMP() >= 20 && stats.getAttackRange() <= game.range) {
+                    if (stats.getAttackRange() <= game.range) {
                         if (heroChance > enemyChance) {
                             damage = 60 + (stats.getStrength() / 5) - (enemy.enemyStats.getCurrentArm() / 20);
                             if (critChance < 100) {
-                                System.out.println("Uderzenie za " + damage);
-                                stats.setCurrentMP(stats.getCurrentMP() - 10);
+                                System.out.println("Attack for " + damage);
+                                stats.setCurrentMP(stats.getCurrentMP() - 20);
                             } else {
                                 damage = 2 * damage;
-                                System.out.println("Uderzenie KRYTYCZNE !!!! za " + damage + "!!!!");
-                                stats.setCurrentMP(stats.getCurrentMP() - 10);
+                                System.out.println("Critical attack !!!! for " + damage + "!!!!");
+                                stats.setCurrentMP(stats.getCurrentMP() - 20);
                             }
                             enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage); // nie działa
                         } else {
-                            System.out.println("Nie trafiłeś przeciwnika");
+                            System.out.println("You missed");
                         }
 
                     } else {
-                        System.out.println("masz za mało MP lub za mały zasięg ataku");
+                        System.out.println("Your attack range is too small");
 
                     }
                 }
             }
         } else {
-            System.out.println("Wpisałeś złą cyfre");
+            System.out.println("You entered the wrong number. Try again");
         }
 
     }
