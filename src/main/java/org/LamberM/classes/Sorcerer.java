@@ -1,8 +1,11 @@
-package main.java;
+package org.LamberM.classes;
 
-class Sorcerer extends Classes {
-    Sorcerer() {
-        stats = new Stats(5, 15, 25, 120, 80, 5, 40, 5, 2);
+
+import org.LamberM.enemy.Enemy;
+import org.LamberM.stats.Stats;
+
+public class Sorcerer extends Classes {
+    public Sorcerer() { stats = new Stats(5, 15, 25, 120, 80, 5, 40, 5, 2);
     }
 
     @Override

@@ -1,25 +1,33 @@
-package main.java;
+package org.LamberM.classes;
+
+import org.LamberM.enemy.EnemyTest;
+import org.LamberM.game.GameTest;
+import org.LamberM.stats.StatsTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
-import java.util.Scanner;
 
-abstract class Classes{
-    Stats stats= new Stats(1,1,1,1,1,1,1,1,1);
-    Scanner scanner = new Scanner(System.in);
-    Game game= new Game();
+public class ClassesTest {
+    public StatsTest stats= new StatsTest(1,1,1,1,1,1,1,1,1);
+    GameTest game= new GameTest();
     Random draw = new Random();
     int damage;
+    @Test
     public void showStats() {
         stats.showStats();
     }
+    @Test
     public void duelStats() {
         System.out.println("My hero");
         stats.duelStats();
     }
+    @Test
     public void lvlUP() {
         stats.addStats();
     }
+    @Test
     public void rest() {
+        duelStats();
         stats.setCurrentHP(stats.getCurrentHP() + 20);
         stats.setCurrentMP(stats.getCurrentMP() + 20);
         if (stats.getCurrentHP() > stats.getHP() || stats.getCurrentHP() > stats.getMP())
@@ -27,9 +35,10 @@ abstract class Classes{
             stats.setCurrentHP(stats.getHP());
             stats.setCurrentMP(stats.getMP());
         }
+        duelStats();
     }
     public void attack() {
-        Enemy enemy= new Enemy();
+        EnemyTest enemy= new EnemyTest();
 
         int heroChance=stats.getDexterity() + draw.nextInt(101);
         int enemyChance=enemy.enemyStats.getCurrentDodge() + draw.nextInt(101);
@@ -37,7 +46,7 @@ abstract class Classes{
 
         System.out.println("1.Attack");
         System.out.println("2.Strong Attack");
-        int userChoice = scanner.nextInt();
+        int userChoice = 1;
         if (userChoice > 0 && userChoice < 3) {
             switch (userChoice) {
                 case 1 -> {
@@ -50,8 +59,10 @@ abstract class Classes{
                             damage = 2 * damage;
                             System.out.println("Attack for " + damage);
                         }
+                        enemy.duelStats();
                         int currHP=(enemy.enemyStats.getCurrentHP() - damage);
                         enemy.enemyStats.setCurrentHP(currHP);
+                        enemy.duelStats();
                     }
                     else {
                         System.out.println("You missed");

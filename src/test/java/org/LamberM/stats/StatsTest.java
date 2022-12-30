@@ -1,8 +1,11 @@
-package main.java;
+package org.LamberM.stats;
 
+import org.LamberM.game.GameTest;
 import java.util.Scanner;
 
-class Stats {
+import static org.junit.jupiter.api.Assertions.*;
+
+public class StatsTest {
     private int EXP = 0;
     private int LVL = 1;
     private int LVLtocompare = 2;
@@ -160,7 +163,7 @@ class Stats {
         this.CurrentDodge = currentDodge;
     }
 
-    public Stats(int strength, int dexterity, int intelligence, int HP, int MP, int dodge, int armor, int criticalChance, int attackRange) {
+    public StatsTest(int strength, int dexterity, int intelligence, int HP, int MP, int dodge, int armor, int criticalChance, int attackRange) {
         this.Strength = strength;
         this.Dexterity = dexterity;
         this.Intelligence = intelligence;
@@ -181,20 +184,20 @@ class Stats {
     }
 
     public void showStats() {
-        System.out.println("Strength: " + this.Strength);
-        System.out.println("Dexterity: " + this.Dexterity);
+        System.out.println("Strength: " + this.CurrentStr);
+        System.out.println("Dexterity: " + this.CurrentDex);
         System.out.println("Intelligence: " + this.Intelligence);
-        System.out.println("HP: " + this.HP);
-        System.out.println("MP: " + this.MP);
-        System.out.println("Dodge: " + this.Dodge);
-        System.out.println("Armor: " + this.Armor);
-        System.out.println("Critical attack chance: " + this.CriticalChance);
+        System.out.println("HP: " + this.CurrentHP);
+        System.out.println("MP: " + this.CurrentMP);
+        System.out.println("Dodge: " + this.CurrentDodge);
+        System.out.println("Armor: " + this.CurrentArm);
+        System.out.println("Critical attack chance: " + this.CurrentCritC);
     }
 
     // add stats after lvl up
     public void addStats() {
         Scanner scanner = new Scanner(System.in);
-        Game game = new Game();
+        GameTest game = new GameTest();
         double actuallypoints = 0;
         if (getLVL() == getLVLtocompare()) {
             actuallypoints = 10;
