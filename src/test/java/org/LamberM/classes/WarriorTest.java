@@ -1,13 +1,19 @@
-package main.java;
+package org.LamberM.classes;
 
-class Warrior extends Classes {
-    Warrior() {
-        stats = new Stats(20, 15, 10, 200, 40, 5, 100, 5, 1);
+
+import org.LamberM.enemy.EnemyTest;
+import org.LamberM.stats.StatsTest;
+import org.junit.jupiter.api.Test;
+
+
+public class WarriorTest extends ClassesTest {
+    public WarriorTest() {
+        stats = new StatsTest(20, 15, 10, 200, 40, 5, 100, 5, 1);
     }
 
-    @Override
+    @Test
     public void skills() {
-        Enemy enemy = new Enemy();
+        EnemyTest enemy = new EnemyTest();
 
         int heroChance = stats.getDexterity() + draw.nextInt(101);
         int enemyChance = enemy.enemyStats.getCurrentDodge() + draw.nextInt(101);
@@ -16,23 +22,26 @@ class Warrior extends Classes {
         System.out.println("1.Battle cry (20MP)");
         System.out.println("2.Defensive cry (20MP)");
         System.out.println("3.Double attack (20MP)");
-        int userChoice = scanner.nextInt();
+        int userChoice = 1;
         if (userChoice > 0 && userChoice < 4) {
             switch (userChoice) {
                 case 1 -> {
-                        stats.setCurrentStr(stats.getCurrentStr() + 10);
-                        stats.setCurrentDex(stats.getCurrentDex() + 5);
-                        stats.setCurrentCritC(stats.getCurrentCritC() + 2);
-                        stats.setCurrentMP(stats.getCurrentMP() - 20);
-                        System.out.println("WAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRR");
-
+                    showStats();
+                    stats.setCurrentStr(stats.getCurrentStr() + 10);
+                    stats.setCurrentDex(stats.getCurrentDex() + 5);
+                    stats.setCurrentCritC(stats.getCurrentCritC() + 2);
+                    stats.setCurrentMP(stats.getCurrentMP() - 20);
+                    System.out.println("WAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRR");
+                    showStats();
                 }
                 case 2 -> {
-                        stats.setCurrentHP(stats.getCurrentHP() + 20);
-                        stats.setCurrentArm(stats.getCurrentArm() + 10);
-                        stats.setCurrentDodge(stats.getCurrentDodge() + 2);
-                        stats.setCurrentMP(stats.getCurrentMP() - 20);
-                        System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAACCCCCKKKKKKKKKKKKKK");
+                    showStats();
+                    stats.setCurrentHP(stats.getCurrentHP() + 20);
+                    stats.setCurrentArm(stats.getCurrentArm() + 10);
+                    stats.setCurrentDodge(stats.getCurrentDodge() + 2);
+                    stats.setCurrentMP(stats.getCurrentMP() - 20);
+                    System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAACCCCCKKKKKKKKKKKKKK");
+                    showStats();
                 }
                 case 3 -> {
                     if (stats.getAttackRange() <= game.range) {
@@ -46,7 +55,10 @@ class Warrior extends Classes {
                                 System.out.println("Critical attack !!!! for " + damage + "!!!!");
                                 stats.setCurrentMP(stats.getCurrentMP() - 20);
                             }
-                            enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage); // nie działa
+                            enemy.duelStats();
+                            enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage);
+                            enemy.duelStats();
+
                         } else {
                             System.out.println("You missed");
                         }

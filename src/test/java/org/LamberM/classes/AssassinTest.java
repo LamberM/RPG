@@ -1,13 +1,16 @@
-package main.java;
+package org.LamberM.classes;
 
-class Assassin extends Classes {
-    Assassin() {
-        stats = new Stats(15, 20, 10, 150, 40, 10, 60, 10, 1);
+import org.LamberM.enemy.EnemyTest;
+import org.LamberM.stats.StatsTest;
+import org.junit.jupiter.api.Test;
+
+public class AssassinTest extends ClassesTest {
+    public AssassinTest() {
+        stats = new StatsTest(15, 20, 10, 150, 40, 10, 60, 10, 1);
     }
-
-    @Override
+    @Test
     public void skills() {
-        Enemy enemy = new Enemy();
+        EnemyTest enemy = new EnemyTest();
 
         int heroChance = stats.getDexterity() + draw.nextInt(101);
         int enemyChance = enemy.enemyStats.getCurrentDodge() + draw.nextInt(101);
@@ -16,7 +19,7 @@ class Assassin extends Classes {
         System.out.println("1.Hit in the back (20MP)");
         System.out.println("2.Boost dodge and dexterity (20MP)");
         System.out.println("3.Critical attack (30MP)");
-        int userChoice = scanner.nextInt();
+        int userChoice = 3;
         if (userChoice > 0 & userChoice < 4) {
             switch (userChoice) {
                 case 1 -> {
@@ -32,9 +35,10 @@ class Assassin extends Classes {
                                 stats.setCurrentMP(stats.getCurrentHP() - 20);
                             }
                             enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage);
-
+                            // działa !!!
                         } else {
                             System.out.println("You missed");
+                            // działa !!!
                         }
 
                     } else {
@@ -42,10 +46,12 @@ class Assassin extends Classes {
                     }
                 }
                 case 2 -> {
-                        stats.setCurrentDex(stats.getCurrentDex() + 10);
-                        stats.setCurrentDodge(stats.getCurrentDodge() + 5);
-                        stats.setCurrentMP(stats.getCurrentMP() - 20);
-                        System.out.println("I'm feeling agile like ninja");
+                    stats.setCurrentDex(stats.getCurrentDex() + 10);
+                    stats.setCurrentDodge(stats.getCurrentDodge() + 5);
+                    stats.setCurrentCritC(stats.getCurrentCritC()+5);
+                    stats.setCurrentMP(stats.getCurrentMP() - 20);
+                    System.out.println("I'm feeling agile like ninja");
+                    // działa !!!
                 }
                 case 3 -> {
                     if (stats.getCurrentMP() >= 30 || stats.getAttackRange() <= game.range) {
@@ -55,9 +61,10 @@ class Assassin extends Classes {
                             stats.setCurrentMP(stats.getCurrentMP() - 30);
 
                             enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage); // nie działa
-
+                            // działą !!!
                         } else {
                             System.out.println("You missed");
+                            // działa !!!
                         }
                     } else {
                         System.out.println("You don't have enough mana point or your attack range is too small");

@@ -1,13 +1,19 @@
-package main.java;
+package org.LamberM.classes;
 
-class Sorcerer extends Classes {
-    Sorcerer() {
-        stats = new Stats(5, 15, 25, 120, 80, 5, 40, 5, 2);
+
+import org.LamberM.enemy.EnemyTest;
+import org.LamberM.stats.StatsTest;
+import org.junit.jupiter.api.Test;
+
+
+public class SorcererTest extends ClassesTest {
+    public SorcererTest() {
+        stats = new StatsTest(5, 15, 25, 120, 80, 5, 40, 5, 2);
     }
 
-    @Override
+    @Test
     public void skills() {
-        Enemy enemy = new Enemy();
+        EnemyTest enemy = new EnemyTest();
 
         int heroChance = stats.getDexterity() + draw.nextInt(101);
         int enemyChance = enemy.enemyStats.getCurrentDodge() + draw.nextInt(101);
@@ -16,7 +22,8 @@ class Sorcerer extends Classes {
         System.out.println("1.Fire ball (20MP)");
         System.out.println("2.Snow ball (30MP)");
         System.out.println("3.Frost armor (20MP)");
-        int userChoice = scanner.nextInt();
+        int userChoice = 2;
+        enemy.duelStats();
         if (userChoice > 0 && userChoice < 4) {
             switch (userChoice) {
                 case 1 -> {
@@ -33,6 +40,7 @@ class Sorcerer extends Classes {
                                 System.out.println("Critical attack !!!! for " + damage + "!!!!");
                                 stats.setCurrentMP(stats.getCurrentMP() - 25);
                             }
+                            enemy.duelStats();
                         } else {
                             System.out.println("You missed");
                         }
@@ -66,12 +74,14 @@ class Sorcerer extends Classes {
                     }
                 }
                 case 3 -> {
-                        stats.setCurrentArm(stats.getCurrentArm() + 10);
-                        stats.setCurrentMP(stats.getCurrentMP() - 20);
-                        System.out.println(stats.getCurrentArm());
-                        if (draw.nextInt(2) == 1) {
-                            System.out.println("You froze enemy, he lost his turn");
-                        }
+                    showStats();
+                    stats.setCurrentArm(stats.getCurrentArm() + 10);
+                    stats.setCurrentMP(stats.getCurrentMP() - 20);
+                    System.out.println(stats.getCurrentArm());
+                    if (draw.nextInt(2) == 1) {
+                        System.out.println("You froze enemy, he lost his turn");
+                    }
+                    showStats();
                 }
             }
         } else {

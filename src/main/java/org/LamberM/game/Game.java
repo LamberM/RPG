@@ -1,4 +1,10 @@
-package main.java;
+package org.LamberM.game;
+
+import org.LamberM.classes.Assassin;
+import org.LamberM.classes.Classes;
+import org.LamberM.classes.Sorcerer;
+import org.LamberM.classes.Warrior;
+import org.LamberM.enemy.Enemy;
 
 import java.util.Scanner;
 
@@ -39,9 +45,9 @@ public class Game {
     }
     public void pickClass(){
         System.out.println("Choose a class");
-        System.out.println("1.Warrior");
-        System.out.println("2.Assassin");
-        System.out.println("3.Sorcerer");
+        System.out.println("1.classes.Warrior");
+        System.out.println("2.classes.Assassin");
+        System.out.println("3.classes.Sorcerer");
         System.out.println("4.Exit the game");
         userChoice = scanner.nextInt();
 

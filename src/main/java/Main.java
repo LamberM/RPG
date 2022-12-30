@@ -1,4 +1,4 @@
-import main.java.Game;
+import org.LamberM.game.Game;
 
 public class Main {
     public static void main(String[] args)
