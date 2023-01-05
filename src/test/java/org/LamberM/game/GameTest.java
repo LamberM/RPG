@@ -131,7 +131,7 @@ private String Name;
                         enemy.attack();
                         // test
                         System.out.println("myhero " + myHero.stats.getCurrentHP());
-                        System.out.println("org/LamberM/enemy " + enemy.enemyStats.getCurrentHP());
+                        System.out.println("enemy " + enemy.enemyStats.getCurrentHP());
 
                     }
                     else {

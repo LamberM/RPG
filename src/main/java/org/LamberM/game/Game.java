@@ -9,29 +9,28 @@ import org.LamberM.enemy.Enemy;
 import java.util.Scanner;
 
 public class Game {
-    private String Name;
-    public String getName() {
-        return Name;
-    }
-    public void setName(String name) {
-        Name = name;
-    }
-    Scanner scanner = new Scanner(System.in);
-    Classes myHero;
+    private String name;
+    private Classes myHero;
     int userChoice;
     public int range=2;
-
-    public void game() {
+    private boolean userPickWillBeGood()
+    {
+        return userChoice <= 0 || userChoice >= 5;
+    }
+    public void game()
+    {
         addName();
         infoAboutClass();
-        pickClass();
+        pickClassMenu();
     }
-    public void addName(){
+    private void addName()
+    {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your character's name");
-        String name = scanner.nextLine();
-        setName(name);
+        name = scanner.nextLine();
     }
-    public void infoAboutClass(){
+    public void infoAboutClass()
+    {
         Warrior warrior=new Warrior();
         Assassin assassin= new Assassin();
         Sorcerer sorcerer= new Sorcerer();
@@ -43,124 +42,147 @@ public class Game {
         System.out.println("Sorcerer stats: ");
         sorcerer.showStats();
     }
-    public void pickClass(){
-        System.out.println("Choose a class");
-        System.out.println("1.classes.Warrior");
-        System.out.println("2.classes.Assassin");
-        System.out.println("3.classes.Sorcerer");
-        System.out.println("4.Exit the game");
+    private void pickClass()
+    {
+        Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
 
-        if (userChoice > 0 && userChoice < 5) {
-            switch (userChoice) {
-                case 1 -> {
-                    System.out.println("You chose a warrior");
-                    myHero=new Warrior();
-                    mainMENU();
-                }
-                case 2 -> {
-                    System.out.println("You chose a assassin");
-                    myHero=new Assassin();
-                    mainMENU();
-                }
-                case 3 -> {
-                    System.out.println("You chose a sorcerer");
-                    myHero=new Sorcerer();
-                    mainMENU();
-                }
-                case 4 -> {}
-            }
-        }
-        else {
-            pickClass();
+        while (userPickWillBeGood()) {
+            pickClassMenu();
             System.out.println("Try again");
         }
+        switch (userChoice) {
+            case 1 -> {
+                System.out.println("You chose a warrior");
+                myHero = new Warrior();
+                mainMenu();
+            }
+            case 2 -> {
+                System.out.println("You chose a assassin");
+                myHero = new Assassin();
+                mainMenu();
+            }
+            case 3 -> {
+                System.out.println("You chose a sorcerer");
+                myHero = new Sorcerer();
+                mainMenu();
+            }
+            case 4 -> {
+                System.out.println("See you later, bye");
+            }
+        }
     }
-    public void mainMENU() {
-            System.out.println("Hello " + getName());
+    private void pickClassMenu()
+    {
+        System.out.println("Choose a class");
+        System.out.println("1.Warrior");
+        System.out.println("2.Assassin");
+        System.out.println("3.Sorcerer");
+        System.out.println("4.Exit the game");
+        pickClass();
+    }
+    private void userPickInMainMenu()
+    {
+        Scanner scanner = new Scanner(System.in);
+        userChoice = scanner.nextInt();
+        while (userPickWillBeGood()) {
+            System.out.println("Try again");
+            mainMenu();
+        }
+        switch (userChoice) {
+            case 1 -> duelMenu();
+            case 2 -> {
+                myHero.showStats();
+                mainMenu();
+            }
+            case 3 -> {
+                myHero.lvlUP();
+                mainMenu();
+            }
+            case 4 ->{
+                System.out.println("See you later, bye");
+            }
+        }
+    }
+    public void mainMenu()
+    {
+            System.out.println("Hello " + name);
             System.out.println("Are you ready for adventure ?");
             System.out.println("Your choice possibilities:");
             System.out.println("1.Fight");
             System.out.println("2.Look at stats");
             System.out.println("3.Add stats points");
             System.out.println("4.Exit the game");
-            userChoice = scanner.nextInt();
-            if (userChoice > 0 && userChoice < 5) {
-                switch (userChoice) {
-                    case 1 -> duelMENU();
-                    case 2 -> {
-                        myHero.showStats();
-                        mainMENU();
-                    }
-                    case 3 -> {
-                        myHero.lvlUP();
-                        mainMENU();
-                    }
-                    case 4 ->{}
+            userPickInMainMenu();
+    }
+    private boolean heroCurrentMpIsMoreOrEqualTwenty()
+    {
+        return myHero.heroStats.getCurrentMP()>=20;
+    }
+    private boolean heroAttackRangeIsMoreOrEqualGameRange()
+    {
+        return range <= myHero.heroStats.getAttackRange();
+    }
+    private void userPickInDuelMenu()
+    {
+        Enemy enemy = new Enemy();
+        Scanner scanner = new Scanner(System.in);
+        enemy.duelStats();
+        myHero.duelStats();
+        userChoice = scanner.nextInt();
+        while (userPickWillBeGood())
+        {
+            System.out.println("You entered the wrong number. Try again");
+            duelMenu();
+        }
+        switch (userChoice)
+        {
+            case 1 ->{
+                if (heroAttackRangeIsMoreOrEqualGameRange())
+                {
+                    myHero.attackMenu();
+                    enemy.attack();
+                    duelMenu();
                 }
-            } else {
-                System.out.println("Try again");
-                mainMENU();
+                else
+                {
+                    System.out.println("You can't have to hit enemy. Your attack range is too small");
+                    duelMenu();
+                }
+            }
+            case 2-> {
+                if (heroCurrentMpIsMoreOrEqualTwenty())
+                {
+                    myHero.skillsMenu();
+                    enemy.attack();
+                    duelMenu();
+                }
+                else
+                {
+                    System.out.println("You don't have enough mana points");
+                    duelMenu();
+                }
+            }
+            case 3->{
+                range=range-1;
+                enemy.attack();
+                duelMenu();
+            }
+            case 4-> {
+                myHero.rest();
+                enemy.attack();
+                duelMenu();
             }
         }
-    public void duelMENU() {
-            Enemy enemy = new Enemy();
-            enemy.duelStats();
-            myHero.duelStats();
+    }
+    public void duelMenu()
+    {
             System.out.println("1.Attack");
             System.out.println("2.Skills");
             System.out.println("3.Step forward");
-            System.out.println("4.Step back");
-            System.out.println("5.Rest");
-            userChoice = scanner.nextInt();
-            if (userChoice > 0 && userChoice < 6) {
-                switch (userChoice) {
-                    case 1 ->{
-                    if (range <= myHero.stats.getAttackRange()){
-                        myHero.attack();
-                        enemy.attack();
-                        duelMENU();
-                        }
-                    else {
-                        System.out.println("You can't have to hit enemy. Your attack range is too small");
-                        duelMENU();
-                        }
-                    }
-                    case 2-> {
-                        if (myHero.stats.getCurrentMP()>=20){
-                            myHero.skills();
-                            enemy.attack();
-                            duelMENU();
-
-                        }
-                        else {
-                            System.out.println("You don't have enough mana points");
-                            duelMENU();
-                        }
-                    }
-                    case 3->{
-                        range=range-1;
-                        enemy.attack();
-                        duelMENU();
-                    }
-                    case 4->{
-                        range=range+1;
-                        enemy.attack();
-                        duelMENU();
-                    }
-                    case 5-> {
-                        myHero.rest();
-                        enemy.attack();
-                        duelMENU();
-
-                    }
-                }
-            }
-            else{
-                System.out.println("You entered the wrong number. Try again");
-                duelMENU();
-            }
+            System.out.println("4.Rest");
+            userPickInDuelMenu();
             // dodać zwycięzce, expa ,lvl up'y
-        }
     }
+}
 
