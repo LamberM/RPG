@@ -2,7 +2,7 @@ package org.LamberM.classes;
 
 import org.LamberM.enemy.Enemy;
 import org.LamberM.game.Game;
-import stats.Stats;
+import org.LamberM.stats.Stats;
 
 import java.util.Scanner;
 

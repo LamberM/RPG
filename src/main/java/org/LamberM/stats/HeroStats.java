@@ -1,4 +1,4 @@
-package stats;
+package org.LamberM.stats;
 
 import lombok.Getter;
 import lombok.Setter;

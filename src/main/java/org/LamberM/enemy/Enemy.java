@@ -3,8 +3,8 @@ package org.LamberM.enemy;
 
 import org.LamberM.classes.MyClass;
 import org.LamberM.game.Game;
-import stats.HeroStats;
-import stats.Stats;
+import org.LamberM.stats.HeroStats;
+import org.LamberM.stats.Stats;
 
 import java.util.Random;
 

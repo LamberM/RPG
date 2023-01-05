@@ -1,4 +1,4 @@
-package stats;
+package org.LamberM.stats;
 
 import org.LamberM.game.Game;
 import lombok.Getter;

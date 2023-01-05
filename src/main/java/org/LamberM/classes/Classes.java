@@ -1,8 +1,8 @@
 package org.LamberM.classes;
 
 import org.LamberM.enemy.Enemy;
-import stats.HeroStats;
-import stats.Stats;
+import org.LamberM.stats.HeroStats;
+import org.LamberM.stats.Stats;
 
 import java.util.Random;
 import java.util.Scanner;
