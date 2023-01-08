@@ -3,14 +3,18 @@ package org.LamberM.enemy;
 
 import org.LamberM.classes.MyClass;
 import org.LamberM.game.Game;
-import org.LamberM.stats.HeroStats;
+import org.LamberM.stats.DuelStats;
 import org.LamberM.stats.Stats;
 
 import java.util.Random;
 
 public class Enemy{
-    public Stats enemyStats = new Stats(20, 15, 10, 200, 0, 5, 200, 5,1);
-    public HeroStats enemyDuelStats= new HeroStats();
+    public Enemy(){
+        enemyStats = new Stats(20, 15, 10, 200, 0, 5, 200, 5,1);
+        enemyStats.setDuelStats();
+    }
+    public Stats enemyStats;
+    public DuelStats enemyDuelStats= new DuelStats();
     private MyClass hero = new MyClass();
     private int heroChance;
     private int enemyChance;
@@ -23,7 +27,7 @@ public class Enemy{
     }
     private void chanceForAttackOrCriticalAttack(){
         Random draw = new Random();
-        heroChance=hero.heroStats.getCurrentDodge() + draw.nextInt(101);
+        heroChance=hero.duelStats.getCurrentDodge() + draw.nextInt(101);
         enemyChance=enemyDuelStats.getCurrentDex()+ draw.nextInt(101);
         critChance=enemyDuelStats.getCurrentCritC() + draw.nextInt(101);
     }
@@ -46,7 +50,7 @@ public class Enemy{
 
             if (enemyAttackChanceIsMoreThanHeroDodgeChance())
             {
-                damage = enemyDuelStats.getCurrentStr() + enemyDuelStats.getCurrentDex() + enemyDuelStats.getCurrentInt() - (hero.heroStats.getCurrentArm() / 10);
+                damage = enemyDuelStats.getCurrentStr() + enemyDuelStats.getCurrentDex() + enemyDuelStats.getCurrentInt() - (hero.duelStats.getCurrentArm() / 10);
 
                 if (attackIsNotCritical())
                 {
@@ -58,7 +62,7 @@ public class Enemy{
                     System.out.println("Critical attack !!!! for " + damage + "!!!!");
                 }
 
-                hero.heroStats.setCurrentHP(hero.heroStats.getCurrentHP() - damage);
+                hero.duelStats.setCurrentHP(hero.duelStats.getCurrentHP() - damage);
             }
             else
             {
@@ -70,15 +74,14 @@ public class Enemy{
             stepForward();
         }
     }
-    public void lvlUP()
-    {
-        enemyStats.setStrength(enemyStats.getStrength()+5);
-        enemyStats.setDexterity(enemyStats.getDexterity()+5);
-        enemyStats.setIntelligence(enemyStats.getIntelligence()+5);
-    }
+//    public void lvlUP()
+//    {
+//        enemyStats.setStrength(enemyStats.getStrength()+5);
+//        enemyStats.setDexterity(enemyStats.getDexterity()+5);
+//        enemyStats.setIntelligence(enemyStats.getIntelligence()+5);
+//    }
     public void duelStats()
     {
-        HeroStats enemyDuelStats= new HeroStats();
         System.out.println("Enemy:");
         enemyDuelStats.duelStats();
     }

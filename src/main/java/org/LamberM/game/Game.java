@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class Game {
     private String name;
-    private Classes myHero;
+    public Classes myHero;
     int userChoice;
     public int range=2;
     private boolean userPickWillBeGood()
@@ -67,9 +67,7 @@ public class Game {
                 myHero = new Sorcerer();
                 mainMenu();
             }
-            case 4 -> {
-                System.out.println("See you later, bye");
-            }
+            case 4 -> System.out.println("See you later, bye");
         }
     }
     private void pickClassMenu()
@@ -99,9 +97,7 @@ public class Game {
                 myHero.lvlUP();
                 mainMenu();
             }
-            case 4 ->{
-                System.out.println("See you later, bye");
-            }
+            case 4 -> System.out.println("See you later, bye");
         }
     }
     public void mainMenu()
@@ -117,11 +113,11 @@ public class Game {
     }
     private boolean heroCurrentMpIsMoreOrEqualTwenty()
     {
-        return myHero.heroStats.getCurrentMP()>=20;
+        return myHero.duelStats.getCurrentMP()>=20;
     }
     private boolean heroAttackRangeIsMoreOrEqualGameRange()
     {
-        return range <= myHero.heroStats.getAttackRange();
+        return range <= myHero.duelStats.getAttackRange();
     }
     private void userPickInDuelMenu()
     {

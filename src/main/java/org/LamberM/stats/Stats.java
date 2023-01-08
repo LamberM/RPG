@@ -112,24 +112,15 @@ public class Stats
         }
         switch (userChoice)
         {
-            case 1 -> {
-                addStrength();
-            }
-            case 2 -> {
-                addDexterity();
-            }
-            case 3 -> {
-                addIntelligence();
-            }
-            case 4 -> {
-                System.out.println("Back to menu");
-            }
+            case 1 -> addStrength();
+            case 2 -> addDexterity();
+            case 3 -> addIntelligence();
+            case 4 -> System.out.println("Back to menu");
         }
     }
 
     public void addStats()
     {
-        Game game = new Game();
         if (getLvlUp()) {
             menuForAddingStats();
             userPick();
@@ -137,6 +128,30 @@ public class Stats
         else {
             System.out.println("You need " + (100 - getExp()) + " experience points to next level");
         }
+    }
+    public void showStats()
+    {
+        System.out.println("Strength: " + this.strength);
+        System.out.println("Dexterity: " + this.dexterity);
+        System.out.println("Intelligence: " + this.intelligence);
+        System.out.println("HP: " + this.hp);
+        System.out.println("MP: " + this.mp);
+        System.out.println("Dodge: " + this.dodge);
+        System.out.println("Armor: " + this.armor);
+        System.out.println("Critical attack chance: " + this.criticalChance);
+    }
+    public void setDuelStats()
+    {
+        DuelStats duelStats=new DuelStats();
+        duelStats.setCurrentStr(strength);
+        duelStats.setCurrentDex(dexterity);
+        duelStats.setCurrentInt(intelligence);
+        duelStats.setCurrentHP(hp);
+        duelStats.setCurrentMP(mp);
+        duelStats.setCurrentDodge(dodge);
+        duelStats.setCurrentArm(armor);
+        duelStats.setCurrentCritC(criticalChance);
+        duelStats.setAttackRange(attackRange);
     }
 
 }

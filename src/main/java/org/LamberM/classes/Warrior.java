@@ -9,33 +9,34 @@ import java.util.Scanner;
 public class Warrior extends Classes {
     public Warrior()
     {
-        Stats stats = new Stats(20, 15, 10, 200, 40, 5, 100, 5, 1);
+        stats = new Stats(20, 15, 10, 200, 40, 5, 100, 5, 1);
+        stats.setDuelStats();
     }
     private int userChoice;
-    private boolean userPickIsGood()
+    private boolean userPickWillBeGood()
     {
-        return userChoice > 0 & userChoice < 5;
+        return userChoice < 1 || userChoice > 4;
     }
     private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
     {
         Game game = new Game();
-        return heroStats.getAttackRange()<=game.range;
+        return duelStats.getAttackRange()<=game.range;
     }
     private void battleCry()
     {
-        heroStats.setCurrentStr(heroStats.getCurrentStr() + 10);
-        heroStats.setCurrentDex(heroStats.getCurrentDex() + 5);
-        heroStats.setCurrentCritC(heroStats.getCurrentCritC() + 2);
-        heroStats.setCurrentMP(heroStats.getCurrentMP() - 20);
+        duelStats.setCurrentStr(duelStats.getCurrentStr() + 10);
+        duelStats.setCurrentDex(duelStats.getCurrentDex() + 5);
+        duelStats.setCurrentCritC(duelStats.getCurrentCritC() + 2);
+        duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
         System.out.println("WAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRR");
 
     }
     private void defensiveCry()
     {
-        heroStats.setCurrentHP(heroStats.getCurrentHP() + 20);
-        heroStats.setCurrentArm(heroStats.getCurrentArm() + 10);
-        heroStats.setCurrentDodge(heroStats.getCurrentDodge() + 2);
-        heroStats.setCurrentMP(heroStats.getCurrentMP() - 20);
+        duelStats.setCurrentHP(duelStats.getCurrentHP() + 20);
+        duelStats.setCurrentArm(duelStats.getCurrentArm() + 10);
+        duelStats.setCurrentDodge(duelStats.getCurrentDodge() + 2);
+        duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
         System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAACCCCCKKKKKKKKKKKKKK");
     }
     private void doubleAttack()
@@ -45,17 +46,17 @@ public class Warrior extends Classes {
         {
             if (heroAttackChanceIsMoreThanEnemyDodgeChance())
             {
-                damage = 60 + (heroStats.getCurrentStr() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                damage = 60 + (duelStats.getCurrentStr() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
                 if (attackIsNotCritical())
                 {
                     System.out.println("Attack for " + damage);
-                    heroStats.setCurrentMP(heroStats.getCurrentMP() - 20);
+                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
                 }
                 else
                 {
                     damage = 2 * damage;
                     System.out.println("Critical attack !!!! for " + damage + "!!!!");
-                    heroStats.setCurrentMP(heroStats.getCurrentMP() - 20);
+                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
                 }
                 enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage); // nie działa
             }
@@ -74,21 +75,17 @@ public class Warrior extends Classes {
     {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
-        while (userPickIsGood())
+        if (userPickWillBeGood())
         {
             System.out.println("You entered the wrong number. Try again");
             skillsMenu();
         }
-        switch (userChoice)
-        {
-            case 1 -> {
-                battleCry();
-            }
-            case 2 -> {
-                defensiveCry();
-            }
-            case 3 -> {
-                doubleAttack();
+        else {
+            switch (userChoice) {
+                case 1 -> battleCry();
+                case 2 -> defensiveCry();
+                case 3 -> doubleAttack();
+                case 4 -> System.out.println("Back to menu");
             }
         }
     }

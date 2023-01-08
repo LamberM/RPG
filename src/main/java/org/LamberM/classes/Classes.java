@@ -1,29 +1,30 @@
 package org.LamberM.classes;
 
 import org.LamberM.enemy.Enemy;
-import org.LamberM.stats.HeroStats;
+import org.LamberM.stats.DuelStats;
 import org.LamberM.stats.Stats;
 
 import java.util.Random;
 import java.util.Scanner;
 
 public abstract class Classes{
-    public Stats stats = new Stats(1,1,1,1,1,1,1,1,1);
-    public HeroStats heroStats = new HeroStats();
+
+    public Stats stats= new Stats(1,1,1,1,1,1,1,1,1);
+    public DuelStats duelStats = new DuelStats();
 
     private int heroChance;
     private int enemyChance;
     private int critChance;
     private int userChoice;
     public int damage;
-    public void showStats()
-    {
-        heroStats.showStats();
+
+    public void showStats() {
+        stats.showStats();
     }
-    public void duelStats()
-    {
+
+    public void duelStats() {
         System.out.println("My hero");
-        heroStats.duelStats();
+        duelStats.duelStats();
     }
     public void lvlUP()
     {
@@ -31,24 +32,24 @@ public abstract class Classes{
     }
     private boolean heroCurrentHpAndMpWillBeMoreThanMaxHpAndMp()
     {
-        return heroStats.getCurrentHP() > stats.getHp() || heroStats.getCurrentHP() > stats.getMp();
+        return duelStats.getCurrentHP() > stats.getHp() || duelStats.getCurrentHP() > stats.getMp();
     }
     public void rest()
     {
-        heroStats.setCurrentHP(heroStats.getCurrentHP() + 20);
-        heroStats.setCurrentMP(heroStats.getCurrentMP() + 20);
+        duelStats.setCurrentHP(duelStats.getCurrentHP() + 20);
+        duelStats.setCurrentMP(duelStats.getCurrentMP() + 20);
         if (heroCurrentHpAndMpWillBeMoreThanMaxHpAndMp())
         {
-            heroStats.setCurrentHP(stats.getHp());
-            heroStats.setCurrentMP(stats.getMp());
+            duelStats.setCurrentHP(stats.getHp());
+            duelStats.setCurrentMP(stats.getMp());
         }
     }
     void chanceForAttackOrCriticalAttack(){
         Random draw = new Random();
         Enemy enemy= new Enemy();
-        heroChance=heroStats.getCurrentDex() + draw.nextInt(101);
+        heroChance= duelStats.getCurrentDex() + draw.nextInt(101);
         enemyChance=enemy.enemyDuelStats.getCurrentDodge() + draw.nextInt(101);
-        critChance=heroStats.getCurrentCritC() + draw.nextInt(101);
+        critChance= duelStats.getCurrentCritC() + draw.nextInt(101);
     }
     boolean heroAttackChanceIsMoreThanEnemyDodgeChance()
     {
@@ -59,7 +60,7 @@ public abstract class Classes{
         return critChance < 100;
     }
     private boolean userPickWillBeGood(){
-        return userChoice <= 0 || userChoice <=3;
+        return userChoice < 1 || userChoice > 2;
     }
     private void userPick()
     {
@@ -70,12 +71,8 @@ public abstract class Classes{
             attackMenu();
         }
         switch (userChoice) {
-            case 1 -> {
-                attack();
-            }
-            case 2 -> {
-                strongAttack();
-            }
+            case 1 -> attack();
+            case 2 -> strongAttack();
         }
     }
     private void attack(){
@@ -86,7 +83,7 @@ public abstract class Classes{
 
         if (heroAttackChanceIsMoreThanEnemyDodgeChance())
         {
-            damage = ((heroStats.getCurrentStr()+ (heroStats.getCurrentDex())) - (enemy.enemyDuelStats.getCurrentArm() / 20));
+            damage = ((duelStats.getCurrentStr()+ (duelStats.getCurrentDex())) - (enemy.enemyDuelStats.getCurrentArm() / 20));
 
             if (attackIsNotCritical())
             {
@@ -110,7 +107,7 @@ public abstract class Classes{
         chanceForAttackOrCriticalAttack();
 
         if (heroAttackChanceIsMoreThanEnemyDodgeChance()) {
-            damage = 2*((heroStats.getCurrentStr()+ (heroStats.getCurrentDex())) - (enemy.enemyDuelStats.getCurrentArm() / 20));
+            damage = 2*((duelStats.getCurrentStr()+ (duelStats.getCurrentDex())) - (enemy.enemyDuelStats.getCurrentArm() / 20));
             if (attackIsNotCritical()) {
                 System.out.println("Critical attack !!!! for " + damage + "!!!!");
                 System.out.println("Attack for " + damage);
@@ -131,4 +128,5 @@ public abstract class Classes{
         userPick();
     }
     public void skillsMenu(){}
+
 }

@@ -3,27 +3,27 @@ package org.LamberM.classes;
 
 import org.LamberM.enemy.Enemy;
 import org.LamberM.game.Game;
-import org.LamberM.stats.HeroStats;
+import org.LamberM.stats.DuelStats;
 import org.LamberM.stats.Stats;
 
-import java.util.Random;
 import java.util.Scanner;
 
 public class Sorcerer extends Classes {
     public Sorcerer()
     {
-        Stats stats = new Stats(5, 15, 25, 120, 80, 5, 40, 5, 2);
+        stats = new Stats(5, 15, 25, 120, 80, 5, 40, 5, 2);
+        stats.setDuelStats();
     }
-    HeroStats heroStats = new HeroStats();
+    DuelStats duelStats = new DuelStats();
     private int userChoice;
     private boolean userPickWillBeGood()
     {
-        return userChoice <= 0 || userChoice >= 5;
+        return userChoice < 1 || userChoice > 4;
     }
     private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
     {
         Game game = new Game();
-        return heroStats.getAttackRange()<=game.range;
+        return duelStats.getAttackRange()<=game.range;
     }
     private void fireBall()
     {
@@ -32,19 +32,19 @@ public class Sorcerer extends Classes {
         {
             if (heroAttackChanceIsMoreThanEnemyDodgeChance())
             {
-                damage = 30 + (heroStats.getCurrentInt() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                damage = 30 + (duelStats.getCurrentInt() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
                 if (attackIsNotCritical())
                 {
                     enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
                     System.out.println("Attack for " + damage);
-                    heroStats.setCurrentMP(heroStats.getCurrentMP() - 25);
+                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 25);
                 }
                 else
                 {
                     damage = 2 * damage;
                     enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
                     System.out.println("Critical attack !!!! for " + damage + "!!!!");
-                    heroStats.setCurrentMP(heroStats.getCurrentMP() - 25);
+                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 25);
                 }
             }
             else
@@ -61,21 +61,21 @@ public class Sorcerer extends Classes {
     private boolean currentMpIsEnoughAndAttackRangeIsEnough()
     {
         Game game = new Game();
-        return heroStats.getCurrentMP() >= 30 && heroStats.getAttackRange() <= game.range;
+        return duelStats.getCurrentMP() >= 30 && duelStats.getAttackRange() <= game.range;
     }
-    private boolean enemyWillBeFrozen()
-    {
-        Random draw = new Random();
-        return draw.nextInt(9) == 1;
-    }
+//    private boolean enemyWillBeFrozen()
+//    {
+//        Random draw = new Random();
+//        return draw.nextInt(9) == 1;
+//    }
     private void snowBall()
     {
         Enemy enemy = new Enemy();
-        while (currentMpIsEnoughAndAttackRangeIsEnough())
+        if (currentMpIsEnoughAndAttackRangeIsEnough())
         {
             if (heroAttackChanceIsMoreThanEnemyDodgeChance())
             {
-                damage = 35 + (heroStats.getCurrentInt() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                damage = 35 + (duelStats.getCurrentInt() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
                 if (attackIsNotCritical())
                 {
                     enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
@@ -99,13 +99,16 @@ public class Sorcerer extends Classes {
                 System.out.println("You missed");
             }
         }
+        else {
             System.out.println("You don't have enough mana point or your attack range is too small");
+            userPick();
+        }
     }
     private void frostArmor()
     {
-        heroStats.setCurrentArm(heroStats.getCurrentArm() + 10);
-        heroStats.setCurrentMP(heroStats.getCurrentMP() - 20);
-        System.out.println(heroStats.getCurrentArm());
+        duelStats.setCurrentArm(duelStats.getCurrentArm() + 10);
+        duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
+        System.out.println(duelStats.getCurrentArm());
 //      if (enemyWillBeFrozen())
 //      {
 //        System.out.println("You froze enemy, he lost his turn");
@@ -116,21 +119,17 @@ public class Sorcerer extends Classes {
     {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
-        while (userPickWillBeGood())
+        if (userPickWillBeGood())
         {
             System.out.println("You entered the wrong number. Try again");
             skillsMenu();
         }
-        switch (userChoice)
-        {
-            case 1 -> {
-                fireBall();
-            }
-            case 2 -> {
-                snowBall();
-            }
-            case 3 -> {
-                frostArmor();
+        else {
+            switch (userChoice) {
+                case 1 -> fireBall();
+                case 2 -> snowBall();
+                case 3 -> frostArmor();
+                case 4 -> System.out.println("Back to menu");
             }
         }
     }

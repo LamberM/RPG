@@ -9,17 +9,18 @@ import java.util.Scanner;
 public class Assassin extends Classes {
     public Assassin()
     {
-        Stats stats = new Stats(15, 20, 10, 150, 40, 10, 60, 10, 1);
+        stats = new Stats(15, 20, 10, 150, 40, 10, 60, 10, 1);
+        stats.setDuelStats();
     }
     private int userChoice;
     private boolean userPickWillBeGood()
     {
-        return userChoice <= 0 || userChoice >= 5;
+        return userChoice < 1 || userChoice > 4;
     }
     private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
     {
         Game game = new Game();
-        return heroStats.getAttackRange()<=game.range;
+        return duelStats.getAttackRange()<=game.range;
     }
     private void hitInTheBack()
     {
@@ -28,17 +29,17 @@ public class Assassin extends Classes {
         {
             if (heroAttackChanceIsMoreThanEnemyDodgeChance())
             {
-                damage = 30 + (heroStats.getCurrentDex() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                damage = 30 + (duelStats.getCurrentDex() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
                 if (attackIsNotCritical())
                 {
                     System.out.println("Attack for " + damage);
-                    heroStats.setCurrentMP(heroStats.getCurrentMP() - 20);
+                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
                 }
                 else
                 {
                     damage = 2 * damage;
                     System.out.println("Critical attack !!!! for " + damage + "!!!!");
-                    heroStats.setCurrentMP(heroStats.getCurrentHP() - 20);
+                    duelStats.setCurrentMP(duelStats.getCurrentHP() - 20);
                 }
                 enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
 
@@ -56,16 +57,16 @@ public class Assassin extends Classes {
     }
     private void boostDodgeAndDexterity()
     {
-        heroStats.setCurrentDex(heroStats.getCurrentDex() + 10);
-        heroStats.setCurrentDodge(heroStats.getCurrentDodge() + 5);
-        heroStats.setCurrentCritC(heroStats.getCurrentCritC()+5);
-        heroStats.setCurrentMP(heroStats.getCurrentMP() - 20);
+        duelStats.setCurrentDex(duelStats.getCurrentDex() + 10);
+        duelStats.setCurrentDodge(duelStats.getCurrentDodge() + 5);
+        duelStats.setCurrentCritC(duelStats.getCurrentCritC()+5);
+        duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
         System.out.println("I'm feeling agile like ninja");
     }
     private boolean currentMpIsEnoughAndAttackRangeIsEnough()
     {
         Game game = new Game();
-        return heroStats.getCurrentMP() >= 30 && heroStats.getAttackRange() <= game.range;
+        return duelStats.getCurrentMP() >= 30 && duelStats.getAttackRange() <= game.range;
     }
     private void criticalAttack()
     {
@@ -74,9 +75,9 @@ public class Assassin extends Classes {
         {
             if (heroAttackChanceIsMoreThanEnemyDodgeChance())
             {
-                damage = 40 + (heroStats.getCurrentDex() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                damage = 40 + (duelStats.getCurrentDex() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
                 System.out.println("Attack for " + damage);
-                heroStats.setCurrentMP(heroStats.getCurrentMP() - 30);
+                duelStats.setCurrentMP(duelStats.getCurrentMP() - 30);
 
                 enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
 
@@ -89,30 +90,24 @@ public class Assassin extends Classes {
         else
         {
             System.out.println("You don't have enough mana point or your attack range is too small");
+            skillsMenu();
         }
     }
     private void userPick()
     {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
-        while (userPickWillBeGood())
+        if (userPickWillBeGood())
         {
             System.out.println("You entered the wrong number. Try again");
             skillsMenu();
         }
-        switch (userChoice)
-        {
-            case 1 -> {
-                hitInTheBack();
-            }
-            case 2 -> {
-                boostDodgeAndDexterity();
-            }
-            case 3 -> {
-                criticalAttack();
-            }
-            case 4 -> {
-                System.out.println("Back to menu");
+        else {
+            switch (userChoice) {
+                case 1 -> hitInTheBack();
+                case 2 -> boostDodgeAndDexterity();
+                case 3 -> criticalAttack();
+                case 4 -> System.out.println("Back to menu");
             }
         }
     }
