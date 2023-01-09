@@ -1,259 +1,157 @@
 package org.LamberM.stats;
 
 import org.LamberM.game.Game;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Scanner;
+@Getter
+@Setter
+public class Stats
+{
+    //////////////////// all about lvling, exping, adding stats ////////////////////////////////
+    private int exp = 0;
+    private int lvl = 1;
+    private int lvl_to_compare = 2;
+    private int currentPoints;
+    private int userChoice;
+    /////////////////////////// General Stats //////////////////////////////////////////////////
+    private int hp;
+    private int mp;
+    private int strength;
+    private int dexterity;
+    private int intelligence;
+    private int armor;
+    private int dodge;
+    private int criticalChance;
+    private int attackRange;
 
-public class Stats {
-    private int EXP = 0;
-    private int LVL = 1;
-    private int LVLtocompare = 2;
-    private int Strength, Dexterity, Intelligence, HP, MP, Dodge, Armor, CriticalChance, AttackRange, CurrentHP, CurrentMP, CurrentArm, CurrentStr, CurrentDex, CurrentCritC, CurrentDodge;
-
-    public int getAttackRange() {
-        return AttackRange;
+    public Stats(int strength, int dexterity, int intelligence, int hp, int mp, int dodge, int armor, int criticalChance, int attackRange)
+    {
+        this.strength = strength;
+        this.dexterity = dexterity;
+        this.intelligence = intelligence;
+        this.hp = hp;
+        this.mp = mp;
+        this.dodge = dodge;
+        this.armor = armor;
+        this.criticalChance = criticalChance;
+        this.attackRange = attackRange;
     }
 
-    public void setAttackRange(int attackRange) {
-        this.AttackRange = attackRange;
-    }
+    ////////////////////////// add stats after lvl up ////////////////////////////////////////////
 
-    public int getEXP() {
-        return EXP;
+    private boolean getLvlUp()
+    {
+        return getLvl() == getLvl_to_compare();
     }
-
-    public void setEXP(int EXP) {
-        this.EXP = EXP;
+    private boolean userPickWillBeGood()
+    {
+        return userChoice <= 0 || userChoice >= 5;
     }
-
-    public int getLVL() {
-        return LVL;
+    private boolean currentPointsIsNull()
+    {
+        return currentPoints == 0;
     }
-
-    public void setLVL(int LVL) {
-        this.LVL = LVL;
-    }
-
-    public int getLVLtocompare() {
-        return LVLtocompare;
-    }
-
-    public void setLVLtocompare(int LVLtocompare) {
-        this.LVLtocompare = LVLtocompare;
-    }
-
-    public int getStrength() {
-        return Strength;
-    }
-
-    public void setStrength(int strength) {
-        this.Strength = strength;
-    }
-
-    public int getDexterity() {
-        return Dexterity;
-    }
-
-    public void setDexterity(int dexterity) {
-        this.Dexterity = dexterity;
-    }
-
-    public int getIntelligence() {
-        return Intelligence;
-    }
-
-    public void setIntelligence(int intelligence) {
-        this.Intelligence = intelligence;
-    }
-
-    public int getHP() {
-        return HP;
-    }
-
-    public void setHP(int HP) {
-        this.HP = HP;
-    }
-
-    public int getMP() {
-        return MP;
-    }
-
-    public void setMP(int MP) {
-        this.MP = MP;
-    }
-
-    public int getDodge() {
-        return Dodge;
-    }
-
-    public void setDodge(int dodge) {
-        this.Dodge = dodge;
-    }
-
-    public int getArmor() {
-        return Armor;
-    }
-
-    public void setArmor(int armor) {
-        this.Armor = armor;
-    }
-
-    public int getCriticalChance() {
-        return CriticalChance;
-    }
-
-    public void setCriticalChance(int criticalChance) {
-        this.CriticalChance = criticalChance;
-    }
-
-    public int getCurrentHP() {
-        return CurrentHP;
-    }
-
-    public void setCurrentHP(int currentHP) {
-        this.CurrentHP = currentHP;
-    }
-
-    public int getCurrentMP() {
-        return CurrentMP;
-    }
-
-    public void setCurrentMP(int currentMP) {
-        this.CurrentMP = currentMP;
-    }
-
-    public int getCurrentArm() {
-        return CurrentArm;
-    }
-
-    public void setCurrentArm(int currentArm) {
-        this.CurrentArm = currentArm;
-    }
-
-    public int getCurrentStr() {
-        return CurrentStr;
-    }
-
-    public void setCurrentStr(int currentStr) {
-        this.CurrentStr = currentStr;
-    }
-
-    public int getCurrentDex() {
-        return CurrentDex;
-    }
-
-    public void setCurrentDex(int currentDex) {
-        this.CurrentDex = currentDex;
-    }
-
-    public int getCurrentCritC() {
-        return CurrentCritC;
-    }
-
-    public void setCurrentCritC(int currentCritC) {
-        this.CurrentCritC = currentCritC;
-    }
-
-    public int getCurrentDodge() {
-        return CurrentDodge;
-    }
-
-    public void setCurrentDodge(int currentDodge) {
-        this.CurrentDodge = currentDodge;
-    }
-
-    public Stats(int strength, int dexterity, int intelligence, int HP, int MP, int dodge, int armor, int criticalChance, int attackRange) {
-        this.Strength = strength;
-        this.Dexterity = dexterity;
-        this.Intelligence = intelligence;
-        this.HP = HP;
-        this.MP = MP;
-        this.Dodge = dodge;
-        this.Armor = armor;
-        this.CriticalChance = criticalChance;
-        this.AttackRange = attackRange;
-        //current stats whose need to duel
-        this.CurrentStr = this.Strength;
-        this.CurrentDex = this.Dexterity;
-        this.CurrentHP = this.HP;
-        this.CurrentMP = this.MP;
-        this.CurrentDodge = this.Dodge;
-        this.CurrentArm = this.Armor;
-        this.CurrentCritC = this.CriticalChance;
-    }
-
-    public void showStats() {
-        System.out.println("Strength: " + this.CurrentStr);
-        System.out.println("Dexterity: " + this.CurrentDex);
-        System.out.println("Intelligence: " + this.Intelligence);
-        System.out.println("HP: " + this.CurrentHP);
-        System.out.println("MP: " + this.CurrentMP);
-        System.out.println("Dodge: " + this.CurrentDodge);
-        System.out.println("Armor: " + this.CurrentArm);
-        System.out.println("Critical attack chance: " + this.CurrentCritC);
-    }
-
-    // add stats after lvl up
-    public void addStats() {
-        Scanner scanner = new Scanner(System.in);
+    private void addStrength()
+    {
         Game game = new Game();
-        double actuallypoints = 0;
-        if (getLVL() == getLVLtocompare()) {
-            actuallypoints = 10;
-            System.out.println("Your experience points "+ actuallypoints);
-            System.out.println("Your stats for change:");
-            System.out.println("Strength:" + getStrength());
-            System.out.println("Dexterity:" + getDexterity());
-            System.out.println("Intelligence:" + getIntelligence());
-            System.out.println("Add stats points");
-            System.out.println("1.Strength");
-            System.out.println("2.Dexterity");
-            System.out.println("3.Intelligence");
-            System.out.println("4.Back to the menu");
-            int userChoice = scanner.nextInt();
-            if (userChoice > 0 && userChoice < 5) {
-                switch (userChoice) {
-                    case 1 -> {
-                        setStrength(this.Strength + 5);
-                        System.out.println("Strength: " + getStrength());
-                        actuallypoints = actuallypoints - 5;
-                        if (actuallypoints == 0) {
-                            System.out.println("You don't have enough points");
-                            game.mainMENU();
-                        }
-                    }
-                    case 2 -> {
-                        setDexterity(this.Dexterity + 5);
-                        System.out.println("Dexterity: " + getDexterity());
-                        actuallypoints = actuallypoints - 5;
-                        if (actuallypoints == 0) {
-                            System.out.println("You don't have enough points");
-                            game.mainMENU();
-                        }
-                    }
-                    case 3 -> {
-                        setIntelligence(this.Intelligence + 5);
-                        System.out.println("Intelligence:" + getIntelligence());
-                        actuallypoints = actuallypoints - 5;
-                        if (actuallypoints == 0) {
-                            System.out.println("You don't have enough points");
-                            game.mainMENU();
-                        }
-                    }
-                    case 4 -> {
-                    }
-                }
-            } else {
-                addStats();
-                System.out.println("You entered the wrong number. Try again");
-            }
-        } else {
-            System.out.println("You need " + (100 - getEXP()) + " experience points to next level");
+        setStrength(this.strength + 5);
+        System.out.println("Strength: " + getStrength());
+        currentPoints = currentPoints - 5;
+        if (currentPointsIsNull()) {
+            System.out.println("You don't have enough points");
+            game.mainMenu();
         }
     }
-    // dualstats need in duelmenu
-    public void duelStats() {
-        System.out.println("HP: " + getCurrentHP() + " MP: " + getCurrentMP());
+    private void addDexterity()
+    {
+        Game game = new Game();
+        setDexterity(this.dexterity + 5);
+        System.out.println("Dexterity: " + getDexterity());
+        currentPoints = currentPoints - 5;
+        if (currentPointsIsNull()) {
+            System.out.println("You don't have enough points");
+            game.mainMenu();
+        }
+    }
+    private void addIntelligence()
+    {
+        Game game = new Game();
+        setIntelligence(this.intelligence + 5);
+        System.out.println("Intelligence:" + getIntelligence());
+        currentPoints = currentPoints - 5;
+        if (currentPointsIsNull()) {
+            System.out.println("You don't have enough points");
+            game.mainMenu();
+        }
+    }
+    private void menuForAddingStats()
+    {
+        currentPoints =10;
+        System.out.println("Your experience points " + currentPoints);
+        System.out.println("Your stats for change:");
+        System.out.println("Strength: " + getStrength());
+        System.out.println("Dexterity: " + getDexterity());
+        System.out.println("Intelligence: " + getIntelligence());
+        System.out.println("Add stats points");
+        System.out.println("1.Strength (cost=5pts)");
+        System.out.println("2.Dexterity (cost=5pts)");
+        System.out.println("3.Intelligence (cost=5pts)");
+        System.out.println("4.Back to the menu");
+
+    }
+    private void userPick()
+    {
+        Scanner scanner = new Scanner(System.in);
+        userChoice = scanner.nextInt();
+        while (userPickWillBeGood())
+        {
+            System.out.println("Your number pick is wrong. Try again");
+            addStats();
+        }
+        switch (userChoice)
+        {
+            case 1 -> addStrength();
+            case 2 -> addDexterity();
+            case 3 -> addIntelligence();
+            case 4 -> System.out.println("Back to menu");
+        }
+    }
+
+    public void addStats()
+    {
+        if (getLvlUp()) {
+            menuForAddingStats();
+            userPick();
+        }
+        else {
+            System.out.println("You need " + (100 - getExp()) + " experience points to next level");
+        }
+    }
+    public void showStats()
+    {
+        System.out.println("Strength: " + this.strength);
+        System.out.println("Dexterity: " + this.dexterity);
+        System.out.println("Intelligence: " + this.intelligence);
+        System.out.println("HP: " + this.hp);
+        System.out.println("MP: " + this.mp);
+        System.out.println("Dodge: " + this.dodge);
+        System.out.println("Armor: " + this.armor);
+        System.out.println("Critical attack chance: " + this.criticalChance);
+    }
+    public void setDuelStats()
+    {
+        DuelStats duelStats=new DuelStats();
+        duelStats.setCurrentStr(strength);
+        duelStats.setCurrentDex(dexterity);
+        duelStats.setCurrentInt(intelligence);
+        duelStats.setCurrentHP(hp);
+        duelStats.setCurrentMP(mp);
+        duelStats.setCurrentDodge(dodge);
+        duelStats.setCurrentArm(armor);
+        duelStats.setCurrentCritC(criticalChance);
+        duelStats.setAttackRange(attackRange);
     }
 
 }

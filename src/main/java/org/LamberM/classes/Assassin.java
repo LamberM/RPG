@@ -1,72 +1,126 @@
 package org.LamberM.classes;
 
 import org.LamberM.enemy.Enemy;
+import org.LamberM.game.Game;
 import org.LamberM.stats.Stats;
 
+import java.util.Scanner;
+
 public class Assassin extends Classes {
-    public Assassin() { stats = new Stats(15, 20, 10, 150, 40, 10, 60, 10, 1);
+    public Assassin()
+    {
+        stats = new Stats(15, 20, 10, 150, 40, 10, 60, 10, 1);
+        stats.setDuelStats();
+    }
+    private int userChoice;
+    private boolean userPickWillBeGood()
+    {
+        return userChoice < 1 || userChoice > 4;
+    }
+    private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
+    {
+        Game game = new Game();
+        return duelStats.getAttackRange()<=game.range;
+    }
+    private void hitInTheBack()
+    {
+        Enemy enemy = new Enemy();
+        if (enemyAttackRangeIsMoreOrEqualsGameRange() )
+        {
+            if (heroAttackChanceIsMoreThanEnemyDodgeChance())
+            {
+                damage = 30 + (duelStats.getCurrentDex() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                if (attackIsNotCritical())
+                {
+                    System.out.println("Attack for " + damage);
+                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
+                }
+                else
+                {
+                    damage = 2 * damage;
+                    System.out.println("Critical attack !!!! for " + damage + "!!!!");
+                    duelStats.setCurrentMP(duelStats.getCurrentHP() - 20);
+                }
+                enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
+
+            }
+            else
+            {
+                System.out.println("You missed");
+            }
+
+        }
+        else
+        {
+            System.out.println("Your attack range is too small");
+        }
+    }
+    private void boostDodgeAndDexterity()
+    {
+        duelStats.setCurrentDex(duelStats.getCurrentDex() + 10);
+        duelStats.setCurrentDodge(duelStats.getCurrentDodge() + 5);
+        duelStats.setCurrentCritC(duelStats.getCurrentCritC()+5);
+        duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
+        System.out.println("I'm feeling agile like ninja");
+    }
+    private boolean currentMpIsEnoughAndAttackRangeIsEnough()
+    {
+        Game game = new Game();
+        return duelStats.getCurrentMP() >= 30 && duelStats.getAttackRange() <= game.range;
+    }
+    private void criticalAttack()
+    {
+        Enemy enemy = new Enemy();
+        if (currentMpIsEnoughAndAttackRangeIsEnough())
+        {
+            if (heroAttackChanceIsMoreThanEnemyDodgeChance())
+            {
+                damage = 40 + (duelStats.getCurrentDex() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                System.out.println("Attack for " + damage);
+                duelStats.setCurrentMP(duelStats.getCurrentMP() - 30);
+
+                enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
+
+            }
+            else
+            {
+                System.out.println("You missed");
+            }
+        }
+        else
+        {
+            System.out.println("You don't have enough mana point or your attack range is too small");
+            skillsMenu();
+        }
+    }
+    private void userPick()
+    {
+        Scanner scanner = new Scanner(System.in);
+        userChoice = scanner.nextInt();
+        if (userPickWillBeGood())
+        {
+            System.out.println("You entered the wrong number. Try again");
+            skillsMenu();
+        }
+        else {
+            switch (userChoice) {
+                case 1 -> hitInTheBack();
+                case 2 -> boostDodgeAndDexterity();
+                case 3 -> criticalAttack();
+                case 4 -> System.out.println("Back to menu");
+            }
+        }
     }
     @Override
-    public void skills() {
-        Enemy enemy = new Enemy();
-        int heroChance = stats.getDexterity() + draw.nextInt(101);
-        int enemyChance = enemy.enemyStats.getCurrentDodge() + draw.nextInt(101);
-        int critChance = stats.getCurrentCritC() + draw.nextInt(101);
+    public void skillsMenu()
+    {
+        chanceForAttackOrCriticalAttack();
 
         System.out.println("1.Hit in the back (20MP)");
         System.out.println("2.Boost dodge and dexterity (20MP)");
         System.out.println("3.Critical attack (30MP)");
-        int userChoice = scanner.nextInt();
-        if (userChoice > 0 & userChoice < 4) {
-            switch (userChoice) {
-                case 1 -> {
-                    if (stats.getAttackRange() <= game.range ) {
-                        if (heroChance > enemyChance) {
-                            damage = 30 + (stats.getDexterity() / 5) - (enemy.enemyStats.getCurrentArm() / 20);
-                            if (critChance < 100) {
-                                System.out.println("Attack for " + damage);
-                                stats.setCurrentMP(stats.getCurrentMP() - 20);
-                            } else {
-                                damage = 2 * damage;
-                                System.out.println("Critical attack !!!! for " + damage + "!!!!");
-                                stats.setCurrentMP(stats.getCurrentHP() - 20);
-                            }
-                            enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage);
-
-                        } else {
-                            System.out.println("You missed");
-                        }
-
-                    } else {
-                        System.out.println("Your attack range is too small");
-                    }
-                }
-                case 2 -> {
-                        stats.setCurrentDex(stats.getCurrentDex() + 10);
-                        stats.setCurrentDodge(stats.getCurrentDodge() + 5);
-                        stats.setCurrentCritC(stats.getCurrentCritC()+5);
-                        stats.setCurrentMP(stats.getCurrentMP() - 20);
-                        System.out.println("I'm feeling agile like ninja");
-                }
-                case 3 -> {
-                    if (stats.getCurrentMP() >= 30 || stats.getAttackRange() <= game.range) {
-                        if (heroChance > enemyChance) {
-                            damage = 40 + (stats.getDexterity() / 5) - (enemy.enemyStats.getCurrentArm() / 20);
-                            System.out.println("Attack for " + damage);
-                            stats.setCurrentMP(stats.getCurrentMP() - 30);
-
-                            enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage); // nie działa
-
-                        } else {
-                            System.out.println("You missed");
-                        }
-                    } else {
-                        System.out.println("You don't have enough mana point or your attack range is too small");
-                    }
-                }
-            }
-        } else {
-            System.out.println("You entered the wrong number. Try again");
-        }
+        System.out.println("4.Back to menu");
+        userPick();
     }
+
 }

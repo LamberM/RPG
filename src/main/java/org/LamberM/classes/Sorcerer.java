@@ -2,84 +2,148 @@ package org.LamberM.classes;
 
 
 import org.LamberM.enemy.Enemy;
+import org.LamberM.game.Game;
+import org.LamberM.stats.DuelStats;
 import org.LamberM.stats.Stats;
 
+import java.util.Scanner;
+
 public class Sorcerer extends Classes {
-    public Sorcerer() { stats = new Stats(5, 15, 25, 120, 80, 5, 40, 5, 2);
+    public Sorcerer()
+    {
+        stats = new Stats(5, 15, 25, 120, 80, 5, 40, 5, 2);
+        stats.setDuelStats();
     }
-
-    @Override
-    public void skills() {
+    DuelStats duelStats = new DuelStats();
+    private int userChoice;
+    private boolean userPickWillBeGood()
+    {
+        return userChoice < 1 || userChoice > 4;
+    }
+    private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
+    {
+        Game game = new Game();
+        return duelStats.getAttackRange()<=game.range;
+    }
+    private void fireBall()
+    {
         Enemy enemy = new Enemy();
+        if (enemyAttackRangeIsMoreOrEqualsGameRange())
+        {
+            if (heroAttackChanceIsMoreThanEnemyDodgeChance())
+            {
+                damage = 30 + (duelStats.getCurrentInt() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                if (attackIsNotCritical())
+                {
+                    enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
+                    System.out.println("Attack for " + damage);
+                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 25);
+                }
+                else
+                {
+                    damage = 2 * damage;
+                    enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
+                    System.out.println("Critical attack !!!! for " + damage + "!!!!");
+                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 25);
+                }
+            }
+            else
+            {
+                System.out.println("You missed");
+            }
 
-        int heroChance = stats.getDexterity() + draw.nextInt(101);
-        int enemyChance = enemy.enemyStats.getCurrentDodge() + draw.nextInt(101);
-        int critChance = stats.getCurrentCritC() + draw.nextInt(101);
+        }
+        else
+        {
+            System.out.println("Your attack range is too small");
+        }
+    }
+    private boolean currentMpIsEnoughAndAttackRangeIsEnough()
+    {
+        Game game = new Game();
+        return duelStats.getCurrentMP() >= 30 && duelStats.getAttackRange() <= game.range;
+    }
+    //    private boolean enemyWillBeFrozen()
+//    {
+//        Random draw = new Random();
+//        return draw.nextInt(9) == 1;
+//    }
+    private void snowBall()
+    {
+        Enemy enemy = new Enemy();
+        if (currentMpIsEnoughAndAttackRangeIsEnough())
+        {
+            if (heroAttackChanceIsMoreThanEnemyDodgeChance())
+            {
+                damage = 35 + (duelStats.getCurrentInt() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                if (attackIsNotCritical())
+                {
+                    enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
+                    System.out.println("Attack for " + damage);
+                }
+                else
+                {
+                    damage = 2 * damage;
+                    enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
+                    System.out.println("Critical attack !!!! for " + damage + "!!!!");
+                }
+                enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
+//                  if (enemyWillBeFrozen())
+//                  {
+//                      System.out.println("You froze enemy, he lost his turn");
+//                  }
+//                  do ogarnięcia
+            }
+            else
+            {
+                System.out.println("You missed");
+            }
+        }
+        else {
+            System.out.println("You don't have enough mana point or your attack range is too small");
+            userPick();
+        }
+    }
+    private void frostArmor()
+    {
+        duelStats.setCurrentArm(duelStats.getCurrentArm() + 10);
+        duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
+        System.out.println(duelStats.getCurrentArm());
+//      if (enemyWillBeFrozen())
+//      {
+//        System.out.println("You froze enemy, he lost his turn");
+//      }
+//      do ogarnięcia
+    }
+    private void userPick()
+    {
+        Scanner scanner = new Scanner(System.in);
+        userChoice = scanner.nextInt();
+        if (userPickWillBeGood())
+        {
+            System.out.println("You entered the wrong number. Try again");
+            skillsMenu();
+        }
+        else {
+            switch (userChoice) {
+                case 1 -> fireBall();
+                case 2 -> snowBall();
+                case 3 -> frostArmor();
+                case 4 -> System.out.println("Back to menu");
+            }
+        }
+    }
+    @Override
+    public void skillsMenu()
+    {
+        chanceForAttackOrCriticalAttack();
 
         System.out.println("1.Fire ball (20MP)");
         System.out.println("2.Snow ball (30MP)");
         System.out.println("3.Frost armor (20MP)");
-        int userChoice = scanner.nextInt();
-        if (userChoice > 0 && userChoice < 4) {
-            switch (userChoice) {
-                case 1 -> {
-                    if (stats.getAttackRange() <= game.range) {
-                        if (heroChance > enemyChance) {
-                            damage = 30 + (stats.getIntelligence() / 5) - (enemy.enemyStats.getCurrentArm() / 20);
-                            if (critChance < 100) {
-                                enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage);
-                                System.out.println("Attack for " + damage);
-                                stats.setCurrentMP(stats.getCurrentMP() - 25);
-                            } else {
-                                damage = 2 * damage;
-                                enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage);
-                                System.out.println("Critical attack !!!! for " + damage + "!!!!");
-                                stats.setCurrentMP(stats.getCurrentMP() - 25);
-                            }
-                        } else {
-                            System.out.println("You missed");
-                        }
+        System.out.println("4.Back to menu");
+        userPick();
 
-                    } else {
-                        System.out.println("Your attack range is too small");
-                    }
-                }
-                case 2 -> {
-                    if (stats.getCurrentMP() >= 30 && stats.getAttackRange() <= game.range) {
-
-                        if (heroChance > enemyChance) {
-                            damage = 35 + (stats.getIntelligence() / 5) - (enemy.enemyStats.getCurrentArm() / 20);
-                            if (critChance < 100) {
-                                enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage);
-                                System.out.println("Attack for " + damage);
-                            } else {
-                                damage = 2 * damage;
-                                enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage);
-                                System.out.println("Critical attack !!!! for " + damage + "!!!!");
-                            }
-                            enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage);
-                            if (draw.nextInt(9) == 1) {
-                                System.out.println("You froze enemy, he lost his turn");
-                            }
-                        } else {
-                            System.out.println("You missed");
-                        }
-                    } else {
-                        System.out.println("You don't have enough mana point or your attack range is too small");
-                    }
-                }
-                case 3 -> {
-                        stats.setCurrentArm(stats.getCurrentArm() + 10);
-                        stats.setCurrentMP(stats.getCurrentMP() - 20);
-                        System.out.println(stats.getCurrentArm());
-                        if (draw.nextInt(2) == 1) {
-                            System.out.println("You froze enemy, he lost his turn");
-                        }
-                }
-            }
-        } else {
-            System.out.println("You entered the wrong number. Try again");
-        }
     }
 
 }
