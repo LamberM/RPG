@@ -16,14 +16,14 @@ public class Sorcerer extends Classes {
     }
     DuelStats duelStats = new DuelStats();
     private int userChoice;
-    private boolean userPickWillBeGood()
+    private boolean userPickIsBad()
     {
         return userChoice < 1 || userChoice > 4;
     }
     private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
     {
         Game game = new Game();
-        return duelStats.getAttackRange()<=game.range;
+        return duelStats.getAttackRange()>=game.range;
     }
     private void fireBall()
     {
@@ -99,7 +99,8 @@ public class Sorcerer extends Classes {
                 System.out.println("You missed");
             }
         }
-        else {
+        else
+        {
             System.out.println("You don't have enough mana point or your attack range is too small");
             userPick();
         }
@@ -119,13 +120,15 @@ public class Sorcerer extends Classes {
     {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
-        if (userPickWillBeGood())
+        if (userPickIsBad())
         {
             System.out.println("You entered the wrong number. Try again");
             skillsMenu();
         }
-        else {
-            switch (userChoice) {
+        else
+        {
+            switch (userChoice)
+            {
                 case 1 -> fireBall();
                 case 2 -> snowBall();
                 case 3 -> frostArmor();

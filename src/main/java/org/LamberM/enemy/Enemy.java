@@ -9,11 +9,12 @@ import org.LamberM.stats.Stats;
 import java.util.Random;
 
 public class Enemy{
-    public Enemy(){
+    public Enemy()
+    {
         enemyStats = new Stats(20, 15, 10, 200, 0, 5, 200, 5,1);
         enemyStats.setDuelStats();
     }
-    public Stats enemyStats;
+    private Stats enemyStats;
     public DuelStats enemyDuelStats= new DuelStats();
     private MyClass hero = new MyClass();
     private int heroChance;
@@ -25,7 +26,8 @@ public class Enemy{
         Game game = new Game();
         return enemyDuelStats.getAttackRange()<=game.range;
     }
-    private void chanceForAttackOrCriticalAttack(){
+    private void chanceForAttackOrCriticalAttack()
+    {
         Random draw = new Random();
         heroChance=hero.duelStats.getCurrentDodge() + draw.nextInt(101);
         enemyChance=enemyDuelStats.getCurrentDex()+ draw.nextInt(101);
@@ -45,13 +47,11 @@ public class Enemy{
         System.out.println("Enemy");
         if (enemyAttackRangeIsMoreOrEqualsGameRange())
         {
-
             chanceForAttackOrCriticalAttack();
 
             if (enemyAttackChanceIsMoreThanHeroDodgeChance())
             {
                 damage = enemyDuelStats.getCurrentStr() + enemyDuelStats.getCurrentDex() + enemyDuelStats.getCurrentInt() - (hero.duelStats.getCurrentArm() / 10);
-
                 if (attackIsNotCritical())
                 {
                     System.out.println("Attack for " + damage);

@@ -13,14 +13,14 @@ public class Warrior extends Classes {
         stats.setDuelStats();
     }
     private int userChoice;
-    private boolean userPickWillBeGood()
+    private boolean userPickIsBad()
     {
         return userChoice < 1 || userChoice > 4;
     }
     private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
     {
         Game game = new Game();
-        return duelStats.getAttackRange()<=game.range;
+        return duelStats.getAttackRange()>=game.range;
     }
     private void battleCry()
     {
@@ -29,7 +29,6 @@ public class Warrior extends Classes {
         duelStats.setCurrentCritC(duelStats.getCurrentCritC() + 2);
         duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
         System.out.println("WAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRR");
-
     }
     private void defensiveCry()
     {
@@ -75,13 +74,15 @@ public class Warrior extends Classes {
     {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
-        if (userPickWillBeGood())
+        if (userPickIsBad())
         {
             System.out.println("You entered the wrong number. Try again");
             skillsMenu();
         }
-        else {
-            switch (userChoice) {
+        else
+        {
+            switch (userChoice)
+            {
                 case 1 -> battleCry();
                 case 2 -> defensiveCry();
                 case 3 -> doubleAttack();

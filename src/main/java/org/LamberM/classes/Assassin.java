@@ -102,8 +102,10 @@ public class Assassin extends Classes {
             System.out.println("You entered the wrong number. Try again");
             skillsMenu();
         }
-        else {
-            switch (userChoice) {
+        else
+        {
+            switch (userChoice)
+            {
                 case 1 -> hitInTheBack();
                 case 2 -> boostDodgeAndDexterity();
                 case 3 -> criticalAttack();
