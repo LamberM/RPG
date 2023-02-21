@@ -1,5 +1,7 @@
 package org.LamberM.classes;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.LamberM.enemy.Enemy;
 import org.LamberM.game.Game;
 import org.LamberM.stats.Stats;
@@ -12,24 +14,25 @@ public class Warrior extends Classes {
         stats = new Stats(20, 15, 10, 200, 40, 5, 100, 5, 1);
         stats.setDuelStats();
     }
+    @Getter
+    @Setter
     private int userChoice;
-    private boolean userPickWillBeGood()
+    private boolean userPickIsBad()
     {
         return userChoice < 1 || userChoice > 4;
     }
     private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
     {
         Game game = new Game();
-        return duelStats.getAttackRange()<=game.range;
+        return duelStats.getAttackRange()>=game.getRange();
     }
     private void battleCry()
     {
         duelStats.setCurrentStr(duelStats.getCurrentStr() + 10);
-        duelStats.setCurrentDex(duelStats.getCurrentDex() + 5);
+        duelStats.setCurrentArm(duelStats.getCurrentArm() + 5);
         duelStats.setCurrentCritC(duelStats.getCurrentCritC() + 2);
         duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
         System.out.println("WAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRR");
-
     }
     private void defensiveCry()
     {
@@ -75,13 +78,15 @@ public class Warrior extends Classes {
     {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
-        if (userPickWillBeGood())
+        if (userPickIsBad())
         {
             System.out.println("You entered the wrong number. Try again");
             skillsMenu();
         }
-        else {
-            switch (userChoice) {
+        else
+        {
+            switch (userChoice)
+            {
                 case 1 -> battleCry();
                 case 2 -> defensiveCry();
                 case 3 -> doubleAttack();

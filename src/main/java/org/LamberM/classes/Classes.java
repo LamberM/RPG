@@ -1,28 +1,32 @@
 package org.LamberM.classes;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.LamberM.enemy.Enemy;
 import org.LamberM.stats.DuelStats;
 import org.LamberM.stats.Stats;
 
 import java.util.Random;
 import java.util.Scanner;
-
+@Getter
 public abstract class Classes{
 
-    public Stats stats= new Stats(1,1,1,1,1,1,1,1,1);
+    public Stats stats= new Stats(10,10,10,50,30,10,10,10,1);
     public DuelStats duelStats = new DuelStats();
-
     private int heroChance;
     private int enemyChance;
     private int critChance;
+    @Setter
     private int userChoice;
     public int damage;
 
-    public void showStats() {
+    public void showStats()
+    {
         stats.showStats();
     }
 
-    public void duelStats() {
+    public void duelStats()
+    {
         System.out.println("My hero");
         duelStats.duelStats();
     }
@@ -44,7 +48,9 @@ public abstract class Classes{
             duelStats.setCurrentMP(stats.getMp());
         }
     }
-    void chanceForAttackOrCriticalAttack(){
+    ///////////////////// functions use in Assassin, Sorcerer, Warrior ////////////////////////////
+    void chanceForAttackOrCriticalAttack()
+    {
         Random draw = new Random();
         Enemy enemy= new Enemy();
         heroChance= duelStats.getCurrentDex() + draw.nextInt(101);
@@ -59,20 +65,27 @@ public abstract class Classes{
     {
         return critChance < 100;
     }
-    private boolean userPickWillBeGood(){
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private boolean userPickIsBad()
+    {
         return userChoice < 1 || userChoice > 2;
     }
     private void userPick()
     {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
-        while (userPickWillBeGood()) {
+        if (userPickIsBad())
+        {
             System.out.println("You entered the wrong number. Try again");
             attackMenu();
         }
-        switch (userChoice) {
-            case 1 -> attack();
-            case 2 -> strongAttack();
+        else
+        {
+            switch (userChoice)
+            {
+                case 1 -> attack();
+                case 2 -> strongAttack();
+            }
         }
     }
     private void attack(){
@@ -96,7 +109,8 @@ public abstract class Classes{
             }
             enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
         }
-        else {
+        else
+        {
             System.out.println("You missed");
         }
     }
@@ -106,27 +120,31 @@ public abstract class Classes{
 
         chanceForAttackOrCriticalAttack();
 
-        if (heroAttackChanceIsMoreThanEnemyDodgeChance()) {
+        if (heroAttackChanceIsMoreThanEnemyDodgeChance())
+        {
             damage = 2*((duelStats.getCurrentStr()+ (duelStats.getCurrentDex())) - (enemy.enemyDuelStats.getCurrentArm() / 20));
-            if (attackIsNotCritical()) {
+            if (attackIsNotCritical())
+            {
                 System.out.println("Critical attack !!!! for " + damage + "!!!!");
                 System.out.println("Attack for " + damage);
             }
-            else {
+            else
+            {
                 damage = 2 * damage;
                 System.out.println("Critical attack !!!! for " + damage + "!!!!");
             }
             enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
         }
-        else {
+        else
+        {
             System.out.println("You missed");
         }
     }
-    public void attackMenu() {
+    public void attackMenu()
+    {
         System.out.println("1.Attack");
         System.out.println("2.Strong Attack");
         userPick();
     }
     public void skillsMenu(){}
-
 }

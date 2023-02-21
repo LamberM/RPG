@@ -59,7 +59,8 @@ public class Stats
         setStrength(this.strength + 5);
         System.out.println("Strength: " + getStrength());
         currentPoints = currentPoints - 5;
-        if (currentPointsIsNull()) {
+        if (currentPointsIsNull())
+        {
             System.out.println("You don't have enough points");
             game.mainMenu();
         }
@@ -70,7 +71,9 @@ public class Stats
         setDexterity(this.dexterity + 5);
         System.out.println("Dexterity: " + getDexterity());
         currentPoints = currentPoints - 5;
-        if (currentPointsIsNull()) {
+
+        if (currentPointsIsNull())
+        {
             System.out.println("You don't have enough points");
             game.mainMenu();
         }
@@ -81,7 +84,9 @@ public class Stats
         setIntelligence(this.intelligence + 5);
         System.out.println("Intelligence:" + getIntelligence());
         currentPoints = currentPoints - 5;
-        if (currentPointsIsNull()) {
+
+        if (currentPointsIsNull())
+        {
             System.out.println("You don't have enough points");
             game.mainMenu();
         }
@@ -105,27 +110,32 @@ public class Stats
     {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
-        while (userPickWillBeGood())
+        if (userPickWillBeGood())
         {
             System.out.println("Your number pick is wrong. Try again");
             addStats();
         }
-        switch (userChoice)
+        else
         {
-            case 1 -> addStrength();
-            case 2 -> addDexterity();
-            case 3 -> addIntelligence();
-            case 4 -> System.out.println("Back to menu");
+            switch (userChoice)
+            {
+                case 1 -> addStrength();
+                case 2 -> addDexterity();
+                case 3 -> addIntelligence();
+                case 4 -> System.out.println("Back to menu");
+            }
         }
     }
 
     public void addStats()
     {
-        if (getLvlUp()) {
+        if (getLvlUp())
+        {
             menuForAddingStats();
             userPick();
         }
-        else {
+        else
+        {
             System.out.println("You need " + (100 - getExp()) + " experience points to next level");
         }
     }
@@ -142,16 +152,15 @@ public class Stats
     }
     public void setDuelStats()
     {
-        DuelStats duelStats=new DuelStats();
-        duelStats.setCurrentStr(strength);
-        duelStats.setCurrentDex(dexterity);
-        duelStats.setCurrentInt(intelligence);
-        duelStats.setCurrentHP(hp);
-        duelStats.setCurrentMP(mp);
-        duelStats.setCurrentDodge(dodge);
-        duelStats.setCurrentArm(armor);
-        duelStats.setCurrentCritC(criticalChance);
-        duelStats.setAttackRange(attackRange);
+        DuelStats duelStats = new DuelStats();
+        duelStats.setCurrentStr(this.strength);
+        duelStats.setCurrentDex(this.dexterity);
+        duelStats.setCurrentInt(this.intelligence);
+        duelStats.setCurrentHP(this.hp);
+        duelStats.setCurrentMP(this.mp);
+        duelStats.setCurrentDodge(this.dodge);
+        duelStats.setCurrentArm(this.armor);
+        duelStats.setCurrentCritC(this.criticalChance);
+        duelStats.setAttackRange(this.attackRange);
     }
-
 }
