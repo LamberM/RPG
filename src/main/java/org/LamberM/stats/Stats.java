@@ -151,15 +151,15 @@ public class Stats
     public void setDuelStats()
     {
         DuelStats duelStats=new DuelStats();
-        duelStats.setCurrentStr(strength);
-        duelStats.setCurrentDex(dexterity);
-        duelStats.setCurrentInt(intelligence);
-        duelStats.setCurrentHP(hp);
-        duelStats.setCurrentMP(mp);
-        duelStats.setCurrentDodge(dodge);
-        duelStats.setCurrentArm(armor);
-        duelStats.setCurrentCritC(criticalChance);
-        duelStats.setAttackRange(attackRange);
+        duelStats.setCurrentStr(this.strength);
+        duelStats.setCurrentDex(this.dexterity);
+        duelStats.setCurrentInt(this.intelligence);
+        duelStats.setCurrentHP(this.hp);
+        duelStats.setCurrentMP(this.mp);
+        duelStats.setCurrentDodge(this.dodge);
+        duelStats.setCurrentArm(this.armor);
+        duelStats.setCurrentCritC(this.criticalChance);
+        duelStats.setAttackRange(this.attackRange);
     }
 
 }

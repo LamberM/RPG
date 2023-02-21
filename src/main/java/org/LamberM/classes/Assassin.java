@@ -1,5 +1,7 @@
 package org.LamberM.classes;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.LamberM.enemy.Enemy;
 import org.LamberM.game.Game;
 import org.LamberM.stats.Stats;
@@ -12,6 +14,8 @@ public class Assassin extends Classes {
         stats = new Stats(15, 20, 10, 150, 40, 10, 60, 10, 1);
         stats.setDuelStats();
     }
+    @Getter
+    @Setter
     private int userChoice;
     private boolean userPickWillBeGood()
     {
@@ -20,7 +24,7 @@ public class Assassin extends Classes {
     private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
     {
         Game game = new Game();
-        return duelStats.getAttackRange()<=game.range;
+        return duelStats.getAttackRange()<=game.getRange();
     }
     private void hitInTheBack()
     {
@@ -66,7 +70,7 @@ public class Assassin extends Classes {
     private boolean currentMpIsEnoughAndAttackRangeIsEnough()
     {
         Game game = new Game();
-        return duelStats.getCurrentMP() >= 30 && duelStats.getAttackRange() <= game.range;
+        return duelStats.getCurrentMP() >= 30 && duelStats.getAttackRange() >= game.getRange();
     }
     private void criticalAttack()
     {

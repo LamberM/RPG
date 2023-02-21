@@ -1,5 +1,7 @@
 package org.LamberM.game;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.LamberM.classes.Assassin;
 import org.LamberM.classes.Classes;
 import org.LamberM.classes.Sorcerer;
@@ -9,10 +11,14 @@ import org.LamberM.enemy.Enemy;
 import java.util.Scanner;
 
 public class Game {
+    @Getter
     private String name;
     public Classes myHero;
     private int userChoice;
-    public int range=2;
+    @Getter
+    @Setter
+    private int range=3;
+
     private boolean userPickIsBad()
     {
         return userChoice <= 0 || userChoice >= 5;
@@ -23,7 +29,7 @@ public class Game {
         infoAboutClass();
         pickClassMenu();
     }
-    private void addName()
+    public void addName()
     {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter your character's name");

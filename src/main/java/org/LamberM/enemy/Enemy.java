@@ -14,17 +14,22 @@ public class Enemy{
         enemyStats = new Stats(20, 15, 10, 200, 0, 5, 200, 5,1);
         enemyStats.setDuelStats();
     }
-    private Stats enemyStats;
+    public Stats enemyStats;
     public DuelStats enemyDuelStats= new DuelStats();
     private MyClass hero = new MyClass();
     private int heroChance;
     private int enemyChance;
     private int critChance;
 
+    public int getDamage() {
+        return damage;
+    }
+    private int damage;
+
     private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
     {
         Game game = new Game();
-        return enemyDuelStats.getAttackRange()<=game.range;
+        return enemyDuelStats.getAttackRange() >= game.getRange();
     }
     private void chanceForAttackOrCriticalAttack()
     {
@@ -43,7 +48,6 @@ public class Enemy{
     }
     public void attack()
     {
-        int damage;
         System.out.println("Enemy");
         if (enemyAttackRangeIsMoreOrEqualsGameRange())
         {
@@ -71,6 +75,7 @@ public class Enemy{
         }
         else
         {
+            System.out.println("I can't have to hit enemy. My attack range is too small");
             stepForward();
         }
     }
@@ -89,7 +94,7 @@ public class Enemy{
     private void stepForward()
     {
         Game game = new Game();
-        game.range = game.range - 1;
+        game.setRange(game.getRange()-1);
     }
 
 }

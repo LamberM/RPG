@@ -1,109 +1,105 @@
 package org.LamberM.stats;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.LamberM.game.GameTest;
-import java.util.Scanner;
-@Getter
-@Setter
-public class StatsTest {
-    private int EXP = 0;
-    private int LVL = 1;
-    private int LVLtocompare = 2;
-    private int Strength, Dexterity, Intelligence, HP, MP, Dodge, Armor, CriticalChance, AttackRange, CurrentHP, CurrentMP, CurrentArm, CurrentStr, CurrentDex, CurrentCritC, CurrentDodge;
+import org.LamberM.UnitTest;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
-    public StatsTest(int strength, int dexterity, int intelligence, int HP, int MP, int dodge, int armor, int criticalChance, int attackRange) {
-        this.Strength = strength;
-        this.Dexterity = dexterity;
-        this.Intelligence = intelligence;
-        this.HP = HP;
-        this.MP = MP;
-        this.Dodge = dodge;
-        this.Armor = armor;
-        this.CriticalChance = criticalChance;
-        this.AttackRange = attackRange;
-        //current stats whose need to duel
-        this.CurrentStr = this.Strength;
-        this.CurrentDex = this.Dexterity;
-        this.CurrentHP = this.HP;
-        this.CurrentMP = this.MP;
-        this.CurrentDodge = this.Dodge;
-        this.CurrentArm = this.Armor;
-        this.CurrentCritC = this.CriticalChance;
-    }
 
-    public void showStats() {
-        System.out.println("Strength: " + this.CurrentStr);
-        System.out.println("Dexterity: " + this.CurrentDex);
-        System.out.println("Intelligence: " + this.Intelligence);
-        System.out.println("HP: " + this.CurrentHP);
-        System.out.println("MP: " + this.CurrentMP);
-        System.out.println("Dodge: " + this.CurrentDodge);
-        System.out.println("Armor: " + this.CurrentArm);
-        System.out.println("Critical attack chance: " + this.CurrentCritC);
-    }
+import java.io.ByteArrayInputStream;
 
-    // add stats after lvl up
-    public void addStats() {
-        Scanner scanner = new Scanner(System.in);
-        GameTest game = new GameTest();
-        double actuallypoints = 0;
-        if (getLVL() == getLVLtocompare()) {
-            actuallypoints = 10;
-            System.out.println("Your experience points "+ actuallypoints);
-            System.out.println("Your stats for change:");
-            System.out.println("Strength:" + getStrength());
-            System.out.println("Dexterity:" + getDexterity());
-            System.out.println("Intelligence:" + getIntelligence());
-            System.out.println("Add stats points");
-            System.out.println("1.Strength");
-            System.out.println("2.Dexterity");
-            System.out.println("3.Intelligence");
-            System.out.println("4.Back to the menu");
-            int userChoice = scanner.nextInt();
-            if (userChoice > 0 && userChoice < 5) {
-                switch (userChoice) {
-                    case 1 -> {
-                        setStrength(this.Strength + 5);
-                        System.out.println("Strength: " + getStrength());
-                        actuallypoints = actuallypoints - 5;
-                        if (actuallypoints == 0) {
-                            System.out.println("You don't have enough points");
-                            game.mainMENU();
-                        }
-                    }
-                    case 2 -> {
-                        setDexterity(this.Dexterity + 5);
-                        System.out.println("Dexterity: " + getDexterity());
-                        actuallypoints = actuallypoints - 5;
-                        if (actuallypoints == 0) {
-                            System.out.println("You don't have enough points");
-                            game.mainMENU();
-                        }
-                    }
-                    case 3 -> {
-                        setIntelligence(this.Intelligence + 5);
-                        System.out.println("Intelligence:" + getIntelligence());
-                        actuallypoints = actuallypoints - 5;
-                        if (actuallypoints == 0) {
-                            System.out.println("You don't have enough points");
-                            game.mainMENU();
-                        }
-                    }
-                    case 4 -> {
-                    }
-                }
-            } else {
-                addStats();
-                System.out.println("You entered the wrong number. Try again");
-            }
-        } else {
-            System.out.println("You need " + (100 - getEXP()) + " experience points to next level");
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class StatsTest implements UnitTest
+{
+    @InjectMocks
+    private Stats statsTest = new Stats(1,1,1,1,1,1,1,1,1);
+    @Mock
+    private DuelStats duelStatsTest = new DuelStats();
+    @Test
+        void setDuelStatsTest()
+        {
+            // given
+
+            // when
+            statsTest.setDuelStats();
+            // then
+            assertEquals(statsTest.getStrength(),duelStatsTest.getCurrentStr());
+            assertEquals(statsTest.getDexterity(),duelStatsTest.getCurrentDex());
+            assertEquals(statsTest.getIntelligence(),duelStatsTest.getCurrentInt());
+            assertEquals(statsTest.getHp(),duelStatsTest.getCurrentHP());
+            assertEquals(statsTest.getMp(),duelStatsTest.getCurrentMP());
+            assertEquals(statsTest.getDodge(),duelStatsTest.getCurrentDodge());
+            assertEquals(statsTest.getArmor(),duelStatsTest.getCurrentArm());
+            assertEquals(statsTest.getCriticalChance(),duelStatsTest.getCurrentCritC());
+            assertEquals(statsTest.getAttackRange(),duelStatsTest.getAttackRange());
         }
-    }
-    // dualstats need in duelmenu
-    public void duelStats() {
-        System.out.println("HP: " + getCurrentHP() + " MP: " + getCurrentMP());
-    }
+        // można mocka zrobić na dwie możliwości
+        @Test
+        void addStrengthTest()
+        {
+            // given
+            statsTest.setLvl(2); // give us possibility to use addStats (requirement is done)
+            statsTest.setUserChoice(1); // give us possibility to change our scanner in application
+            String userInput = String.valueOf(statsTest.getUserChoice());
+            ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
+            System.setIn(transferToByte);
+            // when
+            int expectedStr = statsTest.getStrength()+5;
+            statsTest.addStats();
+
+            // then
+            assertEquals(expectedStr,statsTest.getStrength());
+        }
+        @Test
+        void addDexterityTest()
+        {
+            // given
+            statsTest.setLvl(2); // give us possibility to use addStats (requirement is done)
+            statsTest.setUserChoice(2); // give us possibility to change our scanner in application
+            String userInput = String.valueOf(statsTest.getUserChoice());
+            ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
+            System.setIn(transferToByte);
+            // when
+            int expectedDex = statsTest.getDexterity()+5;
+            statsTest.addStats();
+
+            // then
+            assertEquals(expectedDex,statsTest.getDexterity());
+        }
+        @Test
+        void addIntelligenceTest()
+        {
+            // given
+            statsTest.setLvl(2); // give us possibility to use addStats (requirement is done)
+            statsTest.setUserChoice(1); // give us possibility to change our scanner in application
+            String userInput = String.valueOf(statsTest.getUserChoice());
+            ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
+            System.setIn(transferToByte);
+            // when
+            int expectedInt = statsTest.getIntelligence()+5;
+            statsTest.addStats();
+
+            // then
+            assertEquals(expectedInt,statsTest.getIntelligence());
+        }
+        @Test
+        void showStatsTest()
+        {
+            // given
+            // when
+            int expectedValueOfAllStats=1;
+            statsTest.showStats();
+            // then
+            assertEquals(expectedValueOfAllStats,statsTest.getStrength());
+            assertEquals(expectedValueOfAllStats,statsTest.getDexterity());
+            assertEquals(expectedValueOfAllStats,statsTest.getIntelligence());
+            assertEquals(expectedValueOfAllStats,statsTest.getHp());
+            assertEquals(expectedValueOfAllStats,statsTest.getMp());
+            assertEquals(expectedValueOfAllStats,statsTest.getDodge());
+            assertEquals(expectedValueOfAllStats,statsTest.getArmor());
+            assertEquals(expectedValueOfAllStats,statsTest.getCriticalChance());
+            assertEquals(expectedValueOfAllStats,statsTest.getAttackRange());
+        }
 
 }

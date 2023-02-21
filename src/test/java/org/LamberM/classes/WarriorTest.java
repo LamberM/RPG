@@ -1,77 +1,73 @@
 package org.LamberM.classes;
 
-
-import org.LamberM.enemy.EnemyTest;
-import org.LamberM.stats.StatsTest;
+import org.LamberM.enemy.Enemy;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
+import java.io.ByteArrayInputStream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WarriorTest extends ClassesTest {
-    public WarriorTest() {
-        stats = new StatsTest(20, 15, 10, 200, 40, 5, 100, 5, 1);
-    }
-
+    @InjectMocks
+    Warrior warriorTest = new Warrior();
+    @Mock
+    Enemy enemyTest = new Enemy();
     @Test
-    public void skills() {
-        EnemyTest enemy = new EnemyTest();
-
-        int heroChance = stats.getDexterity() + draw.nextInt(101);
-        int enemyChance = enemy.enemyStats.getCurrentDodge() + draw.nextInt(101);
-        int critChance = stats.getCurrentCritC() + draw.nextInt(101);
-
-        System.out.println("1.Battle cry (20MP)");
-        System.out.println("2.Defensive cry (20MP)");
-        System.out.println("3.Double attack (20MP)");
-        int userChoice = 1;
-        if (userChoice > 0 && userChoice < 4) {
-            switch (userChoice) {
-                case 1 -> {
-                    showStats();
-                    stats.setCurrentStr(stats.getCurrentStr() + 10);
-                    stats.setCurrentDex(stats.getCurrentDex() + 5);
-                    stats.setCurrentCritC(stats.getCurrentCritC() + 2);
-                    stats.setCurrentMP(stats.getCurrentMP() - 20);
-                    System.out.println("WAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRR");
-                    showStats();
-                }
-                case 2 -> {
-                    showStats();
-                    stats.setCurrentHP(stats.getCurrentHP() + 20);
-                    stats.setCurrentArm(stats.getCurrentArm() + 10);
-                    stats.setCurrentDodge(stats.getCurrentDodge() + 2);
-                    stats.setCurrentMP(stats.getCurrentMP() - 20);
-                    System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAACCCCCKKKKKKKKKKKKKK");
-                    showStats();
-                }
-                case 3 -> {
-                    if (stats.getAttackRange() <= game.range) {
-                        if (heroChance > enemyChance) {
-                            damage = 60 + (stats.getStrength() / 5) - (enemy.enemyStats.getCurrentArm() / 20);
-                            if (critChance < 100) {
-                                System.out.println("Attack for " + damage);
-                                stats.setCurrentMP(stats.getCurrentMP() - 20);
-                            } else {
-                                damage = 2 * damage;
-                                System.out.println("Critical attack !!!! for " + damage + "!!!!");
-                                stats.setCurrentMP(stats.getCurrentMP() - 20);
-                            }
-                            enemy.duelStats();
-                            enemy.enemyStats.setCurrentHP(enemy.enemyStats.getCurrentHP() - damage);
-                            enemy.duelStats();
-
-                        } else {
-                            System.out.println("You missed");
-                        }
-
-                    } else {
-                        System.out.println("Your attack range is too small");
-
-                    }
-                }
-            }
-        } else {
-            System.out.println("You entered the wrong number. Try again");
-        }
-
+    void battleCryTest()
+    {
+        // given
+        warriorTest.setUserChoice(3); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(warriorTest.getUserChoice());
+        ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(transferToByte);
+        // when
+        int expectedStr = warriorTest.duelStats.getCurrentStr() + 10;
+        int expectedArmor = warriorTest.duelStats.getCurrentArm()+5;
+        int expectedCritC= warriorTest.duelStats.getCurrentCritC()+2;
+        int expectedMp = warriorTest.duelStats.getCurrentMP()-20;
+        warriorTest.skillsMenu();
+        //then
+        assertEquals(expectedStr,warriorTest.duelStats.getCurrentStr());
+        assertEquals(expectedArmor,warriorTest.duelStats.getCurrentArm());
+        assertEquals(expectedCritC,warriorTest.duelStats.getCurrentCritC());
+        assertEquals(expectedMp,warriorTest.duelStats.getCurrentMP());
+    }
+    @Test
+    void defensiveCryTest()
+    {
+        // given
+        warriorTest.setUserChoice(3); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(warriorTest.getUserChoice());
+        ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(transferToByte);
+        // when
+        int expectedHp = warriorTest.duelStats.getCurrentHP()+20;
+        int expectedArmor = warriorTest.duelStats.getCurrentArm()+10;
+        int expectedDodge = warriorTest.duelStats.getCurrentDodge()+2;
+        int expectedMp = warriorTest.duelStats.getCurrentMP()-20;
+        warriorTest.skillsMenu();
+        //then
+        assertEquals(expectedHp,warriorTest.duelStats.getCurrentHP());
+        assertEquals(expectedArmor,warriorTest.duelStats.getCurrentArm());
+        assertEquals(expectedDodge,warriorTest.duelStats.getCurrentDodge());
+        assertEquals(expectedMp,warriorTest.duelStats.getCurrentMP());
+    }
+    @Test
+    void doubleAttackTest()
+    {
+        // given
+        warriorTest.setUserChoice(3); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(warriorTest.getUserChoice());
+        ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(transferToByte);
+        // when
+        int expectedMp = warriorTest.duelStats.getCurrentMP()-20;
+        warriorTest.skillsMenu();
+        int expectedHp = enemyTest.enemyDuelStats.getCurrentHP() - warriorTest.getDamage();
+        // then
+        assertEquals(expectedHp,enemyTest.enemyDuelStats.getCurrentHP());
+        assertEquals(expectedMp,warriorTest.duelStats.getCurrentMP());
     }
 }

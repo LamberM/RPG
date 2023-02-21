@@ -1,6 +1,8 @@
 package org.LamberM.classes;
 
 
+import lombok.Getter;
+import lombok.Setter;
 import org.LamberM.enemy.Enemy;
 import org.LamberM.game.Game;
 import org.LamberM.stats.DuelStats;
@@ -15,6 +17,8 @@ public class Sorcerer extends Classes {
         stats.setDuelStats();
     }
     DuelStats duelStats = new DuelStats();
+    @Getter
+    @Setter
     private int userChoice;
     private boolean userPickIsBad()
     {
@@ -23,7 +27,7 @@ public class Sorcerer extends Classes {
     private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
     {
         Game game = new Game();
-        return duelStats.getAttackRange()>=game.range;
+        return duelStats.getAttackRange()>=game.getRange();
     }
     private void fireBall()
     {
@@ -61,7 +65,7 @@ public class Sorcerer extends Classes {
     private boolean currentMpIsEnoughAndAttackRangeIsEnough()
     {
         Game game = new Game();
-        return duelStats.getCurrentMP() >= 30 && duelStats.getAttackRange() <= game.range;
+        return duelStats.getCurrentMP() >= 30 && duelStats.getAttackRange() >= game.getRange();
     }
 //    private boolean enemyWillBeFrozen()
 //    {

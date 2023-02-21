@@ -1,20 +1,22 @@
 package org.LamberM.classes;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.LamberM.enemy.Enemy;
 import org.LamberM.stats.DuelStats;
 import org.LamberM.stats.Stats;
 
 import java.util.Random;
 import java.util.Scanner;
-
+@Getter
 public abstract class Classes{
 
-    public Stats stats= new Stats(1,1,1,1,1,1,1,1,1);
+    public Stats stats= new Stats(10,10,10,50,30,10,10,10,1);
     public DuelStats duelStats = new DuelStats();
-
     private int heroChance;
     private int enemyChance;
     private int critChance;
+    @Setter
     private int userChoice;
     public int damage;
 
