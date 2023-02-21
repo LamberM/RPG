@@ -71,7 +71,6 @@ public class Stats
         setDexterity(this.dexterity + 5);
         System.out.println("Dexterity: " + getDexterity());
         currentPoints = currentPoints - 5;
-
         if (currentPointsIsNull())
         {
             System.out.println("You don't have enough points");
@@ -84,7 +83,6 @@ public class Stats
         setIntelligence(this.intelligence + 5);
         System.out.println("Intelligence:" + getIntelligence());
         currentPoints = currentPoints - 5;
-
         if (currentPointsIsNull())
         {
             System.out.println("You don't have enough points");
@@ -152,7 +150,7 @@ public class Stats
     }
     public void setDuelStats()
     {
-        DuelStats duelStats = new DuelStats();
+        DuelStats duelStats=new DuelStats();
         duelStats.setCurrentStr(this.strength);
         duelStats.setCurrentDex(this.dexterity);
         duelStats.setCurrentInt(this.intelligence);
@@ -163,4 +161,5 @@ public class Stats
         duelStats.setCurrentCritC(this.criticalChance);
         duelStats.setAttackRange(this.attackRange);
     }
+
 }

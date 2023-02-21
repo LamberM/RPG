@@ -1,5 +1,6 @@
 package org.LamberM.classes;
 
+
 import lombok.Getter;
 import lombok.Setter;
 import org.LamberM.enemy.Enemy;
@@ -64,7 +65,6 @@ public class Sorcerer extends Classes {
     private boolean currentMpIsEnoughAndAttackRangeIsEnough()
     {
         Game game = new Game();
-
         return duelStats.getCurrentMP() >= 30 && duelStats.getAttackRange() >= game.getRange();
     }
 //    private boolean enemyWillBeFrozen()
@@ -152,4 +152,5 @@ public class Sorcerer extends Classes {
         userPick();
 
     }
+
 }

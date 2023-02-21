@@ -20,6 +20,7 @@ public class Enemy{
     private int heroChance;
     private int enemyChance;
     private int critChance;
+
     public int getDamage() {
         return damage;
     }
@@ -95,4 +96,5 @@ public class Enemy{
         Game game = new Game();
         game.setRange(game.getRange()-1);
     }
+
 }

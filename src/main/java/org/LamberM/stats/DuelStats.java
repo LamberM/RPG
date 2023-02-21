@@ -20,4 +20,5 @@ public class DuelStats
     {
         System.out.println("HP: " + currentHP + " MP: " + currentMP);
     }
+
 }
