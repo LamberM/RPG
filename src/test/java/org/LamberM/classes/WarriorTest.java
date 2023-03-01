@@ -23,16 +23,16 @@ public class WarriorTest extends ClassesTest {
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         // when
-        int expectedStr = warriorTest.duelStats.getCurrentStr() + 10;
-        int expectedArmor = warriorTest.duelStats.getCurrentArm()+5;
-        int expectedCritC= warriorTest.duelStats.getCurrentCritC()+2;
-        int expectedMp = warriorTest.duelStats.getCurrentMP()-20;
+        int expectedStr = warriorTest.duelStats.getStrength() + 10;
+        int expectedArmor = warriorTest.duelStats.getArmor()+5;
+        int expectedCritC= warriorTest.duelStats.getCriticalChance()+2;
+        int expectedMp = warriorTest.duelStats.getMp()-20;
         warriorTest.skillsMenu();
         //then
-        assertEquals(expectedStr,warriorTest.duelStats.getCurrentStr());
-        assertEquals(expectedArmor,warriorTest.duelStats.getCurrentArm());
-        assertEquals(expectedCritC,warriorTest.duelStats.getCurrentCritC());
-        assertEquals(expectedMp,warriorTest.duelStats.getCurrentMP());
+        assertEquals(expectedStr,warriorTest.duelStats.getStrength());
+        assertEquals(expectedArmor,warriorTest.duelStats.getArmor());
+        assertEquals(expectedCritC,warriorTest.duelStats.getCriticalChance());
+        assertEquals(expectedMp,warriorTest.duelStats.getMp());
     }
     @Test
     void defensiveCryTest()
@@ -43,16 +43,16 @@ public class WarriorTest extends ClassesTest {
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         // when
-        int expectedHp = warriorTest.duelStats.getCurrentHP()+20;
-        int expectedArmor = warriorTest.duelStats.getCurrentArm()+10;
-        int expectedDodge = warriorTest.duelStats.getCurrentDodge()+2;
-        int expectedMp = warriorTest.duelStats.getCurrentMP()-20;
+        int expectedHp = warriorTest.duelStats.getHp()+20;
+        int expectedArmor = warriorTest.duelStats.getArmor()+10;
+        int expectedDodge = warriorTest.duelStats.getDodge()+2;
+        int expectedMp = warriorTest.duelStats.getMp()-20;
         warriorTest.skillsMenu();
         //then
-        assertEquals(expectedHp,warriorTest.duelStats.getCurrentHP());
-        assertEquals(expectedArmor,warriorTest.duelStats.getCurrentArm());
-        assertEquals(expectedDodge,warriorTest.duelStats.getCurrentDodge());
-        assertEquals(expectedMp,warriorTest.duelStats.getCurrentMP());
+        assertEquals(expectedHp,warriorTest.duelStats.getHp());
+        assertEquals(expectedArmor,warriorTest.duelStats.getArmor());
+        assertEquals(expectedDodge,warriorTest.duelStats.getDodge());
+        assertEquals(expectedMp,warriorTest.duelStats.getMp());
     }
     @Test
     void doubleAttackTest()
@@ -63,11 +63,11 @@ public class WarriorTest extends ClassesTest {
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         // when
-        int expectedMp = warriorTest.duelStats.getCurrentMP()-20;
+        int expectedMp = warriorTest.duelStats.getMp()-20;
         warriorTest.skillsMenu();
-        int expectedHp = enemyTest.enemyDuelStats.getCurrentHP() - warriorTest.getDamage();
+        int expectedHp = enemyTest.enemyDuelStats.getHp() - warriorTest.duelStats.getDamage();
         // then
-        assertEquals(expectedHp,enemyTest.enemyDuelStats.getCurrentHP());
-        assertEquals(expectedMp,warriorTest.duelStats.getCurrentMP());
+        assertEquals(expectedHp,enemyTest.enemyDuelStats.getHp());
+        assertEquals(expectedMp,warriorTest.duelStats.getMp());
     }
 }

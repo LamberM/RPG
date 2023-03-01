@@ -26,8 +26,8 @@ public class EnemyTest implements UnitTest
         int expectedMP=enemyTest.enemyStats.getMp();
         enemyTest.duelStats();
         // then
-        assertEquals(expectedHP,enemyTest.enemyDuelStats.getCurrentHP());
-        assertEquals(expectedMP,enemyTest.enemyDuelStats.getCurrentMP());
+        assertEquals(expectedHP,enemyTest.enemyDuelStats.getHp());
+        assertEquals(expectedMP,enemyTest.enemyDuelStats.getMp());
     }
     @Test
     void attackTest()
@@ -37,9 +37,9 @@ public class EnemyTest implements UnitTest
         // when
         game.setRange(1);
         enemyTest.attack();
-        int extendedHp = hero.duelStats.getCurrentHP() - enemyTest.getDamage();
+        int extendedHp = hero.duelStats.getHp() - enemyTest.enemyDuelStats.getDamage();
         // then
-        assertEquals(extendedHp,hero.duelStats.getCurrentHP());
+        assertEquals(extendedHp,hero.duelStats.getHp());
     }
     @Test
     void stepForwardTest()

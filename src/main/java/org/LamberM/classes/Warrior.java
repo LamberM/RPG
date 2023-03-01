@@ -12,7 +12,7 @@ public class Warrior extends Classes {
     public Warrior()
     {
         stats = new Stats(20, 15, 10, 200, 40, 5, 100, 5, 1);
-        stats.setDuelStats();
+        duelStats = stats;
     }
     @Getter
     @Setter
@@ -28,18 +28,18 @@ public class Warrior extends Classes {
     }
     private void battleCry()
     {
-        duelStats.setCurrentStr(duelStats.getCurrentStr() + 10);
-        duelStats.setCurrentArm(duelStats.getCurrentArm() + 5);
-        duelStats.setCurrentCritC(duelStats.getCurrentCritC() + 2);
-        duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
+        duelStats.setStrength(duelStats.getStrength() + 10);
+        duelStats.setArmor(duelStats.getArmor() + 5);
+        duelStats.setCriticalChance(duelStats.getCriticalChance() + 2);
+        duelStats.setDuelMP((duelStats.getDuelMP() - 20));
         System.out.println("WAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRR");
     }
     private void defensiveCry()
     {
-        duelStats.setCurrentHP(duelStats.getCurrentHP() + 20);
-        duelStats.setCurrentArm(duelStats.getCurrentArm() + 10);
-        duelStats.setCurrentDodge(duelStats.getCurrentDodge() + 2);
-        duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
+        duelStats.setDuelHP(duelStats.getDuelHP() + 20);
+        duelStats.setArmor(duelStats.getArmor() + 10);
+        duelStats.setDodge(duelStats.getDodge() + 2);
+        duelStats.setDuelMP((duelStats.getDuelMP() - 20));
         System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAACCCCCKKKKKKKKKKKKKK");
     }
     private void doubleAttack()
@@ -49,19 +49,19 @@ public class Warrior extends Classes {
         {
             if (heroAttackChanceIsMoreThanEnemyDodgeChance())
             {
-                damage = 60 + (duelStats.getCurrentStr() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                duelStats.setDuelMP((duelStats.getDuelMP() - 20));
+                duelStats.setDamage( 60 + (duelStats.getStrength() / 5) - (enemy.enemyDuelStats.getArmor() / 20));
                 if (attackIsNotCritical())
                 {
-                    System.out.println("Attack for " + damage);
-                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
+                    System.out.println("Attack for " + duelStats.getDamage());
+                    enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());
                 }
                 else
                 {
-                    damage = 2 * damage;
-                    System.out.println("Critical attack !!!! for " + damage + "!!!!");
-                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
+                    duelStats.setDamage( 2 * duelStats.getDamage());
+                    System.out.println("Critical attack !!!! for " + duelStats.getDamage() + "!!!!");
+                    enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());
                 }
-                enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage); // nie działa
             }
             else
             {

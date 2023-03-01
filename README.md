@@ -1,9 +1,10 @@
 # RPG
-This is my little RPG home project where I'm learning java and basic implements.
+This is my RPG home project where I'm learning java and basic implements.
 
 ## TODO
 - make better test
-- repair duel stats, range in the game
+- repair range in the game
+- repair damage
 - add fight winner
 - add hero levels
 - add exp

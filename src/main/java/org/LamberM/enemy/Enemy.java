@@ -3,7 +3,6 @@ package org.LamberM.enemy;
 
 import org.LamberM.classes.MyClass;
 import org.LamberM.game.Game;
-import org.LamberM.stats.DuelStats;
 import org.LamberM.stats.Stats;
 
 import java.util.Random;
@@ -12,19 +11,14 @@ public class Enemy{
     public Enemy()
     {
         enemyStats = new Stats(20, 15, 10, 200, 0, 5, 200, 5,1);
-        enemyStats.setDuelStats();
+        enemyDuelStats=enemyStats;
     }
     public Stats enemyStats;
-    public DuelStats enemyDuelStats= new DuelStats();
+    public Stats enemyDuelStats;
     private MyClass hero = new MyClass();
     private int heroChance;
     private int enemyChance;
     private int critChance;
-
-    public int getDamage() {
-        return damage;
-    }
-    private int damage;
 
     private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
     {
@@ -34,9 +28,9 @@ public class Enemy{
     private void chanceForAttackOrCriticalAttack()
     {
         Random draw = new Random();
-        heroChance=hero.duelStats.getCurrentDodge() + draw.nextInt(101);
-        enemyChance=enemyDuelStats.getCurrentDex()+ draw.nextInt(101);
-        critChance=enemyDuelStats.getCurrentCritC() + draw.nextInt(101);
+        heroChance=hero.duelStats.getDodge() + draw.nextInt(101);
+        enemyChance=enemyDuelStats.getDexterity()+ draw.nextInt(101);
+        critChance=enemyDuelStats.getCriticalChance() + draw.nextInt(101);
     }
     private boolean enemyAttackChanceIsMoreThanHeroDodgeChance()
     {
@@ -55,18 +49,18 @@ public class Enemy{
 
             if (enemyAttackChanceIsMoreThanHeroDodgeChance())
             {
-                damage = enemyDuelStats.getCurrentStr() + enemyDuelStats.getCurrentDex() + enemyDuelStats.getCurrentInt() - (hero.duelStats.getCurrentArm() / 10);
+                enemyDuelStats.setDamage( enemyDuelStats.getStrength() + enemyDuelStats.getDexterity() + enemyDuelStats.getIntelligence() - (hero.duelStats.getArmor() / 10));
                 if (attackIsNotCritical())
                 {
-                    System.out.println("Attack for " + damage);
+                    System.out.println("Attack for " + enemyDuelStats.getDamage());
+                    hero.duelStats.setDuelHP(hero.duelStats.getHp() - enemyDuelStats.getDamage());
                 }
                 else
                 {
-                    damage=damage*2;
-                    System.out.println("Critical attack !!!! for " + damage + "!!!!");
+                    enemyDuelStats.setDamage(enemyDuelStats.getDamage()* 2);
+                    System.out.println("Critical attack !!!! for " + enemyDuelStats.getDamage() + "!!!!");
+                    hero.duelStats.setDuelHP(hero.duelStats.getHp() - enemyDuelStats.getDamage());
                 }
-
-                hero.duelStats.setCurrentHP(hero.duelStats.getCurrentHP() - damage);
             }
             else
             {

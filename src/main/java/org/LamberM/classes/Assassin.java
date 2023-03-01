@@ -12,7 +12,7 @@ public class Assassin extends Classes {
     public Assassin()
     {
         stats = new Stats(15, 20, 10, 150, 40, 10, 60, 10, 1);
-        stats.setDuelStats();
+        duelStats = stats;
     }
     @Getter
     @Setter
@@ -33,19 +33,19 @@ public class Assassin extends Classes {
         {
             if (heroAttackChanceIsMoreThanEnemyDodgeChance())
             {
-                damage = 30 + (duelStats.getCurrentDex() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                duelStats.setDuelMP((duelStats.getDuelMP() - 20));
+                duelStats.setDamage( 30 + (duelStats.getDexterity() / 5) - (enemy.enemyDuelStats.getArmor() / 20));
                 if (attackIsNotCritical())
                 {
-                    System.out.println("Attack for " + damage);
-                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
+                    System.out.println("Attack for " + duelStats.getDamage());
+                    enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());
                 }
                 else
                 {
-                    damage = 2 * damage;
-                    System.out.println("Critical attack !!!! for " + damage + "!!!!");
-                    duelStats.setCurrentMP(duelStats.getCurrentHP() - 20);
+                    duelStats.setDamage( 2 * duelStats.getDamage());
+                    System.out.println("Critical attack !!!! for " + duelStats.getDamage() + "!!!!");
+                    enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());
                 }
-                enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
 
             }
             else
@@ -61,16 +61,16 @@ public class Assassin extends Classes {
     }
     private void boostDodgeAndDexterity()
     {
-        duelStats.setCurrentDex(duelStats.getCurrentDex() + 10);
-        duelStats.setCurrentDodge(duelStats.getCurrentDodge() + 5);
-        duelStats.setCurrentCritC(duelStats.getCurrentCritC()+5);
-        duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
+        duelStats.setDexterity(duelStats.getDexterity() + 10);
+        duelStats.setDodge(duelStats.getDodge() + 5);
+        duelStats.setCriticalChance(duelStats.getCriticalChance()+5);
+        duelStats.setDuelMP(duelStats.getDuelMP() - 20);
         System.out.println("I'm feeling agile like ninja");
     }
     private boolean currentMpIsEnoughAndAttackRangeIsEnough()
     {
         Game game = new Game();
-        return duelStats.getCurrentMP() >= 30 && duelStats.getAttackRange() >= game.getRange();
+        return duelStats.getMp() >= 30 && duelStats.getAttackRange() >= game.getRange();
     }
     private void criticalAttack()
     {
@@ -79,11 +79,11 @@ public class Assassin extends Classes {
         {
             if (heroAttackChanceIsMoreThanEnemyDodgeChance())
             {
-                damage = 40 + (duelStats.getCurrentDex() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
-                System.out.println("Attack for " + damage);
-                duelStats.setCurrentMP(duelStats.getCurrentMP() - 30);
+                duelStats.setDamage( 40 + (duelStats.getDexterity() / 5) - (enemy.enemyDuelStats.getArmor() / 20));
+                System.out.println("Attack for " + duelStats.getDamage());
+                duelStats.setDuelMP((duelStats.getDuelMP() - 30));
 
-                enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
+                enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());
 
             }
             else

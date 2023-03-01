@@ -15,9 +15,12 @@ public class Stats
     private int lvl_to_compare = 2;
     private int currentPoints;
     private int userChoice;
+    private int damage;
     /////////////////////////// General Stats //////////////////////////////////////////////////
     private int hp;
     private int mp;
+    private int duelHP;
+    private int duelMP;
     private int strength;
     private int dexterity;
     private int intelligence;
@@ -33,6 +36,8 @@ public class Stats
         this.intelligence = intelligence;
         this.hp = hp;
         this.mp = mp;
+        this.duelHP = hp;
+        this.duelMP= mp;
         this.dodge = dodge;
         this.armor = armor;
         this.criticalChance = criticalChance;
@@ -148,18 +153,8 @@ public class Stats
         System.out.println("Armor: " + this.armor);
         System.out.println("Critical attack chance: " + this.criticalChance);
     }
-    public void setDuelStats()
+    public void duelStats()
     {
-        DuelStats duelStats=new DuelStats();
-        duelStats.setCurrentStr(this.strength);
-        duelStats.setCurrentDex(this.dexterity);
-        duelStats.setCurrentInt(this.intelligence);
-        duelStats.setCurrentHP(this.hp);
-        duelStats.setCurrentMP(this.mp);
-        duelStats.setCurrentDodge(this.dodge);
-        duelStats.setCurrentArm(this.armor);
-        duelStats.setCurrentCritC(this.criticalChance);
-        duelStats.setAttackRange(this.attackRange);
+        System.out.println("HP: " + duelHP + " MP: " + duelMP);
     }
-
 }
