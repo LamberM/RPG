@@ -34,12 +34,12 @@ public class ClassesTest implements UnitTest
     {
         //given
         //when
-        int expectedHP = classesTest.stats.getHp();
-        int expectedMP = classesTest.stats.getMp();
+        int expectedHP = classesTest.duelStats.getHp();
+        int expectedMP = classesTest.duelStats.getMp();
         classesTest.rest();
         //then
-        Assertions.assertEquals(expectedHP,classesTest.duelStats.getCurrentHP());
-        Assertions.assertEquals(expectedMP,classesTest.duelStats.getCurrentMP());
+        assertEquals(expectedHP,classesTest.duelStats.getDuelHP());
+        assertEquals(expectedMP,classesTest.duelStats.getDuelMP());
 
     }
     @Test
@@ -52,9 +52,9 @@ public class ClassesTest implements UnitTest
         System.setIn(transferToByte);
         // when
         classesTest.attackMenu();
-        int extendedHp = enemyTest.enemyDuelStats.getCurrentHP() - classesTest.getDamage();
+        int extendedHp = enemyTest.enemyDuelStats.getDuelHP() - classesTest.duelStats.getDamage();
         // then
-        assertEquals(extendedHp,enemyTest.enemyDuelStats.getCurrentHP());
+        assertEquals(extendedHp,enemyTest.enemyDuelStats.getDuelHP());
     }
     @Test
     void strongAttackTest()
@@ -66,8 +66,8 @@ public class ClassesTest implements UnitTest
         System.setIn(transferToByte);
         // when
         classesTest.attackMenu();
-        int extendedHp = enemyTest.enemyDuelStats.getCurrentHP() - classesTest.getDamage();
+        int extendedHp = enemyTest.enemyDuelStats.getHp() - classesTest.duelStats.getDamage();
         // then
-        assertEquals(extendedHp,enemyTest.enemyDuelStats.getCurrentHP());
+        assertEquals(extendedHp,enemyTest.enemyDuelStats.getHp());
     }
 }

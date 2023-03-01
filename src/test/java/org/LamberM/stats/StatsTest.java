@@ -3,7 +3,6 @@ package org.LamberM.stats;
 import org.LamberM.UnitTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
 
 import java.io.ByteArrayInputStream;
@@ -14,27 +13,6 @@ public class StatsTest implements UnitTest
 {
     @InjectMocks
     private Stats statsTest = new Stats(1,1,1,1,1,1,1,1,1);
-    @Mock
-    private DuelStats duelStatsTest = new DuelStats();
-    @Test
-        void setDuelStatsTest()
-        {
-            // given
-
-            // when
-            statsTest.setDuelStats();
-            // then
-            assertEquals(statsTest.getStrength(),duelStatsTest.getCurrentStr());
-            assertEquals(statsTest.getDexterity(),duelStatsTest.getCurrentDex());
-            assertEquals(statsTest.getIntelligence(),duelStatsTest.getCurrentInt());
-            assertEquals(statsTest.getHp(),duelStatsTest.getCurrentHP());
-            assertEquals(statsTest.getMp(),duelStatsTest.getCurrentMP());
-            assertEquals(statsTest.getDodge(),duelStatsTest.getCurrentDodge());
-            assertEquals(statsTest.getArmor(),duelStatsTest.getCurrentArm());
-            assertEquals(statsTest.getCriticalChance(),duelStatsTest.getCurrentCritC());
-            assertEquals(statsTest.getAttackRange(),duelStatsTest.getAttackRange());
-        }
-        // można mocka zrobić na dwie możliwości
         @Test
         void addStrengthTest()
         {
@@ -72,7 +50,7 @@ public class StatsTest implements UnitTest
         {
             // given
             statsTest.setLvl(2); // give us possibility to use addStats (requirement is done)
-            statsTest.setUserChoice(1); // give us possibility to change our scanner in application
+            statsTest.setUserChoice(3); // give us possibility to change our scanner in application
             String userInput = String.valueOf(statsTest.getUserChoice());
             ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
             System.setIn(transferToByte);
@@ -100,6 +78,17 @@ public class StatsTest implements UnitTest
             assertEquals(expectedValueOfAllStats,statsTest.getArmor());
             assertEquals(expectedValueOfAllStats,statsTest.getCriticalChance());
             assertEquals(expectedValueOfAllStats,statsTest.getAttackRange());
+        }
+        @Test
+    void dualStatsTest()
+        {
+            //given
+            //when
+            int expectedValueOfAllStats=1;
+            statsTest.duelStats();
+            //then
+            assertEquals(expectedValueOfAllStats,statsTest.getDuelHP());
+            assertEquals(expectedValueOfAllStats,statsTest.getDuelMP());
         }
 
 }

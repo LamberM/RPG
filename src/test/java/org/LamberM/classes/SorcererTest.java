@@ -23,12 +23,12 @@ public class SorcererTest extends ClassesTest {
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         // when
-        int expectedMp = sorcererTest.duelStats.getCurrentMP()-20;
+        int expectedMp = sorcererTest.duelStats.getMp()-20;
         sorcererTest.skillsMenu();
-        int expectedHp = enemyTest.enemyDuelStats.getCurrentHP() - sorcererTest.getDamage();
+        int expectedHp = enemyTest.enemyDuelStats.getHp() - sorcererTest.duelStats.getDamage();
         // then
-        assertEquals(expectedHp,enemyTest.enemyDuelStats.getCurrentHP());
-        assertEquals(expectedMp,sorcererTest.duelStats.getCurrentMP());
+        assertEquals(expectedHp,enemyTest.enemyDuelStats.getHp());
+        assertEquals(expectedMp,sorcererTest.duelStats.getMp());
     }
     @Test
     void snowBallTest()
@@ -39,12 +39,12 @@ public class SorcererTest extends ClassesTest {
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         // when
-        int expectedMp = sorcererTest.duelStats.getCurrentMP()-30;
+        int expectedMp = sorcererTest.duelStats.getMp()-30;
         sorcererTest.skillsMenu();
-        int expectedHp = enemyTest.enemyDuelStats.getCurrentHP() - sorcererTest.getDamage();
+        int expectedHp = enemyTest.enemyDuelStats.getHp() - sorcererTest.duelStats.getDamage();
         // then
-        assertEquals(expectedHp,enemyTest.enemyDuelStats.getCurrentHP());
-        assertEquals(expectedMp,sorcererTest.duelStats.getCurrentMP());
+        assertEquals(expectedHp,enemyTest.enemyDuelStats.getHp());
+        assertEquals(expectedMp,sorcererTest.duelStats.getMp());
     }
     @Test
     void frostArmorTest()
@@ -55,12 +55,12 @@ public class SorcererTest extends ClassesTest {
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         // when
-        int expectedArmor = sorcererTest.duelStats.getCurrentArm()+10;
-        int expectedMp = sorcererTest.duelStats.getCurrentMP()-20;
+        int expectedArmor = sorcererTest.duelStats.getArmor()+10;
+        int expectedMp = sorcererTest.duelStats.getMp()-20;
         sorcererTest.skillsMenu();
         //then
-        assertEquals(expectedArmor,sorcererTest.duelStats.getCurrentArm());
-        assertEquals(expectedMp,sorcererTest.duelStats.getCurrentMP());
+        assertEquals(expectedArmor,sorcererTest.duelStats.getArmor());
+        assertEquals(expectedMp,sorcererTest.duelStats.getMp());
     }
 
 }

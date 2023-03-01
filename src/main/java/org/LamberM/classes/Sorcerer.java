@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.LamberM.enemy.Enemy;
 import org.LamberM.game.Game;
-import org.LamberM.stats.DuelStats;
 import org.LamberM.stats.Stats;
 
 import java.util.Scanner;
@@ -14,9 +13,9 @@ public class Sorcerer extends Classes {
     public Sorcerer()
     {
         stats = new Stats(5, 15, 25, 120, 80, 5, 40, 5, 2);
-        stats.setDuelStats();
+        duelStats = stats;
     }
-    DuelStats duelStats = new DuelStats();
+
     @Getter
     @Setter
     private int userChoice;
@@ -36,19 +35,20 @@ public class Sorcerer extends Classes {
         {
             if (heroAttackChanceIsMoreThanEnemyDodgeChance())
             {
-                damage = 30 + (duelStats.getCurrentInt() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                duelStats.setDuelMP((duelStats.getDuelMP() - 20));
+                duelStats.setDamage(30 + (duelStats.getIntelligence() / 5) - (enemy.enemyDuelStats.getArmor() / 20));
                 if (attackIsNotCritical())
                 {
-                    enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
-                    System.out.println("Attack for " + damage);
-                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 25);
+                    enemy.enemyDuelStats.setHp(enemy.enemyDuelStats.getHp() - duelStats.getDamage());
+                    System.out.println("Attack for " + duelStats.getDamage());
+                    enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());
                 }
                 else
                 {
-                    damage = 2 * damage;
-                    enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
-                    System.out.println("Critical attack !!!! for " + damage + "!!!!");
-                    duelStats.setCurrentMP(duelStats.getCurrentMP() - 25);
+                    duelStats.setDamage(2 * duelStats.getDamage());
+                    enemy.enemyDuelStats.setHp(enemy.enemyDuelStats.getHp() - duelStats.getDamage());
+                    System.out.println("Critical attack !!!! for " + duelStats.getDamage() + "!!!!");
+                    enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());
                 }
             }
             else
@@ -65,7 +65,7 @@ public class Sorcerer extends Classes {
     private boolean currentMpIsEnoughAndAttackRangeIsEnough()
     {
         Game game = new Game();
-        return duelStats.getCurrentMP() >= 30 && duelStats.getAttackRange() >= game.getRange();
+        return duelStats.getMp() >= 30 && duelStats.getAttackRange() >= game.getRange();
     }
 //    private boolean enemyWillBeFrozen()
 //    {
@@ -79,19 +79,21 @@ public class Sorcerer extends Classes {
         {
             if (heroAttackChanceIsMoreThanEnemyDodgeChance())
             {
-                damage = 35 + (duelStats.getCurrentInt() / 5) - (enemy.enemyDuelStats.getCurrentArm() / 20);
+                duelStats.setDuelMP((duelStats.getDuelMP() - 20));
+                duelStats.setDamage( 35 + (duelStats.getIntelligence() / 5) - (enemy.enemyDuelStats.getArmor() / 20));
                 if (attackIsNotCritical())
                 {
-                    enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
-                    System.out.println("Attack for " + damage);
+                    enemy.enemyDuelStats.setHp(enemy.enemyDuelStats.getHp() - duelStats.getDamage());
+                    System.out.println("Attack for " + duelStats.getDamage());
+                    enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());
                 }
                 else
                 {
-                    damage = 2 * damage;
-                    enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
-                    System.out.println("Critical attack !!!! for " + damage + "!!!!");
+                    duelStats.setDamage( 2 * duelStats.getDamage());
+
+                    System.out.println("Critical attack !!!! for " + duelStats.getDamage() + "!!!!");
+                    enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());
                 }
-                enemy.enemyDuelStats.setCurrentHP(enemy.enemyDuelStats.getCurrentHP() - damage);
 //                  if (enemyWillBeFrozen())
 //                  {
 //                      System.out.println("You froze enemy, he lost his turn");
@@ -111,9 +113,9 @@ public class Sorcerer extends Classes {
     }
     private void frostArmor()
     {
-        duelStats.setCurrentArm(duelStats.getCurrentArm() + 10);
-        duelStats.setCurrentMP(duelStats.getCurrentMP() - 20);
-        System.out.println(duelStats.getCurrentArm());
+        duelStats.setArmor(duelStats.getArmor() + 10);
+        duelStats.setDuelMP((duelStats.getDuelMP() - 20));
+        System.out.println("I feel freeze");
 //      if (enemyWillBeFrozen())
 //      {
 //        System.out.println("You froze enemy, he lost his turn");

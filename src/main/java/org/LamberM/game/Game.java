@@ -134,7 +134,7 @@ public class Game {
     }
     private boolean heroCurrentMpIsMoreOrEqualTwenty()
     {
-        return myHero.duelStats.getCurrentMP()>=20;
+        return myHero.duelStats.getHp()>=20;
     }
     private boolean heroAttackRangeIsMoreOrEqualGameRange()
     {
