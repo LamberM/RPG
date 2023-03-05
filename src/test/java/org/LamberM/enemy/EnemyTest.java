@@ -3,11 +3,10 @@ package org.LamberM.enemy;
 import org.LamberM.UnitTest;
 import org.LamberM.classes.MyClass;
 import org.LamberM.game.Game;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EnemyTest implements UnitTest
 {
@@ -21,35 +20,33 @@ public class EnemyTest implements UnitTest
     void duelStatsTest()
     {
         // given
-        // when
-        int expectedHP=enemyTest.enemyStats.getHp();
+        int expectedHP=enemyTest.enemyStats.getDuelHP();
         int expectedMP=enemyTest.enemyStats.getMp();
+        // when
         enemyTest.duelStats();
         // then
-        assertEquals(expectedHP,enemyTest.enemyDuelStats.getHp());
-        assertEquals(expectedMP,enemyTest.enemyDuelStats.getMp());
+        Assertions.assertEquals(expectedHP,enemyTest.enemyDuelStats.getDuelHP());
+        Assertions.assertEquals(expectedMP,enemyTest.enemyDuelStats.getMp());
     }
     @Test
     void attackTest()
     {
         // given
-
-        // when
         game.setRange(1);
+        int extendedHp = hero.duelStats.getDuelHP() - enemyTest.enemyDuelStats.getDamage();
+        // when
         enemyTest.attack();
-        int extendedHp = hero.duelStats.getHp() - enemyTest.enemyDuelStats.getDamage();
         // then
-        assertEquals(extendedHp,hero.duelStats.getHp());
+        Assertions.assertEquals(extendedHp,hero.duelStats.getDuelHP());
     }
     @Test
     void stepForwardTest()
     {
         // given
-
-        // when
         int expectedRange=2;
+        // when
         enemyTest.attack();
         // then
-        assertEquals(expectedRange,game.getRange());
+        Assertions.assertEquals(expectedRange,enemyTest.game.getRange());
     }
 }

@@ -1,6 +1,7 @@
 package org.LamberM.classes;
 
 import org.LamberM.enemy.Enemy;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -14,6 +15,7 @@ public class SorcererTest extends ClassesTest {
     Sorcerer sorcererTest= new Sorcerer();
     @Mock
     Enemy enemyTest = new Enemy();
+    // testy nie działają poprawnie, ponieważ wartość enemyDualHp się zmienia
     @Test
     void fireBallTest()
     {
@@ -22,13 +24,13 @@ public class SorcererTest extends ClassesTest {
         String userInput = String.valueOf(sorcererTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
+        int expectedMp = sorcererTest.duelStats.getDuelMP()-20;
         // when
-        int expectedMp = sorcererTest.duelStats.getMp()-20;
         sorcererTest.skillsMenu();
-        int expectedHp = enemyTest.enemyDuelStats.getHp() - sorcererTest.duelStats.getDamage();
         // then
-        assertEquals(expectedHp,enemyTest.enemyDuelStats.getHp());
-        assertEquals(expectedMp,sorcererTest.duelStats.getMp());
+        int expectedHp = enemyTest.enemyDuelStats.getDuelHP() - sorcererTest.duelStats.getDamage();
+        Assertions.assertEquals(expectedHp,enemyTest.enemyDuelStats.getDuelHP());
+        Assertions.assertEquals(expectedMp,sorcererTest.duelStats.getDuelMP());
     }
     @Test
     void snowBallTest()
@@ -38,13 +40,13 @@ public class SorcererTest extends ClassesTest {
         String userInput = String.valueOf(sorcererTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
+        int expectedMp = sorcererTest.duelStats.getDuelMP()-30;
         // when
-        int expectedMp = sorcererTest.duelStats.getMp()-30;
         sorcererTest.skillsMenu();
-        int expectedHp = enemyTest.enemyDuelStats.getHp() - sorcererTest.duelStats.getDamage();
         // then
-        assertEquals(expectedHp,enemyTest.enemyDuelStats.getHp());
-        assertEquals(expectedMp,sorcererTest.duelStats.getMp());
+        int expectedHp = enemyTest.enemyDuelStats.getDuelHP() - sorcererTest.duelStats.getDamage();
+        Assertions.assertEquals(expectedHp,enemyTest.enemyDuelStats.getDuelHP());
+        Assertions.assertEquals(expectedMp,sorcererTest.duelStats.getDuelMP());
     }
     @Test
     void frostArmorTest()
@@ -54,13 +56,13 @@ public class SorcererTest extends ClassesTest {
         String userInput = String.valueOf(sorcererTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
-        // when
         int expectedArmor = sorcererTest.duelStats.getArmor()+10;
-        int expectedMp = sorcererTest.duelStats.getMp()-20;
+        int expectedMp = sorcererTest.duelStats.getDuelMP()-20;
+        // when
         sorcererTest.skillsMenu();
         //then
-        assertEquals(expectedArmor,sorcererTest.duelStats.getArmor());
-        assertEquals(expectedMp,sorcererTest.duelStats.getMp());
+        Assertions.assertEquals(expectedArmor,sorcererTest.duelStats.getArmor());
+        Assertions.assertEquals(expectedMp,sorcererTest.duelStats.getDuelMP());
     }
 
 }

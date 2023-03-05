@@ -8,17 +8,14 @@ import org.LamberM.classes.Warrior;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-
 import java.io.ByteArrayInputStream;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
 
 public class GameTest implements UnitTest
 {
+
     @InjectMocks
-    Game gametest = new Game();
+    Game gametest;
     @Mock
     Warrior warriorTest=new Warrior();
     @Mock
@@ -69,6 +66,7 @@ public class GameTest implements UnitTest
         //when
         gametest.mainMenu();
         //then
+
 
     }
     @Test

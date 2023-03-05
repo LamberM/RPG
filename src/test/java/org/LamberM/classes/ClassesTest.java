@@ -6,10 +6,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-
 import java.io.ByteArrayInputStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ClassesTest implements UnitTest
 {
@@ -21,9 +19,9 @@ public class ClassesTest implements UnitTest
     void chanceForAttackOrCriticalAttackTest()
     {
         //given
-        //when
         int unexpectedValue = 0;
-        classesTest.chanceForAttackOrCriticalAttack();
+        //when
+        classesTest.missOrBaseOrCritAttack();
         //then
         Assertions.assertNotEquals(unexpectedValue,classesTest.getHeroChance());
         Assertions.assertNotEquals(unexpectedValue,classesTest.getEnemyChance());
@@ -33,13 +31,13 @@ public class ClassesTest implements UnitTest
     void restTest()
     {
         //given
-        //when
         int expectedHP = classesTest.duelStats.getHp();
         int expectedMP = classesTest.duelStats.getMp();
+        //when
         classesTest.rest();
         //then
-        assertEquals(expectedHP,classesTest.duelStats.getDuelHP());
-        assertEquals(expectedMP,classesTest.duelStats.getDuelMP());
+        Assertions.assertEquals(expectedHP,classesTest.duelStats.getDuelHP());
+        Assertions.assertEquals(expectedMP,classesTest.duelStats.getDuelMP());
 
     }
     @Test
@@ -52,9 +50,9 @@ public class ClassesTest implements UnitTest
         System.setIn(transferToByte);
         // when
         classesTest.attackMenu();
-        int extendedHp = enemyTest.enemyDuelStats.getDuelHP() - classesTest.duelStats.getDamage();
         // then
-        assertEquals(extendedHp,enemyTest.enemyDuelStats.getDuelHP());
+        int extendedHp = enemyTest.enemyDuelStats.getDuelHP() - classesTest.duelStats.getDamage();
+        Assertions.assertEquals(extendedHp,enemyTest.enemyDuelStats.getDuelHP());
     }
     @Test
     void strongAttackTest()
@@ -66,8 +64,8 @@ public class ClassesTest implements UnitTest
         System.setIn(transferToByte);
         // when
         classesTest.attackMenu();
-        int extendedHp = enemyTest.enemyDuelStats.getHp() - classesTest.duelStats.getDamage();
         // then
-        assertEquals(extendedHp,enemyTest.enemyDuelStats.getHp());
+        int extendedHp = enemyTest.enemyDuelStats.getHp() - classesTest.duelStats.getDamage();
+        Assertions.assertEquals(extendedHp,enemyTest.enemyDuelStats.getHp());
     }
 }

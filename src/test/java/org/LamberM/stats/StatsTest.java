@@ -3,10 +3,7 @@ package org.LamberM.stats;
 import org.LamberM.UnitTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-
-
 import java.io.ByteArrayInputStream;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StatsTest implements UnitTest
@@ -22,10 +19,9 @@ public class StatsTest implements UnitTest
             String userInput = String.valueOf(statsTest.getUserChoice());
             ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
             System.setIn(transferToByte);
-            // when
             int expectedStr = statsTest.getStrength()+5;
+            // when
             statsTest.addStats();
-
             // then
             assertEquals(expectedStr,statsTest.getStrength());
         }
@@ -38,10 +34,9 @@ public class StatsTest implements UnitTest
             String userInput = String.valueOf(statsTest.getUserChoice());
             ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
             System.setIn(transferToByte);
-            // when
             int expectedDex = statsTest.getDexterity()+5;
+            // when
             statsTest.addStats();
-
             // then
             assertEquals(expectedDex,statsTest.getDexterity());
         }
@@ -54,10 +49,9 @@ public class StatsTest implements UnitTest
             String userInput = String.valueOf(statsTest.getUserChoice());
             ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
             System.setIn(transferToByte);
-            // when
             int expectedInt = statsTest.getIntelligence()+5;
+            // when
             statsTest.addStats();
-
             // then
             assertEquals(expectedInt,statsTest.getIntelligence());
         }
@@ -65,8 +59,8 @@ public class StatsTest implements UnitTest
         void showStatsTest()
         {
             // given
-            // when
             int expectedValueOfAllStats=1;
+            // when
             statsTest.showStats();
             // then
             assertEquals(expectedValueOfAllStats,statsTest.getStrength());
@@ -83,8 +77,8 @@ public class StatsTest implements UnitTest
     void dualStatsTest()
         {
             //given
-            //when
             int expectedValueOfAllStats=1;
+            //when
             statsTest.duelStats();
             //then
             assertEquals(expectedValueOfAllStats,statsTest.getDuelHP());
