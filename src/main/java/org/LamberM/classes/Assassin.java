@@ -17,21 +17,15 @@ public class Assassin extends Classes {
     @Getter
     @Setter
     private int userChoice;
-    private boolean userPickWillBeGood()
+    private boolean userPickIsWrong()
     {
         return userChoice < 1 || userChoice > 4;
     }
-    private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
-    {
-        Game game = new Game();
-        return duelStats.getAttackRange()<=game.getRange();
-    }
+
     private void hitInTheBack()
     {
         Enemy enemy = new Enemy();
-        if (enemyAttackRangeIsMoreOrEqualsGameRange() )
-        {
-            if (heroAttackChanceIsMoreThanEnemyDodgeChance())
+            if (heroCanAttack())
             {
                 duelStats.setDuelMP((duelStats.getDuelMP() - 20));
                 duelStats.setDamage( 30 + (duelStats.getDexterity() / 5) - (enemy.enemyDuelStats.getArmor() / 20));
@@ -52,12 +46,6 @@ public class Assassin extends Classes {
             {
                 System.out.println("You missed");
             }
-
-        }
-        else
-        {
-            System.out.println("Your attack range is too small");
-        }
     }
     private void boostDodgeAndDexterity()
     {
@@ -67,17 +55,17 @@ public class Assassin extends Classes {
         duelStats.setDuelMP(duelStats.getDuelMP() - 20);
         System.out.println("I'm feeling agile like ninja");
     }
-    private boolean currentMpIsEnoughAndAttackRangeIsEnough()
+    private boolean currentMpIsEnough()
     {
         Game game = new Game();
-        return duelStats.getMp() >= 30 && duelStats.getAttackRange() >= game.getRange();
+        return duelStats.getMp() >= 30;
     }
     private void criticalAttack()
     {
         Enemy enemy = new Enemy();
-        if (currentMpIsEnoughAndAttackRangeIsEnough())
+        if (currentMpIsEnough())
         {
-            if (heroAttackChanceIsMoreThanEnemyDodgeChance())
+            if (heroCanAttack())
             {
                 duelStats.setDamage( 40 + (duelStats.getDexterity() / 5) - (enemy.enemyDuelStats.getArmor() / 20));
                 System.out.println("Attack for " + duelStats.getDamage());
@@ -93,7 +81,7 @@ public class Assassin extends Classes {
         }
         else
         {
-            System.out.println("You don't have enough mana point or your attack range is too small");
+            System.out.println("You don't have enough mana point");
             skillsMenu();
         }
     }
@@ -101,7 +89,7 @@ public class Assassin extends Classes {
     {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
-        if (userPickWillBeGood())
+        if (userPickIsWrong())
         {
             System.out.println("You entered the wrong number. Try again");
             skillsMenu();
@@ -120,7 +108,7 @@ public class Assassin extends Classes {
     @Override
     public void skillsMenu()
     {
-        chanceForAttackOrCriticalAttack();
+        missOrBaseOrCritAttack();
 
         System.out.println("1.Hit in the back (20MP)");
         System.out.println("2.Boost dodge and dexterity (20MP)");

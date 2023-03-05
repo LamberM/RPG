@@ -13,26 +13,26 @@ public class Enemy{
         enemyStats = new Stats(20, 15, 10, 200, 0, 5, 200, 5,1);
         enemyDuelStats=enemyStats;
     }
-    public Stats enemyStats;
+    Game game = new Game();
+    Stats enemyStats;
     public Stats enemyDuelStats;
     private MyClass hero = new MyClass();
     private int heroChance;
     private int enemyChance;
     private int critChance;
 
-    private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
+    private boolean enemyHaveAttackRange()
     {
-        Game game = new Game();
         return enemyDuelStats.getAttackRange() >= game.getRange();
     }
-    private void chanceForAttackOrCriticalAttack()
+    private void missOrAttackOrCrit()
     {
         Random draw = new Random();
         heroChance=hero.duelStats.getDodge() + draw.nextInt(101);
         enemyChance=enemyDuelStats.getDexterity()+ draw.nextInt(101);
         critChance=enemyDuelStats.getCriticalChance() + draw.nextInt(101);
     }
-    private boolean enemyAttackChanceIsMoreThanHeroDodgeChance()
+    private boolean enemyCanAttack()
     {
         return enemyChance>heroChance;
     }
@@ -43,11 +43,11 @@ public class Enemy{
     public void attack()
     {
         System.out.println("Enemy");
-        if (enemyAttackRangeIsMoreOrEqualsGameRange())
+        if (enemyHaveAttackRange())
         {
-            chanceForAttackOrCriticalAttack();
+            missOrAttackOrCrit();
 
-            if (enemyAttackChanceIsMoreThanHeroDodgeChance())
+            if (enemyCanAttack())
             {
                 enemyDuelStats.setDamage( enemyDuelStats.getStrength() + enemyDuelStats.getDexterity() + enemyDuelStats.getIntelligence() - (hero.duelStats.getArmor() / 10));
                 if (attackIsNotCritical())
@@ -87,7 +87,6 @@ public class Enemy{
 
     private void stepForward()
     {
-        Game game = new Game();
         game.setRange(game.getRange()-1);
     }
 

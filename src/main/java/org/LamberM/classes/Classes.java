@@ -23,7 +23,7 @@ public abstract class Classes{
         stats.showStats();
     }
 
-    public void duelStats()
+    public void statsInDuel()
     {
         System.out.println("My hero");
         duelStats.duelStats();
@@ -32,7 +32,7 @@ public abstract class Classes{
     {
         stats.addStats();
     }
-    private boolean heroCurrentHpAndMpWillBeMoreThanMaxHpAndMp()
+    private boolean currentHpIsMoreThanMax()
     {
         return duelStats.getDuelHP() > duelStats.getHp() || duelStats.getDuelMP() > duelStats.getMp();
     }
@@ -40,7 +40,7 @@ public abstract class Classes{
     {
         duelStats.setDuelHP(duelStats.getDuelHP() + 20);
         duelStats.setDuelMP(duelStats.getDuelMP() + 20);
-        if (heroCurrentHpAndMpWillBeMoreThanMaxHpAndMp())
+        if (currentHpIsMoreThanMax())
         {
             duelStats.setDuelHP(duelStats.getHp());
             duelStats.setDuelMP(duelStats.getMp());
@@ -52,7 +52,7 @@ public abstract class Classes{
         }
     }
     ///////////////////// functions use in Assassin, Sorcerer, Warrior ////////////////////////////
-    void chanceForAttackOrCriticalAttack()
+    void missOrBaseOrCritAttack()
     {
         Random draw = new Random();
         Enemy enemy= new Enemy();
@@ -60,7 +60,7 @@ public abstract class Classes{
         enemyChance=enemy.enemyDuelStats.getDodge() + draw.nextInt(101);
         critChance= duelStats.getCriticalChance() + draw.nextInt(101);
     }
-    boolean heroAttackChanceIsMoreThanEnemyDodgeChance()
+    boolean heroCanAttack()
     {
         return heroChance>enemyChance;
     }
@@ -95,9 +95,9 @@ public abstract class Classes{
         Enemy enemy= new Enemy();
         System.out.println("My hero: ");
 
-        chanceForAttackOrCriticalAttack();
+        missOrBaseOrCritAttack();
 
-        if (heroAttackChanceIsMoreThanEnemyDodgeChance())
+        if (heroCanAttack())
         {
             duelStats.setDamage((duelStats.getStrength()+ (duelStats.getDexterity())) - (enemy.enemyDuelStats.getArmor() / 20));
 
@@ -122,9 +122,9 @@ public abstract class Classes{
         Enemy enemy= new Enemy();
         System.out.println("My hero: ");
 
-        chanceForAttackOrCriticalAttack();
+        missOrBaseOrCritAttack();
 
-        if (heroAttackChanceIsMoreThanEnemyDodgeChance())
+        if (heroCanAttack())
         {
             duelStats.setDamage(2*((duelStats.getStrength()+ (duelStats.getDexterity())) - (enemy.enemyDuelStats.getArmor() / 20)));
             if (attackIsNotCritical())

@@ -3,7 +3,6 @@ package org.LamberM.classes;
 import lombok.Getter;
 import lombok.Setter;
 import org.LamberM.enemy.Enemy;
-import org.LamberM.game.Game;
 import org.LamberM.stats.Stats;
 
 import java.util.Scanner;
@@ -17,15 +16,11 @@ public class Warrior extends Classes {
     @Getter
     @Setter
     private int userChoice;
-    private boolean userPickIsBad()
+    private boolean userPickIsWrong()
     {
         return userChoice < 1 || userChoice > 4;
     }
-    private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
-    {
-        Game game = new Game();
-        return duelStats.getAttackRange()>=game.getRange();
-    }
+
     private void battleCry()
     {
         duelStats.setStrength(duelStats.getStrength() + 10);
@@ -45,11 +40,9 @@ public class Warrior extends Classes {
     private void doubleAttack()
     {
         Enemy enemy = new Enemy();
-        if (enemyAttackRangeIsMoreOrEqualsGameRange())
-        {
-            if (heroAttackChanceIsMoreThanEnemyDodgeChance())
+        duelStats.setDuelMP((duelStats.getDuelMP() - 20));
+            if (heroCanAttack())
             {
-                duelStats.setDuelMP((duelStats.getDuelMP() - 20));
                 duelStats.setDamage( 60 + (duelStats.getStrength() / 5) - (enemy.enemyDuelStats.getArmor() / 20));
                 if (attackIsNotCritical())
                 {
@@ -68,17 +61,12 @@ public class Warrior extends Classes {
                 System.out.println("You missed");
             }
 
-        }
-        else
-        {
-            System.out.println("Your attack range is too small");
-        }
     }
     private void userPick()
     {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
-        if (userPickIsBad())
+        if (userPickIsWrong())
         {
             System.out.println("You entered the wrong number. Try again");
             skillsMenu();
@@ -97,7 +85,7 @@ public class Warrior extends Classes {
     @Override
     public void skillsMenu()
     {
-        chanceForAttackOrCriticalAttack();
+        missOrBaseOrCritAttack();
 
         System.out.println("1.Battle cry (20MP)");
         System.out.println("2.Defensive cry (20MP)");

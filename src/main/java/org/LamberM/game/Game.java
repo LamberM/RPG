@@ -18,8 +18,7 @@ public class Game {
     @Getter
     @Setter
     private int range=3;
-
-    private boolean userPickIsBad()
+    private boolean userPickIsWrong()
     {
         return userChoice <= 0 || userChoice >= 5;
     }
@@ -53,7 +52,7 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
 
-        if (userPickIsBad())
+        if (userPickIsWrong())
         {
             pickClassMenu();
             System.out.println("Try again");
@@ -97,7 +96,7 @@ public class Game {
     {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
-        if (userPickIsBad())
+        if (userPickIsWrong())
         {
             System.out.println("Try again");
             mainMenu();
@@ -132,11 +131,11 @@ public class Game {
             System.out.println("4.Exit the game");
             userPickInMainMenu();
     }
-    private boolean heroCurrentMpIsMoreOrEqualTwenty()
+    private boolean heroCanUseSkills()
     {
-        return myHero.duelStats.getHp()>=20;
+        return myHero.duelStats.getDuelMP()>=20;
     }
-    private boolean heroAttackRangeIsMoreOrEqualGameRange()
+    private boolean heroCanAttack()
     {
         return range <= myHero.duelStats.getAttackRange();
     }
@@ -145,9 +144,9 @@ public class Game {
         Enemy enemy = new Enemy();
         Scanner scanner = new Scanner(System.in);
         enemy.duelStats();
-        myHero.duelStats();
+        myHero.statsInDuel();
         userChoice = scanner.nextInt();
-        if (userPickIsBad())
+        if (userPickIsWrong())
         {
             System.out.println("You entered the wrong number. Try again");
             duelMenu();
@@ -158,7 +157,7 @@ public class Game {
             {
                 case 1 ->
                 {
-                    if (heroAttackRangeIsMoreOrEqualGameRange())
+                    if (heroCanAttack())
                     {
                         myHero.attackMenu();
                         enemy.attack();
@@ -172,7 +171,7 @@ public class Game {
                 }
                 case 2 ->
                 {
-                    if (heroCurrentMpIsMoreOrEqualTwenty())
+                    if (heroCanUseSkills())
                     {
                         myHero.skillsMenu();
                         enemy.attack();

@@ -50,7 +50,7 @@ public class Stats
     {
         return getLvl() == getLvl_to_compare();
     }
-    private boolean userPickWillBeGood()
+    private boolean userPickIsWrong()
     {
         return userChoice <= 0 || userChoice >= 5;
     }
@@ -113,7 +113,7 @@ public class Stats
     {
         Scanner scanner = new Scanner(System.in);
         userChoice = scanner.nextInt();
-        if (userPickWillBeGood())
+        if (userPickIsWrong())
         {
             System.out.println("Your number pick is wrong. Try again");
             addStats();

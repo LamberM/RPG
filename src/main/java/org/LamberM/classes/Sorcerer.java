@@ -4,7 +4,6 @@ package org.LamberM.classes;
 import lombok.Getter;
 import lombok.Setter;
 import org.LamberM.enemy.Enemy;
-import org.LamberM.game.Game;
 import org.LamberM.stats.Stats;
 
 import java.util.Scanner;
@@ -23,32 +22,24 @@ public class Sorcerer extends Classes {
     {
         return userChoice < 1 || userChoice > 4;
     }
-    private boolean enemyAttackRangeIsMoreOrEqualsGameRange()
-    {
-        Game game = new Game();
-        return duelStats.getAttackRange()>=game.getRange();
-    }
+
     private void fireBall()
     {
         Enemy enemy = new Enemy();
-        if (enemyAttackRangeIsMoreOrEqualsGameRange())
-        {
-            if (heroAttackChanceIsMoreThanEnemyDodgeChance())
+        duelStats.setDuelMP(duelStats.getDuelMP() - 20);
+            if (heroCanAttack())
             {
-                duelStats.setDuelMP((duelStats.getDuelMP() - 20));
                 duelStats.setDamage(30 + (duelStats.getIntelligence() / 5) - (enemy.enemyDuelStats.getArmor() / 20));
                 if (attackIsNotCritical())
                 {
-                    enemy.enemyDuelStats.setHp(enemy.enemyDuelStats.getHp() - duelStats.getDamage());
-                    System.out.println("Attack for " + duelStats.getDamage());
                     enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());
+                    System.out.println("Attack for " + duelStats.getDamage());
                 }
                 else
                 {
                     duelStats.setDamage(2 * duelStats.getDamage());
-                    enemy.enemyDuelStats.setHp(enemy.enemyDuelStats.getHp() - duelStats.getDamage());
-                    System.out.println("Critical attack !!!! for " + duelStats.getDamage() + "!!!!");
                     enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());
+                    System.out.println("Critical attack !!!! for " + duelStats.getDamage() + "!!!!");
                 }
             }
             else
@@ -56,16 +47,10 @@ public class Sorcerer extends Classes {
                 System.out.println("You missed");
             }
 
-        }
-        else
-        {
-            System.out.println("Your attack range is too small");
-        }
     }
-    private boolean currentMpIsEnoughAndAttackRangeIsEnough()
+    private boolean currentMpIsEnoughToUseSnowBall()
     {
-        Game game = new Game();
-        return duelStats.getMp() >= 30 && duelStats.getAttackRange() >= game.getRange();
+        return duelStats.getDuelMP() >= 30;
     }
 //    private boolean enemyWillBeFrozen()
 //    {
@@ -75,11 +60,11 @@ public class Sorcerer extends Classes {
     private void snowBall()
     {
         Enemy enemy = new Enemy();
-        if (currentMpIsEnoughAndAttackRangeIsEnough())
+        if (currentMpIsEnoughToUseSnowBall())
         {
-            if (heroAttackChanceIsMoreThanEnemyDodgeChance())
+            duelStats.setDuelMP(duelStats.getDuelMP() - 30);
+            if (heroCanAttack())
             {
-                duelStats.setDuelMP((duelStats.getDuelMP() - 20));
                 duelStats.setDamage( 35 + (duelStats.getIntelligence() / 5) - (enemy.enemyDuelStats.getArmor() / 20));
                 if (attackIsNotCritical())
                 {
@@ -107,7 +92,7 @@ public class Sorcerer extends Classes {
         }
         else
         {
-            System.out.println("You don't have enough mana point or your attack range is too small");
+            System.out.println("You don't have enough mana point");
             userPick();
         }
     }
@@ -145,7 +130,7 @@ public class Sorcerer extends Classes {
     @Override
     public void skillsMenu()
     {
-        chanceForAttackOrCriticalAttack();
+        missOrBaseOrCritAttack();
 
         System.out.println("1.Fire ball (20MP)");
         System.out.println("2.Snow ball (30MP)");
