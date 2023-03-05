@@ -1,10 +1,9 @@
 # RPG
-This is my RPG home project where I'm learning java and basic implements.
+This is my RPG home project where I'm learning java.
 
 ## TODO
-- make better test
-- repair range in the game
-- repair damage
+- make better test 
+- repair GameTest
 - add fight winner
 - add hero levels
 - add exp
