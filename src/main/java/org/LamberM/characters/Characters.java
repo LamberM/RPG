@@ -1,37 +1,15 @@
-package org.LamberM.classes;
+package org.LamberM.characters;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.LamberM.enemy.Enemy;
 import org.LamberM.stats.Stats;
 
 import java.util.Random;
-import java.util.Scanner;
-@Getter
-public abstract class Classes{
 
+public abstract class Characters {
     public Stats stats= new Stats(10,10,10,50,30,10,10,10,1);
     public Stats duelStats= stats;
     private int heroChance;
     private int enemyChance;
     private int critChance;
-    @Setter
-    private int userChoice;
-
-    public void showStats()
-    {
-        stats.showStats();
-    }
-
-    public void statsInDuel()
-    {
-        System.out.println("My hero");
-        duelStats.duelStats();
-    }
-    public void lvlUP()
-    {
-        stats.addStats();
-    }
     private boolean currentHpIsMoreThanMax()
     {
         return duelStats.getDuelHP() > duelStats.getHp() || duelStats.getDuelMP() > duelStats.getMp();
@@ -55,7 +33,6 @@ public abstract class Classes{
     void missOrBaseOrCritAttack()
     {
         Random draw = new Random();
-        Enemy enemy= new Enemy();
         heroChance= duelStats.getDexterity() + draw.nextInt(101);
         enemyChance=enemy.enemyDuelStats.getDodge() + draw.nextInt(101);
         critChance= duelStats.getCriticalChance() + draw.nextInt(101);
@@ -91,7 +68,7 @@ public abstract class Classes{
             }
         }
     }
-    private void attack(){
+    public void attack(){
         Enemy enemy= new Enemy();
         System.out.println("My hero: ");
 
@@ -118,7 +95,7 @@ public abstract class Classes{
             System.out.println("You missed");
         }
     }
-    private void strongAttack(){
+    public void strongAttack(){
         Enemy enemy= new Enemy();
         System.out.println("My hero: ");
 
@@ -151,5 +128,4 @@ public abstract class Classes{
         userPick();
     }
     public void skillsMenu(){}
-
 }

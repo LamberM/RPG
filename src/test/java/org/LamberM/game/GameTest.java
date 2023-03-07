@@ -1,10 +1,9 @@
 package org.LamberM.game;
 
 import org.LamberM.UnitTest;
-import org.LamberM.classes.Assassin;
-import org.LamberM.classes.Classes;
-import org.LamberM.classes.Sorcerer;
-import org.LamberM.classes.Warrior;
+import org.LamberM.characters.Assassin;
+import org.LamberM.characters.Sorcerer;
+import org.LamberM.characters.Warrior;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

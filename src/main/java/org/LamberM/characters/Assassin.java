@@ -1,14 +1,13 @@
-package org.LamberM.classes;
+package org.LamberM.characters;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.LamberM.enemy.Enemy;
 import org.LamberM.game.Game;
 import org.LamberM.stats.Stats;
 
 import java.util.Scanner;
 
-public class Assassin extends Classes {
+public class Assassin extends Characters {
     public Assassin()
     {
         stats = new Stats(15, 20, 10, 150, 40, 10, 60, 10, 1);
@@ -29,7 +28,7 @@ public class Assassin extends Classes {
             {
                 duelStats.setDuelMP((duelStats.getDuelMP() - 20));
                 duelStats.setDamage( 30 + (duelStats.getDexterity() / 5) - (enemy.enemyDuelStats.getArmor() / 20));
-                if (attackIsNotCritical())
+                if (heroAttackIsNotCritical())
                 {
                     System.out.println("Attack for " + duelStats.getDamage());
                     enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());

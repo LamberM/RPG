@@ -1,36 +1,17 @@
 package org.LamberM.stats;
 
-import org.LamberM.game.Game;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Scanner;
 @Getter
 @Setter
-public class Stats
-{
-    //////////////////// all about lvling, exping, adding stats ////////////////////////////////
-    private int exp = 0;
-    private int lvl = 1;
-    private int lvl_to_compare = 2;
-    private int currentPoints;
-    private int userChoice;
-    private int damage;
-    /////////////////////////// General Stats //////////////////////////////////////////////////
-    private int hp;
-    private int mp;
-    private int duelHP;
-    private int duelMP;
-    private int strength;
-    private int dexterity;
-    private int intelligence;
-    private int armor;
-    private int dodge;
-    private int criticalChance;
-    private int attackRange;
-
+public class Stats {
     public Stats(int strength, int dexterity, int intelligence, int hp, int mp, int dodge, int armor, int criticalChance, int attackRange)
     {
+        if (!correctValues())
+        {
+            throw new IllegalArgumentException("Stats can't be less than 0");
+        }
         this.strength = strength;
         this.dexterity = dexterity;
         this.intelligence = intelligence;
@@ -43,104 +24,21 @@ public class Stats
         this.criticalChance = criticalChance;
         this.attackRange = attackRange;
     }
+    private int hp;
+    private int mp;
+    private int duelHP;
+    private int duelMP;
+    private int strength;
+    private int dexterity;
+    private int intelligence;
+    private int armor;
+    private int dodge;
+    private int criticalChance;
+    private int attackRange;
 
-    ////////////////////////// add stats after lvl up ////////////////////////////////////////////
-
-    private boolean getLvlUp()
+   private boolean correctValues()
     {
-        return getLvl() == getLvl_to_compare();
-    }
-    private boolean userPickIsWrong()
-    {
-        return userChoice <= 0 || userChoice >= 5;
-    }
-    private boolean currentPointsIsNull()
-    {
-        return currentPoints == 0;
-    }
-    private void addStrength()
-    {
-        Game game = new Game();
-        setStrength(this.strength + 5);
-        System.out.println("Strength: " + getStrength());
-        currentPoints = currentPoints - 5;
-        if (currentPointsIsNull())
-        {
-            System.out.println("You don't have enough points");
-            game.mainMenu();
-        }
-    }
-    private void addDexterity()
-    {
-        Game game = new Game();
-        setDexterity(this.dexterity + 5);
-        System.out.println("Dexterity: " + getDexterity());
-        currentPoints = currentPoints - 5;
-        if (currentPointsIsNull())
-        {
-            System.out.println("You don't have enough points");
-            game.mainMenu();
-        }
-    }
-    private void addIntelligence()
-    {
-        Game game = new Game();
-        setIntelligence(this.intelligence + 5);
-        System.out.println("Intelligence:" + getIntelligence());
-        currentPoints = currentPoints - 5;
-        if (currentPointsIsNull())
-        {
-            System.out.println("You don't have enough points");
-            game.mainMenu();
-        }
-    }
-    private void menuForAddingStats()
-    {
-        currentPoints =10;
-        System.out.println("Your experience points " + currentPoints);
-        System.out.println("Your stats for change:");
-        System.out.println("Strength: " + getStrength());
-        System.out.println("Dexterity: " + getDexterity());
-        System.out.println("Intelligence: " + getIntelligence());
-        System.out.println("Add stats points");
-        System.out.println("1.Strength (cost=5pts)");
-        System.out.println("2.Dexterity (cost=5pts)");
-        System.out.println("3.Intelligence (cost=5pts)");
-        System.out.println("4.Back to the menu");
-
-    }
-    private void userPick()
-    {
-        Scanner scanner = new Scanner(System.in);
-        userChoice = scanner.nextInt();
-        if (userPickIsWrong())
-        {
-            System.out.println("Your number pick is wrong. Try again");
-            addStats();
-        }
-        else
-        {
-            switch (userChoice)
-            {
-                case 1 -> addStrength();
-                case 2 -> addDexterity();
-                case 3 -> addIntelligence();
-                case 4 -> System.out.println("Back to menu");
-            }
-        }
-    }
-
-    public void addStats()
-    {
-        if (getLvlUp())
-        {
-            menuForAddingStats();
-            userPick();
-        }
-        else
-        {
-            System.out.println("You need " + (100 - getExp()) + " experience points to next level");
-        }
+        return strength > 0 && dexterity > 0 && intelligence > 0 && hp > 0 && mp > 0 && dodge > 0 && armor > 0 && criticalChance > 0 && attackRange > 0;
     }
     public void showStats()
     {
@@ -152,9 +50,5 @@ public class Stats
         System.out.println("Dodge: " + this.dodge);
         System.out.println("Armor: " + this.armor);
         System.out.println("Critical attack chance: " + this.criticalChance);
-    }
-    public void duelStats()
-    {
-        System.out.println("HP: " + duelHP + " MP: " + duelMP);
     }
 }

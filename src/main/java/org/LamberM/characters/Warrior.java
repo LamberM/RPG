@@ -1,26 +1,13 @@
-package org.LamberM.classes;
+package org.LamberM.characters;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.LamberM.enemy.Enemy;
 import org.LamberM.stats.Stats;
 
-import java.util.Scanner;
-
-public class Warrior extends Classes {
+public class Warrior extends Characters {
     public Warrior()
     {
         stats = new Stats(20, 15, 10, 200, 40, 5, 100, 5, 1);
         duelStats = stats;
     }
-    @Getter
-    @Setter
-    private int userChoice;
-    private boolean userPickIsWrong()
-    {
-        return userChoice < 1 || userChoice > 4;
-    }
-
     private void battleCry()
     {
         duelStats.setStrength(duelStats.getStrength() + 10);
@@ -44,7 +31,7 @@ public class Warrior extends Classes {
             if (heroCanAttack())
             {
                 duelStats.setDamage( 60 + (duelStats.getStrength() / 5) - (enemy.enemyDuelStats.getArmor() / 20));
-                if (attackIsNotCritical())
+                if (heroAttackIsNotCritical())
                 {
                     System.out.println("Attack for " + duelStats.getDamage());
                     enemy.enemyDuelStats.setDuelHP(enemy.enemyDuelStats.getDuelHP() - duelStats.getDamage());
@@ -62,26 +49,6 @@ public class Warrior extends Classes {
             }
 
     }
-    private void userPick()
-    {
-        Scanner scanner = new Scanner(System.in);
-        userChoice = scanner.nextInt();
-        if (userPickIsWrong())
-        {
-            System.out.println("You entered the wrong number. Try again");
-            skillsMenu();
-        }
-        else
-        {
-            switch (userChoice)
-            {
-                case 1 -> battleCry();
-                case 2 -> defensiveCry();
-                case 3 -> doubleAttack();
-                case 4 -> System.out.println("Back to menu");
-            }
-        }
-    }
     @Override
     public void skillsMenu()
     {
@@ -91,6 +58,12 @@ public class Warrior extends Classes {
         System.out.println("2.Defensive cry (20MP)");
         System.out.println("3.Double attack (20MP)");
         System.out.println("4.Back to menu");
-        userPick();
+        switch (userChoice)
+        {
+            case 1 -> battleCry();
+            case 2 -> defensiveCry();
+            case 3 -> doubleAttack();
+            case 4 -> System.out.println("Back to menu");
+        }
     }
 }
