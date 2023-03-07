@@ -12,57 +12,57 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SorcererTest extends ClassesTest {
     @InjectMocks
-    Sorcerer sorcererTest= new Sorcerer();
+    Sorcerer systemUnderTest;
     @Mock
-    Enemy enemyTest = new Enemy();
+    Enemy enemy;
     // testy nie działają poprawnie, ponieważ wartość enemyDualHp się zmienia
     @Test
     void fireBallTest()
     {
         // given
-        sorcererTest.setUserChoice(1); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(sorcererTest.getUserChoice());
+        systemUnderTest.setUserChoice(1); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(systemUnderTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
-        int expectedMp = sorcererTest.duelStats.getDuelMP()-20;
+        int expectedMp = systemUnderTest.duelStats.getDuelMP()-20;
         // when
-        sorcererTest.skillsMenu();
+        systemUnderTest.skillsMenu();
         // then
-        int expectedHp = enemyTest.enemyDuelStats.getDuelHP() - sorcererTest.duelStats.getDamage();
-        Assertions.assertEquals(expectedHp,enemyTest.enemyDuelStats.getDuelHP());
-        Assertions.assertEquals(expectedMp,sorcererTest.duelStats.getDuelMP());
+        int expectedHp = enemy.enemyDuelStats.getDuelHP() - systemUnderTest.duelStats.getDamage();
+        Assertions.assertEquals(expectedHp, enemy.enemyDuelStats.getDuelHP());
+        Assertions.assertEquals(expectedMp, systemUnderTest.duelStats.getDuelMP());
     }
     @Test
     void snowBallTest()
     {
         // given
-        sorcererTest.setUserChoice(2); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(sorcererTest.getUserChoice());
+        systemUnderTest.setUserChoice(2); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(systemUnderTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
-        int expectedMp = sorcererTest.duelStats.getDuelMP()-30;
+        int expectedMp = systemUnderTest.duelStats.getDuelMP()-30;
         // when
-        sorcererTest.skillsMenu();
+        systemUnderTest.skillsMenu();
         // then
-        int expectedHp = enemyTest.enemyDuelStats.getDuelHP() - sorcererTest.duelStats.getDamage();
-        Assertions.assertEquals(expectedHp,enemyTest.enemyDuelStats.getDuelHP());
-        Assertions.assertEquals(expectedMp,sorcererTest.duelStats.getDuelMP());
+        int expectedHp = enemy.enemyDuelStats.getDuelHP() - systemUnderTest.duelStats.getDamage();
+        Assertions.assertEquals(expectedHp, enemy.enemyDuelStats.getDuelHP());
+        Assertions.assertEquals(expectedMp, systemUnderTest.duelStats.getDuelMP());
     }
     @Test
     void frostArmorTest()
     {
         // given
-        sorcererTest.setUserChoice(3); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(sorcererTest.getUserChoice());
+        systemUnderTest.setUserChoice(3); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(systemUnderTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
-        int expectedArmor = sorcererTest.duelStats.getArmor()+10;
-        int expectedMp = sorcererTest.duelStats.getDuelMP()-20;
+        int expectedArmor = systemUnderTest.duelStats.getArmor()+10;
+        int expectedMp = systemUnderTest.duelStats.getDuelMP()-20;
         // when
-        sorcererTest.skillsMenu();
+        systemUnderTest.skillsMenu();
         //then
-        Assertions.assertEquals(expectedArmor,sorcererTest.duelStats.getArmor());
-        Assertions.assertEquals(expectedMp,sorcererTest.duelStats.getDuelMP());
+        Assertions.assertEquals(expectedArmor, systemUnderTest.duelStats.getArmor());
+        Assertions.assertEquals(expectedMp, systemUnderTest.duelStats.getDuelMP());
     }
 
 }

@@ -9,59 +9,59 @@ import java.io.ByteArrayInputStream;
 
 public class AssassinTest extends ClassesTest {
     @InjectMocks
-    Assassin assassinTest= new Assassin();
+    Assassin systemUnderTest;
     @Mock
-    Enemy enemyTest = new Enemy();
+    Enemy enemy;
     @Test
     void hitInTheBackTest()
     {
         // given
-        assassinTest.setUserChoice(1); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(assassinTest.getUserChoice());
+        systemUnderTest.setUserChoice(1); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(systemUnderTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
-        int expectedMp = assassinTest.duelStats.getDuelMP()-20;
+        int expectedMp = systemUnderTest.duelStats.getDuelMP()-20;
         // when
-        assassinTest.skillsMenu();
+        systemUnderTest.skillsMenu();
         // then
-        int expectedHp = enemyTest.enemyDuelStats.getDuelHP() - assassinTest.duelStats.getDamage();
-        Assertions.assertEquals(expectedHp,enemyTest.enemyDuelStats.getDuelHP());
-        Assertions.assertEquals(expectedMp,assassinTest.duelStats.getDuelMP());
+        int expectedHp = enemy.enemyDuelStats.getDuelHP() - systemUnderTest.duelStats.getDamage();
+        Assertions.assertEquals(expectedHp, enemy.enemyDuelStats.getDuelHP());
+        Assertions.assertEquals(expectedMp, systemUnderTest.duelStats.getDuelMP());
     }
     @Test
     void boostDodgeAndDexterityTest()
     {
         // given
-        assassinTest.setUserChoice(2); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(assassinTest.getUserChoice());
+        systemUnderTest.setUserChoice(2); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(systemUnderTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
-        int expectedDex = assassinTest.duelStats.getDexterity()+10;
-        int expectedDodge = assassinTest.duelStats.getDodge() + 5;
-        int expectedCritC= assassinTest.duelStats.getCriticalChance()+5;
-        int expectedMp = assassinTest.duelStats.getDuelMP()-20;
+        int expectedDex = systemUnderTest.duelStats.getDexterity()+10;
+        int expectedDodge = systemUnderTest.duelStats.getDodge() + 5;
+        int expectedCritC= systemUnderTest.duelStats.getCriticalChance()+5;
+        int expectedMp = systemUnderTest.duelStats.getDuelMP()-20;
         // when
-        assassinTest.skillsMenu();
+        systemUnderTest.skillsMenu();
         //then
-        Assertions.assertEquals(expectedDex,assassinTest.duelStats.getDexterity());
-        Assertions.assertEquals(expectedDodge,assassinTest.duelStats.getDodge());
-        Assertions.assertEquals(expectedCritC,assassinTest.duelStats.getCriticalChance());
-        Assertions.assertEquals(expectedMp,assassinTest.duelStats.getDuelMP());
+        Assertions.assertEquals(expectedDex, systemUnderTest.duelStats.getDexterity());
+        Assertions.assertEquals(expectedDodge, systemUnderTest.duelStats.getDodge());
+        Assertions.assertEquals(expectedCritC, systemUnderTest.duelStats.getCriticalChance());
+        Assertions.assertEquals(expectedMp, systemUnderTest.duelStats.getDuelMP());
     }
     @Test
     void criticalAttackTest()
     {
         // given
-        assassinTest.setUserChoice(3); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(assassinTest.getUserChoice());
+        systemUnderTest.setUserChoice(3); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(systemUnderTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
-        int expectedMp = assassinTest.duelStats.getDuelMP()-30;
+        int expectedMp = systemUnderTest.duelStats.getDuelMP()-30;
         // when
-        assassinTest.skillsMenu();
+        systemUnderTest.skillsMenu();
         // then
-        int expectedHp = enemyTest.enemyDuelStats.getDuelHP() - assassinTest.duelStats.getDamage();
-        Assertions.assertEquals(expectedHp,enemyTest.enemyDuelStats.getDuelHP());
-        Assertions.assertEquals(expectedMp,assassinTest.duelStats.getDuelMP());
+        int expectedHp = enemy.enemyDuelStats.getDuelHP() - systemUnderTest.duelStats.getDamage();
+        Assertions.assertEquals(expectedHp, enemy.enemyDuelStats.getDuelHP());
+        Assertions.assertEquals(expectedMp, systemUnderTest.duelStats.getDuelMP());
     }
 }

@@ -9,51 +9,51 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class StatsTest implements UnitTest
 {
     @InjectMocks
-    private Stats statsTest = new Stats(1,1,1,1,1,1,1,1,1);
+    private Stats systemUnderTest = new Stats(1,1,1,1,1,1,1,1,1);
         @Test
         void addStrengthTest()
         {
             // given
-            statsTest.setLvl(2); // give us possibility to use addStats (requirement is done)
-            statsTest.setUserChoice(1); // give us possibility to change our scanner in application
-            String userInput = String.valueOf(statsTest.getUserChoice());
+            systemUnderTest.setLvl(2); // give us possibility to use addStats (requirement is done)
+            systemUnderTest.setUserChoice(1); // give us possibility to change our scanner in application
+            String userInput = String.valueOf(systemUnderTest.getUserChoice());
             ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
             System.setIn(transferToByte);
-            int expectedStr = statsTest.getStrength()+5;
+            int expectedStr = systemUnderTest.getStrength()+5;
             // when
-            statsTest.addStats();
+            systemUnderTest.addStats();
             // then
-            assertEquals(expectedStr,statsTest.getStrength());
+            assertEquals(expectedStr, systemUnderTest.getStrength());
         }
         @Test
         void addDexterityTest()
         {
             // given
-            statsTest.setLvl(2); // give us possibility to use addStats (requirement is done)
-            statsTest.setUserChoice(2); // give us possibility to change our scanner in application
-            String userInput = String.valueOf(statsTest.getUserChoice());
+            systemUnderTest.setLvl(2); // give us possibility to use addStats (requirement is done)
+            systemUnderTest.setUserChoice(2); // give us possibility to change our scanner in application
+            String userInput = String.valueOf(systemUnderTest.getUserChoice());
             ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
             System.setIn(transferToByte);
-            int expectedDex = statsTest.getDexterity()+5;
+            int expectedDex = systemUnderTest.getDexterity()+5;
             // when
-            statsTest.addStats();
+            systemUnderTest.addStats();
             // then
-            assertEquals(expectedDex,statsTest.getDexterity());
+            assertEquals(expectedDex, systemUnderTest.getDexterity());
         }
         @Test
         void addIntelligenceTest()
         {
             // given
-            statsTest.setLvl(2); // give us possibility to use addStats (requirement is done)
-            statsTest.setUserChoice(3); // give us possibility to change our scanner in application
-            String userInput = String.valueOf(statsTest.getUserChoice());
+            systemUnderTest.setLvl(2); // give us possibility to use addStats (requirement is done)
+            systemUnderTest.setUserChoice(3); // give us possibility to change our scanner in application
+            String userInput = String.valueOf(systemUnderTest.getUserChoice());
             ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
             System.setIn(transferToByte);
-            int expectedInt = statsTest.getIntelligence()+5;
+            int expectedInt = systemUnderTest.getIntelligence()+5;
             // when
-            statsTest.addStats();
+            systemUnderTest.addStats();
             // then
-            assertEquals(expectedInt,statsTest.getIntelligence());
+            assertEquals(expectedInt, systemUnderTest.getIntelligence());
         }
         @Test
         void showStatsTest()
@@ -61,17 +61,17 @@ public class StatsTest implements UnitTest
             // given
             int expectedValueOfAllStats=1;
             // when
-            statsTest.showStats();
+            systemUnderTest.showStats();
             // then
-            assertEquals(expectedValueOfAllStats,statsTest.getStrength());
-            assertEquals(expectedValueOfAllStats,statsTest.getDexterity());
-            assertEquals(expectedValueOfAllStats,statsTest.getIntelligence());
-            assertEquals(expectedValueOfAllStats,statsTest.getHp());
-            assertEquals(expectedValueOfAllStats,statsTest.getMp());
-            assertEquals(expectedValueOfAllStats,statsTest.getDodge());
-            assertEquals(expectedValueOfAllStats,statsTest.getArmor());
-            assertEquals(expectedValueOfAllStats,statsTest.getCriticalChance());
-            assertEquals(expectedValueOfAllStats,statsTest.getAttackRange());
+            assertEquals(expectedValueOfAllStats, systemUnderTest.getStrength());
+            assertEquals(expectedValueOfAllStats, systemUnderTest.getDexterity());
+            assertEquals(expectedValueOfAllStats, systemUnderTest.getIntelligence());
+            assertEquals(expectedValueOfAllStats, systemUnderTest.getHp());
+            assertEquals(expectedValueOfAllStats, systemUnderTest.getMp());
+            assertEquals(expectedValueOfAllStats, systemUnderTest.getDodge());
+            assertEquals(expectedValueOfAllStats, systemUnderTest.getArmor());
+            assertEquals(expectedValueOfAllStats, systemUnderTest.getCriticalChance());
+            assertEquals(expectedValueOfAllStats, systemUnderTest.getAttackRange());
         }
         @Test
     void dualStatsTest()
@@ -79,10 +79,10 @@ public class StatsTest implements UnitTest
             //given
             int expectedValueOfAllStats=1;
             //when
-            statsTest.duelStats();
+            systemUnderTest.duelStats();
             //then
-            assertEquals(expectedValueOfAllStats,statsTest.getDuelHP());
-            assertEquals(expectedValueOfAllStats,statsTest.getDuelMP());
+            assertEquals(expectedValueOfAllStats, systemUnderTest.getDuelHP());
+            assertEquals(expectedValueOfAllStats, systemUnderTest.getDuelMP());
         }
 
 }

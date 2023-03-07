@@ -11,31 +11,31 @@ import org.mockito.Mock;
 public class EnemyTest implements UnitTest
 {
     @InjectMocks
-    Enemy enemyTest = new Enemy();
+    Enemy systemUnderTest;
     @Mock
-    MyClass hero = new MyClass();
+    MyClass hero;
     @Mock
-    Game game = new Game();
+    Game game;
     @Test
     void duelStatsTest()
     {
         // given
-        int expectedHP=enemyTest.enemyStats.getDuelHP();
-        int expectedMP=enemyTest.enemyStats.getMp();
+        int expectedHP= systemUnderTest.enemyStats.getDuelHP();
+        int expectedMP= systemUnderTest.enemyStats.getMp();
         // when
-        enemyTest.duelStats();
+        systemUnderTest.duelStats();
         // then
-        Assertions.assertEquals(expectedHP,enemyTest.enemyDuelStats.getDuelHP());
-        Assertions.assertEquals(expectedMP,enemyTest.enemyDuelStats.getMp());
+        Assertions.assertEquals(expectedHP, systemUnderTest.enemyDuelStats.getDuelHP());
+        Assertions.assertEquals(expectedMP, systemUnderTest.enemyDuelStats.getMp());
     }
     @Test
     void attackTest()
     {
         // given
         game.setRange(1);
-        int extendedHp = hero.duelStats.getDuelHP() - enemyTest.enemyDuelStats.getDamage();
+        int extendedHp = hero.duelStats.getDuelHP() - systemUnderTest.enemyDuelStats.getDamage();
         // when
-        enemyTest.attack();
+        systemUnderTest.attack();
         // then
         Assertions.assertEquals(extendedHp,hero.duelStats.getDuelHP());
     }
@@ -45,8 +45,8 @@ public class EnemyTest implements UnitTest
         // given
         int expectedRange=2;
         // when
-        enemyTest.attack();
+        systemUnderTest.attack();
         // then
-        Assertions.assertEquals(expectedRange,enemyTest.game.getRange());
+        Assertions.assertEquals(expectedRange, systemUnderTest.game.getRange());
     }
 }

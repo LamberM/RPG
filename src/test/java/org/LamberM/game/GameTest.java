@@ -15,13 +15,13 @@ public class GameTest implements UnitTest
 {
 
     @InjectMocks
-    Game gametest;
+    Game systemUnderTest;
     @Mock
-    Warrior warriorTest=new Warrior();
+    Warrior warrior;
     @Mock
-    Assassin assassinTest= new Assassin();
+    Assassin assassin;
     @Mock
-    Sorcerer sorcererTest= new Sorcerer();
+    Sorcerer sorcerer;
     @Mock
     Classes myHero = new Sorcerer(); // pick random class
 
@@ -33,8 +33,8 @@ public class GameTest implements UnitTest
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         // when
-        gametest.addName();
-        String expectedName= gametest.getName();
+        systemUnderTest.addName();
+        String expectedName= systemUnderTest.getName();
         // then
         assertEquals(expectedName,userInput);
 
@@ -44,11 +44,11 @@ public class GameTest implements UnitTest
     {
         //given
         //when
-        gametest.infoAboutClass();
+        systemUnderTest.infoAboutClass();
         //then
-        assert warriorTest !=null;
-        assert assassinTest !=null;
-        assert sorcererTest !=null;
+        assert warrior !=null;
+        assert assassin !=null;
+        assert sorcerer !=null;
     }
     @Test
     void mainMenuFightTest ()
@@ -58,13 +58,13 @@ public class GameTest implements UnitTest
         String userInputName = "test";
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInputName.getBytes());
         System.setIn(transferToByte);
-        gametest.addName();
-        assassinTest.setUserChoice(1); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(assassinTest.getUserChoice());
+        systemUnderTest.addName();
+        assassin.setUserChoice(1); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(assassin.getUserChoice());
         transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         //when
-        gametest.mainMenu();
+        systemUnderTest.mainMenu();
         //then
 
 
@@ -78,13 +78,13 @@ public class GameTest implements UnitTest
         String userInputName = "test";
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInputName.getBytes());
         System.setIn(transferToByte);
-        gametest.addName();
-        assassinTest.setUserChoice(2); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(assassinTest.getUserChoice());
+        systemUnderTest.addName();
+        assassin.setUserChoice(2); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(assassin.getUserChoice());
         transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         //when
-        gametest.mainMenu();
+        systemUnderTest.mainMenu();
         //then
 
     }
@@ -95,13 +95,13 @@ public class GameTest implements UnitTest
         String userInputName = "test";
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInputName.getBytes());
         System.setIn(transferToByte);
-        gametest.addName();
-        assassinTest.setUserChoice(2); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(assassinTest.getUserChoice());
+        systemUnderTest.addName();
+        assassin.setUserChoice(2); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(assassin.getUserChoice());
         transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         //when
-        gametest.mainMenu();
+        systemUnderTest.mainMenu();
         //then
 
     }
@@ -112,13 +112,13 @@ public class GameTest implements UnitTest
         String userInputName = "test";
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInputName.getBytes());
         System.setIn(transferToByte);
-        gametest.addName();
-        assassinTest.setUserChoice(4); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(assassinTest.getUserChoice());
+        systemUnderTest.addName();
+        assassin.setUserChoice(4); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(assassin.getUserChoice());
         transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         //when
-        gametest.mainMenu();
+        systemUnderTest.mainMenu();
         //then
 
     }
@@ -128,8 +128,8 @@ public class GameTest implements UnitTest
         //given
 
         //when
-        assassinTest.setUserChoice(1); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(assassinTest.getUserChoice());
+        assassin.setUserChoice(1); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(assassin.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         //then
@@ -140,8 +140,8 @@ public class GameTest implements UnitTest
         //given
 
         //when
-        assassinTest.setUserChoice(2); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(assassinTest.getUserChoice());
+        assassin.setUserChoice(2); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(assassin.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         //then
@@ -152,8 +152,8 @@ public class GameTest implements UnitTest
         //given
 
         //when
-        assassinTest.setUserChoice(3); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(assassinTest.getUserChoice());
+        assassin.setUserChoice(3); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(assassin.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         //then
@@ -164,8 +164,8 @@ public class GameTest implements UnitTest
         //given
 
         //when
-        assassinTest.setUserChoice(4); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(assassinTest.getUserChoice());
+        assassin.setUserChoice(4); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(assassin.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         //then

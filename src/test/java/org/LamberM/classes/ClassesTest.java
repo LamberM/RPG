@@ -12,60 +12,60 @@ import java.io.ByteArrayInputStream;
 public class ClassesTest implements UnitTest
 {
     @InjectMocks
-    Classes classesTest = new Classes(){};
+    Classes systemUnderTest=new Classes() {};
     @Mock
-    Enemy enemyTest = new Enemy();
+    Enemy enemy;
     @Test
     void chanceForAttackOrCriticalAttackTest()
     {
         //given
         int unexpectedValue = 0;
         //when
-        classesTest.missOrBaseOrCritAttack();
+        systemUnderTest.missOrBaseOrCritAttack();
         //then
-        Assertions.assertNotEquals(unexpectedValue,classesTest.getHeroChance());
-        Assertions.assertNotEquals(unexpectedValue,classesTest.getEnemyChance());
-        Assertions.assertNotEquals(unexpectedValue,classesTest.getCritChance());
+        Assertions.assertNotEquals(unexpectedValue, systemUnderTest.getHeroChance());
+        Assertions.assertNotEquals(unexpectedValue, systemUnderTest.getEnemyChance());
+        Assertions.assertNotEquals(unexpectedValue, systemUnderTest.getCritChance());
     }
     @Test
     void restTest()
     {
         //given
-        int expectedHP = classesTest.duelStats.getHp();
-        int expectedMP = classesTest.duelStats.getMp();
+        int expectedHP = systemUnderTest.duelStats.getHp();
+        int expectedMP = systemUnderTest.duelStats.getMp();
         //when
-        classesTest.rest();
+        systemUnderTest.rest();
         //then
-        Assertions.assertEquals(expectedHP,classesTest.duelStats.getDuelHP());
-        Assertions.assertEquals(expectedMP,classesTest.duelStats.getDuelMP());
+        Assertions.assertEquals(expectedHP, systemUnderTest.duelStats.getDuelHP());
+        Assertions.assertEquals(expectedMP, systemUnderTest.duelStats.getDuelMP());
 
     }
     @Test
     void attackTest()
     {
         // given
-        classesTest.setUserChoice(1); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(classesTest.getUserChoice());
+        systemUnderTest.setUserChoice(1); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(systemUnderTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         // when
-        classesTest.attackMenu();
+        systemUnderTest.attackMenu();
         // then
-        int extendedHp = enemyTest.enemyDuelStats.getDuelHP() - classesTest.duelStats.getDamage();
-        Assertions.assertEquals(extendedHp,enemyTest.enemyDuelStats.getDuelHP());
+        int extendedHp = enemy.enemyDuelStats.getDuelHP() - systemUnderTest.duelStats.getDamage();
+        Assertions.assertEquals(extendedHp, enemy.enemyDuelStats.getDuelHP());
     }
     @Test
     void strongAttackTest()
     {
         // given
-        classesTest.setUserChoice(2); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(classesTest.getUserChoice());
+        systemUnderTest.setUserChoice(2); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(systemUnderTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
         // when
-        classesTest.attackMenu();
+        systemUnderTest.attackMenu();
         // then
-        int extendedHp = enemyTest.enemyDuelStats.getHp() - classesTest.duelStats.getDamage();
-        Assertions.assertEquals(extendedHp,enemyTest.enemyDuelStats.getHp());
+        int extendedHp = enemy.enemyDuelStats.getHp() - systemUnderTest.duelStats.getDamage();
+        Assertions.assertEquals(extendedHp, enemy.enemyDuelStats.getHp());
     }
 }

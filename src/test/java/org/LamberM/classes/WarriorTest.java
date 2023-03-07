@@ -12,63 +12,63 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WarriorTest extends ClassesTest {
     @InjectMocks
-    Warrior warriorTest = new Warrior();
+    Warrior systemUnderTest;
     @Mock
-    Enemy enemyTest = new Enemy();
+    Enemy enemy;
     @Test
     void battleCryTest()
     {
         // given
-        warriorTest.setUserChoice(1); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(warriorTest.getUserChoice());
+        systemUnderTest.setUserChoice(1); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(systemUnderTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
-        int expectedStr = warriorTest.duelStats.getStrength() + 10;
-        int expectedArmor = warriorTest.duelStats.getArmor()+5;
-        int expectedCritC= warriorTest.duelStats.getCriticalChance()+2;
-        int expectedMp = warriorTest.duelStats.getDuelMP()-20;
+        int expectedStr = systemUnderTest.duelStats.getStrength() + 10;
+        int expectedArmor = systemUnderTest.duelStats.getArmor()+5;
+        int expectedCritC= systemUnderTest.duelStats.getCriticalChance()+2;
+        int expectedMp = systemUnderTest.duelStats.getDuelMP()-20;
         // when
-        warriorTest.skillsMenu();
+        systemUnderTest.skillsMenu();
         //then
-        Assertions.assertEquals(expectedStr,warriorTest.duelStats.getStrength());
-        Assertions.assertEquals(expectedArmor,warriorTest.duelStats.getArmor());
-        Assertions.assertEquals(expectedCritC,warriorTest.duelStats.getCriticalChance());
-        Assertions.assertEquals(expectedMp,warriorTest.duelStats.getDuelMP());
+        Assertions.assertEquals(expectedStr, systemUnderTest.duelStats.getStrength());
+        Assertions.assertEquals(expectedArmor, systemUnderTest.duelStats.getArmor());
+        Assertions.assertEquals(expectedCritC, systemUnderTest.duelStats.getCriticalChance());
+        Assertions.assertEquals(expectedMp, systemUnderTest.duelStats.getDuelMP());
     }
     @Test
     void defensiveCryTest()
     {
         // given
-        warriorTest.setUserChoice(2); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(warriorTest.getUserChoice());
+        systemUnderTest.setUserChoice(2); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(systemUnderTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
-        int expectedHp = warriorTest.duelStats.getDuelHP()+20;
-        int expectedArmor = warriorTest.duelStats.getArmor()+10;
-        int expectedDodge = warriorTest.duelStats.getDodge()+2;
-        int expectedMp = warriorTest.duelStats.getDuelMP()-20;
+        int expectedHp = systemUnderTest.duelStats.getDuelHP()+20;
+        int expectedArmor = systemUnderTest.duelStats.getArmor()+10;
+        int expectedDodge = systemUnderTest.duelStats.getDodge()+2;
+        int expectedMp = systemUnderTest.duelStats.getDuelMP()-20;
         // when
-        warriorTest.skillsMenu();
+        systemUnderTest.skillsMenu();
         //then
-        Assertions.assertEquals(expectedHp,warriorTest.duelStats.getDuelHP());
-        Assertions.assertEquals(expectedArmor,warriorTest.duelStats.getArmor());
-        Assertions.assertEquals(expectedDodge,warriorTest.duelStats.getDodge());
-        Assertions.assertEquals(expectedMp,warriorTest.duelStats.getDuelMP());
+        Assertions.assertEquals(expectedHp, systemUnderTest.duelStats.getDuelHP());
+        Assertions.assertEquals(expectedArmor, systemUnderTest.duelStats.getArmor());
+        Assertions.assertEquals(expectedDodge, systemUnderTest.duelStats.getDodge());
+        Assertions.assertEquals(expectedMp, systemUnderTest.duelStats.getDuelMP());
     }
     @Test
     void doubleAttackTest()
     {
         // given
-        warriorTest.setUserChoice(3); // give us possibility to change our scanner in application
-        String userInput = String.valueOf(warriorTest.getUserChoice());
+        systemUnderTest.setUserChoice(3); // give us possibility to change our scanner in application
+        String userInput = String.valueOf(systemUnderTest.getUserChoice());
         ByteArrayInputStream transferToByte = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(transferToByte);
-        int expectedMp = warriorTest.duelStats.getMp()-20;
+        int expectedMp = systemUnderTest.duelStats.getMp()-20;
         // when
-        warriorTest.skillsMenu();
+        systemUnderTest.skillsMenu();
         // then
-        int expectedHp = enemyTest.enemyDuelStats.getHp() - warriorTest.duelStats.getDamage();
-        Assertions.assertEquals(expectedHp,enemyTest.enemyDuelStats.getHp());
-        Assertions.assertEquals(expectedMp,warriorTest.duelStats.getMp());
+        int expectedHp = enemy.enemyDuelStats.getHp() - systemUnderTest.duelStats.getDamage();
+        Assertions.assertEquals(expectedHp, enemy.enemyDuelStats.getHp());
+        Assertions.assertEquals(expectedMp, systemUnderTest.duelStats.getMp());
     }
 }
