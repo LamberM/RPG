@@ -32,7 +32,7 @@ public class MenuChooser {
     {
         return userChoice >= minValueChoice && userChoice <= maxValueChoice;
     }
-    public int userPick ()
+    public int userPick()
     {
         int tries=0;
         showMenu();
