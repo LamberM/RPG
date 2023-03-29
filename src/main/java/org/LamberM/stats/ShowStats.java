@@ -1,21 +1,27 @@
 package org.LamberM.stats;
 
+import org.LamberM.character.Character;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ShowStats {
-    public List<String> showStats()
+    public ShowStats(Character character) {
+        showStats(character);
+    }
+
+    public List<String> showStats(Character character)
     {
         List<String>showStats = new ArrayList<>();
-//        showStats.add("My hero stats:");
-//        showStats.add("Strength: " + createHero.myHero.stats.getStrength());
-//        showStats.add("Dexterity: " + createHero.myHero.stats.getDexterity());
-//        showStats.add("Intelligence: " + createHero.myHero.stats.getIntelligence());
-//        showStats.add("HP: " + createHero.myHero.stats.getHp());
-//        showStats.add("MP: " + createHero.myHero.stats.getMp());
-//        showStats.add("Dodge: " + createHero.myHero.stats.getDodge());
-//        showStats.add("Armor: " + createHero.myHero.stats.getArmor());
-//        showStats.add("Critical attack chance: " + createHero.myHero.stats.getCriticalChance());
+        showStats.add("My hero stats:");
+        showStats.add("Strength: " + character.getStats().getStrength());
+        showStats.add("Dexterity: " + character.getStats().getDexterity());
+        showStats.add("Intelligence: " + character.getStats().getIntelligence());
+        showStats.add("HP: " + character.getStats().getHp());
+        showStats.add("MP: " + character.getStats().getMp());
+        showStats.add("Dodge: " + character.getStats().getDodge());
+        showStats.add("Armor: " + character.getStats().getArmor());
+        showStats.add("Critical attack chance: " + character.getStats().getCriticalChance());
         return showStats;
     }
 
