@@ -1,56 +1,53 @@
 package org.LamberM.character;
 
 import lombok.Getter;
-import lombok.Setter;
-import org.LamberM.game.Duel;
 import org.LamberM.stats.Stats;
 
-@Getter
 public abstract class Character {
 
     @Getter
-    @Setter
+    private final String name;
+    @Getter
     private final Stats stats;
-    public Stats duelStats;
-    public Character (Stats statsParameters)
-    {
+    @Getter
+    private Stats duelStats;
+
+    public Character(String name, Stats statsParameters) {
+        this.name = name;
         this.stats = statsParameters;
         this.duelStats = statsParameters;
     }
 
-
-    protected boolean canUseAttackSkill(){
-        Duel duel = new Duel();
-        return duelStats.getAttackRange() >= duel.getRange();
-    }
-
-    private boolean currentHpIsMoreThanMax()
-    {
-        return duelStats.getDuelHP() > duelStats.getHp() || duelStats.getDuelMP() > duelStats.getMp();
-    }
-    public void rest()
-    {
+    public void rest() {
         duelStats.setDuelHP(duelStats.getDuelHP() + 20);
         duelStats.setDuelMP(duelStats.getDuelMP() + 20);
-        if (currentHpIsMoreThanMax())
-        {
+        if (currentHpIsMoreThanMax()) {
             duelStats.setDuelHP(duelStats.getHp());
             duelStats.setDuelMP(duelStats.getMp());
-        }
-        else
-        {
-            System.out.println("Your HP: "+duelStats.getDuelHP());
-            System.out.println("Your MP: "+duelStats.getDuelMP());
+        } else {
+            System.out.println("Your HP: " + duelStats.getDuelHP());
+            System.out.println("Your MP: " + duelStats.getDuelMP());
         }
     }
-    public int attack(){
+
+    public int attack() {
         System.out.println("My hero: ");
-            int damage = 20 + duelStats.getStrength()+ duelStats.getDexterity();
-            return damage;
+        return 20 + duelStats.getStrength() + duelStats.getDexterity();
     }
 
-    public int offensiveSkillsMenu(){return 0;}
-    public int defensiveSkillsMenu(){return 0;}
+    public int offensiveSkillsMenu() {
+        return 0;
+    }
 
+    public int defensiveSkillsMenu() {
+        return 0;
+    }
 
+    protected boolean myHeroCanUseSkill() {
+        return getDuelStats().getDuelMP() >= 20;
+    }
+
+    private boolean currentHpIsMoreThanMax() {
+        return duelStats.getDuelHP() > duelStats.getHp() || duelStats.getDuelMP() > duelStats.getMp();
+    }
 }
