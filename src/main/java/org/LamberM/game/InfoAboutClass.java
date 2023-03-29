@@ -8,12 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InfoAboutClass {
-    public List<String> infoAboutClass()
-    {
-        Warrior warrior=new Warrior();
-        Assassin assassin= new Assassin();
-        Sorcerer sorcerer= new Sorcerer();
-        List<String>showStats = new ArrayList<>();
+    public List<String> infoAboutClass() {
+        Warrior warrior = new Warrior("");
+        Assassin assassin = new Assassin("");
+        Sorcerer sorcerer = new Sorcerer("");
+        List<String> showStats = new ArrayList<>();
         showStats.add("All class stats:");
         showStats.add("Warrior stats:");
         showStats.add("Strength: " + warrior.getStats().getStrength());
