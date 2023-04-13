@@ -4,7 +4,7 @@ import org.LamberM.stats.Stats;
 
 public class Enemy extends Character {
     public Enemy(String name, Stats stats) {
-            super("", new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1));
+            super(name, new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1));
     }
 
     @Override
