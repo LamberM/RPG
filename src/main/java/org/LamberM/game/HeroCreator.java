@@ -1,5 +1,6 @@
 package org.LamberM.game;
 
+import lombok.Setter;
 import org.LamberM.character.Assassin;
 import org.LamberM.character.Character;
 import org.LamberM.character.Sorcerer;
@@ -12,8 +13,10 @@ import java.util.List;
 
 public class HeroCreator {
 
-    final private MenuChooser classMenuChooser;
-
+    @Setter // for tests - setter method injection
+    private MenuChooser classMenuChooser;
+    @Setter // for tests - setter method injection
+    private InputReader inputReader;
     public HeroCreator() {
         classMenuChooser = new MenuChooser(new SystemInReader(), List.of("1.Warrior", "2.Assassin", "3.Sorcerer", "4.Exit the game"));
     }
@@ -24,7 +27,6 @@ public class HeroCreator {
     }
 
     private String askForName() {
-        InputReader inputReader = new SystemInReader();
         System.out.println("Enter your character's name");
         return inputReader.read();
     }
