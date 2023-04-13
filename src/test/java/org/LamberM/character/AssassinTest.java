@@ -1,13 +1,11 @@
 package org.LamberM.character;
 
 import org.LamberM.UnitTest;
-import org.LamberM.utils.InputReader;
-import org.LamberM.utils.SystemInReader;
+import org.LamberM.utils.MenuChooser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import static org.mockito.Mockito.when;
 
@@ -15,51 +13,61 @@ public class AssassinTest implements UnitTest {
     @InjectMocks
     Assassin systemUnderTest;
     @Mock
-    InputReader inputReaderMock;
+    MenuChooser menuChooserMock;
+
     ///////////////////////character methods //////////////////////////////////
 
     @Test
     void restTest() {
         //given
-        int expectedHP = systemUnderTest.duelStats.getHp();
-        int expectedMP = systemUnderTest.duelStats.getMp();
+        int expectedHP = systemUnderTest.getDuelStats().getHp();
+        int expectedMP = systemUnderTest.getDuelStats().getMp();
         //when
         systemUnderTest.rest();
         //then
-        Assertions.assertEquals(expectedHP,systemUnderTest.duelStats.getDuelHP());
-        Assertions.assertEquals(expectedMP,systemUnderTest.duelStats.getDuelMP());
+        Assertions.assertEquals(expectedHP, systemUnderTest.getDuelStats().getHp());
+        Assertions.assertEquals(expectedMP, systemUnderTest.getDuelStats().getMp());
     }
 
     @Test
     void attackTest() {
         //given
-        int expected= 55;
+        int expected = 55;
         //when
         int actual = systemUnderTest.attack();
         //then
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
+
     ///////////////////////attack skills tests/////////////////////////////////
     @Test
-    void criticalAttackSkillTest()
-    {
+    void givenUserPickBackToMenu_whenOffensiveSkillsMenu_thenBackToMenu() {
         //given
-        systemUnderTest.duelStats.setDuelMP(systemUnderTest.duelStats.getDuelMP() - 40);
-        inputReaderMock = Mockito.mock(SystemInReader.class);
-        when(inputReaderMock.read()).thenReturn("2");
+        systemUnderTest.setOffensiveSkillsMenu(menuChooserMock);
+        when(menuChooserMock.userPick()).thenReturn(3);
+        //when
+        int actual = systemUnderTest.offensiveSkillsMenu();
+        //then
+        Assertions.assertEquals(9999, actual);
+    }
+
+    @Test
+    void givenUserPickCriticalAttackSkill_whenOffensiveSkillsMenu_thenCriticalAttackSkill() {
+        //given
+        systemUnderTest.setOffensiveSkillsMenu(menuChooserMock);
+        when(menuChooserMock.userPick()).thenReturn(2);
         int expected = 44;
         //when
         int actual = systemUnderTest.offensiveSkillsMenu();
         //then
         Assertions.assertEquals(expected, actual);
     }
+
     @Test
-    void notEnoughMpToUseCritAttackSkill()
-    {
+    void givenNotEnoughMpToUseCritAttackSkill_whenOffensiveSkillsMenu_thenCantUseCriticalAttackSkill() {
         //given
-        systemUnderTest.duelStats.setDuelMP(systemUnderTest.duelStats.getDuelMP() - 40);
-        inputReaderMock = Mockito.mock(SystemInReader.class);
-        when(inputReaderMock.read()).thenReturn("2");
+        systemUnderTest.setOffensiveSkillsMenu(menuChooserMock);
+        systemUnderTest.getDuelStats().setMp(systemUnderTest.getDuelStats().getMp() - 40);
         //when
         int actual = systemUnderTest.offensiveSkillsMenu();
         //then
@@ -67,79 +75,62 @@ public class AssassinTest implements UnitTest {
     }
 
     @Test
-    void cantUseCriticalAttackSkill(){
+    void givenUserPickHitInTheBack_whenOffensiveSkillsMenu_thenHitInTheBack() {
         //given
-        inputReaderMock = Mockito.mock(SystemInReader.class);
-        when(inputReaderMock.read()).thenReturn("2");
-        when(systemUnderTest.canUseAttackSkill()).thenReturn(false);
-        int expected = 9999;
-        //when
-        int actual = systemUnderTest.offensiveSkillsMenu();
-        //then
-        Assertions.assertEquals(expected,actual);
-    }
-    @Test
-    void hitInTheBackTest(){
-        //given
-        inputReaderMock = Mockito.mock(SystemInReader.class);
-        when(inputReaderMock.read()).thenReturn("1");
+        systemUnderTest.setOffensiveSkillsMenu(menuChooserMock);
+        when(menuChooserMock.userPick()).thenReturn(1);
         int expected = 34;
         //when
         int actual = systemUnderTest.offensiveSkillsMenu();
         //then
-        Assertions.assertEquals(expected,actual);
-    }
-    @Test
-    void cantUseHitInTheBack(){
-        //given
-        inputReaderMock = Mockito.mock(SystemInReader.class);
-        when(inputReaderMock.read()).thenReturn("1");
-        when(systemUnderTest.canUseAttackSkill()).thenReturn(false);
-        int expected = 9999;
-        //when
-        int actual = systemUnderTest.offensiveSkillsMenu();
-        //then
-        Assertions.assertEquals(expected,actual);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    void backToMenuInOffensiveSkillsMenu()
-    {
+    void givenSetDuelMP_whenOffensiveSkillsMenu_thenCantUseHitInTheBack() {
         //given
-        systemUnderTest.duelStats.setDuelMP(systemUnderTest.duelStats.getDuelMP() - 40);
-        inputReaderMock = Mockito.mock(SystemInReader.class);
-        when(inputReaderMock.read()).thenReturn("3");
+        systemUnderTest.getDuelStats().setMp(systemUnderTest.getDuelStats().getMp() - 40);
         //when
         int actual = systemUnderTest.offensiveSkillsMenu();
         //then
         Assertions.assertEquals(9999, actual);
     }
+
     ///////////////////////////////////defensive skills tests/////////////////////////
     @Test
-    void boostDodgeAndDexterityTest()
-    {
+    void givenUserPickBoostDodgeAndDexterity_whenDefensiveSkillsMenu_thenBoostDodgeAndDexterity() {
         //given
-        int expectedDex = systemUnderTest.duelStats.getDexterity()+10;
-        int expectedDodge = systemUnderTest.duelStats.getDodge() + 5;
-        int expectedCritC= systemUnderTest.duelStats.getCriticalChance()+5;
-        int expectedMp = systemUnderTest.duelStats.getDuelMP()-20;
-        inputReaderMock = Mockito.mock(SystemInReader.class);
-        when(inputReaderMock.read()).thenReturn("1");
+        systemUnderTest.setDefensiveSkillsMenu(menuChooserMock);
+        int expectedDex = systemUnderTest.getDuelStats().getDexterity() + 10;
+        int expectedDodge = systemUnderTest.getDuelStats().getDodge() + 5;
+        int expectedCritC = systemUnderTest.getDuelStats().getCriticalChance() + 5;
+        int expectedMp = systemUnderTest.getDuelStats().getMp() - 20;
+        when(menuChooserMock.userPick()).thenReturn(1);
         //when
         systemUnderTest.defensiveSkillsMenu();
         //then
-        Assertions.assertEquals(expectedDex,systemUnderTest.duelStats.getDexterity());
-        Assertions.assertEquals(expectedDodge,systemUnderTest.duelStats.getDodge());
-        Assertions.assertEquals(expectedCritC,systemUnderTest.duelStats.getCriticalChance());
-        Assertions.assertEquals(expectedMp,systemUnderTest.duelStats.getDuelMP());
+        Assertions.assertEquals(expectedDex, systemUnderTest.getDuelStats().getDexterity());
+        Assertions.assertEquals(expectedDodge, systemUnderTest.getDuelStats().getDodge());
+        Assertions.assertEquals(expectedCritC, systemUnderTest.getDuelStats().getCriticalChance());
+        Assertions.assertEquals(expectedMp, systemUnderTest.getDuelStats().getMp());
     }
+
     @Test
-    void backToMenuInDefensiveSkillsMenu()
-    {
+    void givenSetDuelMP_whenDefensiveSkillsMenu_thenCantUseBoostDodgeAndDexterity() {
         //given
-        systemUnderTest.duelStats.setDuelMP(systemUnderTest.duelStats.getDuelMP() - 40);
-        inputReaderMock = Mockito.mock(SystemInReader.class);
-        when(inputReaderMock.read()).thenReturn("2");
+        systemUnderTest.setDefensiveSkillsMenu(menuChooserMock);
+        systemUnderTest.getDuelStats().setMp(systemUnderTest.getDuelStats().getMp() - 40);
+        //when
+        int actual = systemUnderTest.defensiveSkillsMenu();
+        //then
+        Assertions.assertEquals(9999, actual);
+    }
+
+    @Test
+    void givenUserPickBackToMenu_whenDefensiveSkillsMenu_thenBackToMenu() {
+        //given
+        systemUnderTest.setDefensiveSkillsMenu(menuChooserMock);
+        when(menuChooserMock.userPick()).thenReturn(2);
         //when
         int actual = systemUnderTest.defensiveSkillsMenu();
         //then
