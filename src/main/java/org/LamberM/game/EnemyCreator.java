@@ -15,23 +15,23 @@ public class EnemyCreator {
     }
 
     private String createName() {
-        Random drawName = new Random();
-        String name = "";
-        int num = drawName.nextInt(5);
-        switch (num) {
-            case 0 -> name = "Brian";
-            case 1 -> name = "Stevie";
-            case 2 -> name = "Glen";
-            case 3 -> name = "Chris";
-            case 4 -> name = "Peter";
-        }
-        return name;
+//        Random drawName = new Random();
+//        int num = drawName.nextInt(5);
+//        switch (num) {
+//            case 0 -> name = "Brian";
+//            case 1 -> name = "Stevie";
+//            case 2 -> name = "Glen";
+//            case 3 -> name = "Chris";
+//            case 4 -> name = "Peter";
+//        }
+        return "Glen";
     }
 
     private Stats generateStats() {
-        Random draw = new Random();
-        int num = draw.nextInt(5);
-        return new Stats(15 + num, 20 + num, 10 + num, 150 + (num * 10), 1, 10 + num, 60 + (num * 5), 10 + num, 1);
+//        Random draw = new Random();
+//        int num = draw.nextInt(5);
+//        return new Stats(15 + num, 20 + num, 10 + num, 150 + (num * 10), 1, 10 + num, 60 + (num * 5), 10 + num, 1);
+        return new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1);
     }
 
 }
