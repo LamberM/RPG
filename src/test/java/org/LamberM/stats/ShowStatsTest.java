@@ -1,6 +1,7 @@
 package org.LamberM.stats;
 
 import org.LamberM.UnitTest;
+import org.LamberM.character.Warrior;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,11 +13,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShowStatsTest implements UnitTest {
     @InjectMocks
     ShowStats systemUnderTest;
+
     @Test
-    void showStatsTest(){
+    void givenListAndWarriorClass_whenShowStats_thenShowWarriorStats() {
         //given
         List<Object> expected = List.of(
-                "All class stats:",
                 "My hero stats:",
                 "Strength: 20",
                 "Dexterity: 15",
@@ -27,10 +28,11 @@ class ShowStatsTest implements UnitTest {
                 "Armor: 100",
                 "Critical attack chance: 5"
         );
+        Warrior warrior = new Warrior("does not matter in test");
         //when
-        systemUnderTest.showStats();
+        systemUnderTest.showStats(warrior);
         //then
-        Assertions.assertEquals(expected.toString(),systemUnderTest.showStats().toString());
+        Assertions.assertEquals(expected.toString(), systemUnderTest.showStats(warrior).toString());
     }
 
 }
