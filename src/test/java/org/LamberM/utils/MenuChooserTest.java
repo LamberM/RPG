@@ -16,38 +16,40 @@ class MenuChooserTest implements UnitTest {
     MenuChooser systemUnderTest;
     @Mock
     InputReader inputReaderMock;
+    @Mock
+    List<String> menuMock;
+
     @Test
-    void menuIsEmptyTest()
-    {
+    void givenEmptyList_when_thenIllegalArgumentException() {
         //given
-        List<String> menu = List.of();
+        menuMock = List.of();
         inputReaderMock = Mockito.mock(SystemInReader.class);
         //when
         //then
-        Assertions.assertThrows(IllegalArgumentException.class, () -> systemUnderTest= new MenuChooser(inputReaderMock,menu));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> systemUnderTest = new MenuChooser(inputReaderMock, menuMock));
     }
+
     @Test
-    void wrongRequiredValueTest ()
-    {
+    void givenListAndRead_whenUserPick_thenUserPickDoNotWork() {
         //given
-        List<String> menu = List.of(
+        String expectedMessage = "You made mistakes too much";
+        menuMock = List.of(
                 "test1",
                 "test2",
                 "test3"
         );
         inputReaderMock = Mockito.mock(SystemInReader.class);
-        when(inputReaderMock.read()).thenReturn("0","-1","-2","-3","-1");
-        systemUnderTest = new MenuChooser(inputReaderMock,menu);
-        int expectedValue=-1;
+        when(inputReaderMock.read()).thenReturn("0", "-1", "-2", "-3", "-1");
+        systemUnderTest = new MenuChooser(inputReaderMock, menuMock);
         //when
-        int actualUserPick =systemUnderTest.userPick();
+        IllegalArgumentException illegalArgumentException = Assertions.assertThrows(IllegalArgumentException.class, () -> systemUnderTest.userPick());
         //then
-        Assertions.assertEquals(expectedValue,actualUserPick);
+        Assertions.assertTrue(expectedMessage.contains(illegalArgumentException.getMessage()));
 
     }
+
     @Test
-    void rightRequiredValueTest ()
-    {
+    void givenListAndRead_whenUserPick_thenUserPickWork() {
         //given
         List<String> menu = List.of(
                 "test1",
@@ -55,14 +57,14 @@ class MenuChooserTest implements UnitTest {
                 "test3"
         );
         inputReaderMock = Mockito.mock(SystemInReader.class);
-        when(inputReaderMock.read()).thenReturn("0","1");
-        systemUnderTest = new MenuChooser(inputReaderMock,menu);
-        int expectedValue=1;
+        when(inputReaderMock.read()).thenReturn("0", "1");
+        systemUnderTest = new MenuChooser(inputReaderMock, menu);
+        int expectedValue = 1;
         //when
         systemUnderTest.userPick();
-        int actualUserPick =systemUnderTest.userPick();
+        int actualUserPick = systemUnderTest.userPick();
         //then
-        Assertions.assertEquals(expectedValue,actualUserPick);
+        Assertions.assertEquals(expectedValue, actualUserPick);
 
     }
 }
