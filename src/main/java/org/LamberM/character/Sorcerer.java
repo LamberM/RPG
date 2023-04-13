@@ -1,6 +1,7 @@
 package org.LamberM.character;
 
 
+import lombok.Setter;
 import org.LamberM.stats.Stats;
 import org.LamberM.utils.MenuChooser;
 import org.LamberM.utils.SystemInReader;
@@ -8,8 +9,10 @@ import org.LamberM.utils.SystemInReader;
 import java.util.List;
 
 public class Sorcerer extends Character {
-    private final MenuChooser offensiveSkillsMenu;
-    private final MenuChooser defensiveSkillsMenu;
+    @Setter // for tests - setter method injection
+    private MenuChooser offensiveSkillsMenu;
+    @Setter // for tests - setter method injection
+    private MenuChooser defensiveSkillsMenu;
 
     public Sorcerer(String name) {
         super(name, new Stats(5, 15, 25, 120, 80, 5, 40, 5, 2));
@@ -22,8 +25,12 @@ public class Sorcerer extends Character {
         if (myHeroCanUseSkill()) {
             int userChoice = offensiveSkillsMenu.userPick();
             switch (userChoice) {
-                case 1 -> fireBall();
-                case 2 -> snowBall();
+                case 1 -> {
+                    return fireBall();
+                }
+                case 2 -> {
+                    return snowBall();
+                }
                 case 3 -> {
                     System.out.println("Back to menu");
                     return 9999;
@@ -61,20 +68,18 @@ public class Sorcerer extends Character {
 
     //////////////////////////////////// Offensive skills //////////////////////////////////////////////////////////
     private int fireBall() {
-        getDuelStats().setDuelMP(getDuelStats().getDuelMP() - 20);
-        int damage = 30 + (getDuelStats().getIntelligence() / 5);
-        return damage;
+        getDuelStats().setMp(getDuelStats().getMp() - 20);
+        return 30 + (getDuelStats().getIntelligence() / 5);
     }
 
     private boolean currentMpIsEnoughToUseSnowBall() {
-        return getDuelStats().getDuelMP() >= 30;
+        return getDuelStats().getMp() >= 30;
     }
 
     private int snowBall() {
         if (currentMpIsEnoughToUseSnowBall()) {
-            getDuelStats().setDuelMP(getDuelStats().getDuelMP() - 30);
-            int damage = 45 + (getDuelStats().getIntelligence() / 5);
-            return damage;
+            getDuelStats().setMp(getDuelStats().getMp() - 30);
+            return 45 + (getDuelStats().getIntelligence() / 5);
         } else {
             System.out.println("You don't have enough mana point");
             return 9999;
@@ -84,7 +89,7 @@ public class Sorcerer extends Character {
     //////////////////////////////////// Defensive skills //////////////////////////////////////////////////////////
     private void frostArmor() {
         getDuelStats().setArmor(getDuelStats().getArmor() + 10);
-        getDuelStats().setDuelMP((getDuelStats().getDuelMP() - 20));
+        getDuelStats().setMp(getDuelStats().getMp() - 20);
         System.out.println("I feel freeze");
     }
 

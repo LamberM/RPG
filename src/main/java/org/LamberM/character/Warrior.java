@@ -1,5 +1,6 @@
 package org.LamberM.character;
 
+import lombok.Setter;
 import org.LamberM.stats.Stats;
 import org.LamberM.utils.MenuChooser;
 import org.LamberM.utils.SystemInReader;
@@ -7,8 +8,10 @@ import org.LamberM.utils.SystemInReader;
 import java.util.List;
 
 public class Warrior extends Character {
-    private final MenuChooser offensiveSkillsMenu;
-    private final MenuChooser defensiveSkillsMenu;
+    @Setter // for tests - setter method injection
+    private MenuChooser offensiveSkillsMenu;
+    @Setter // for tests - setter method injection
+    private MenuChooser defensiveSkillsMenu;
 
     public Warrior(String name) {
         super(name, new Stats(20, 15, 10, 200, 40, 5, 100, 5, 1));
@@ -47,7 +50,9 @@ public class Warrior extends Character {
         if (myHeroCanUseSkill()) {
             int userChoice = offensiveSkillsMenu.userPick();
             switch (userChoice) {
-                case 1 -> doubleAttack();
+                case 1 -> {
+                    return doubleAttack();
+                }
                 case 2 -> {
                     System.out.println("Back to menu");
                     return 9999;
@@ -66,23 +71,21 @@ public class Warrior extends Character {
         getDuelStats().setStrength(getDuelStats().getStrength() + 10);
         getDuelStats().setArmor(getDuelStats().getArmor() + 5);
         getDuelStats().setCriticalChance(getDuelStats().getCriticalChance() + 2);
-        getDuelStats().setDuelMP((getDuelStats().getDuelMP() - 20));
+        getDuelStats().setMp((getDuelStats().getMp() - 20));
         System.out.println("WAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRR");
     }
 
     private void defensiveCry() {
-        getDuelStats().setDuelHP(getDuelStats().getDuelHP() + 20);
+        getDuelStats().setHp(getDuelStats().getHp() + 20);
         getDuelStats().setArmor(getDuelStats().getArmor() + 10);
         getDuelStats().setDodge(getDuelStats().getDodge() + 2);
-        getDuelStats().setDuelMP((getDuelStats().getDuelMP() - 20));
+        getDuelStats().setMp((getDuelStats().getMp() - 20));
         System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAACCCCCKKKKKKKKKKKKKK");
     }
 
     //////////////////////////////////// Offensive skills //////////////////////////////////////////////////////////
     private int doubleAttack() {
-        getDuelStats().setDuelMP((getDuelStats().getDuelMP() - 20));
-        int damage = 60 + (getDuelStats().getStrength() / 5);
-        return damage;
-
+        getDuelStats().setMp((getDuelStats().getMp() - 20));
+        return 60 + (getDuelStats().getStrength() / 5);
     }
 }

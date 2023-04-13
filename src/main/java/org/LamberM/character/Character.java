@@ -19,14 +19,15 @@ public abstract class Character {
     }
 
     public void rest() {
-        duelStats.setDuelHP(duelStats.getDuelHP() + 20);
-        duelStats.setDuelMP(duelStats.getDuelMP() + 20);
-        if (currentHpIsMoreThanMax()) {
-            duelStats.setDuelHP(duelStats.getHp());
-            duelStats.setDuelMP(duelStats.getMp());
+        int currentHp = duelStats.getHp() + 20;
+        int currentMp = duelStats.getMp() + 20;
+
+        if (currentHp >= duelStats.getHp() || currentMp >= duelStats.getMp()) {
+            duelStats.setHp(duelStats.getHp());
+            duelStats.setMp(duelStats.getMp());
         } else {
-            System.out.println("Your HP: " + duelStats.getDuelHP());
-            System.out.println("Your MP: " + duelStats.getDuelMP());
+            System.out.println("Your HP: " + duelStats.getHp());
+            System.out.println("Your MP: " + duelStats.getMp());
         }
     }
 
@@ -44,10 +45,7 @@ public abstract class Character {
     }
 
     protected boolean myHeroCanUseSkill() {
-        return getDuelStats().getDuelMP() >= 20;
+        return getDuelStats().getMp() >= 20;
     }
 
-    private boolean currentHpIsMoreThanMax() {
-        return duelStats.getDuelHP() > duelStats.getHp() || duelStats.getDuelMP() > duelStats.getMp();
-    }
 }
