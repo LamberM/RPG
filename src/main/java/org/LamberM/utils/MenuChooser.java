@@ -37,7 +37,7 @@ public class MenuChooser {
             tries++;
             System.out.println("Tries: " + tries);
             if (tries > 5) {
-                return -1;
+                throw new IllegalArgumentException("You made mistakes too much");
             }
             System.out.println("You entered the wrong number. Try again");
             userChoice = Integer.parseInt(inputReader.read());
