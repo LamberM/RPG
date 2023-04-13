@@ -6,13 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShowStats {
-    public ShowStats(Character character) {
-        showStats(character);
-    }
 
-    public List<String> showStats(Character character)
-    {
-        List<String>showStats = new ArrayList<>();
+    public List<String> showStats(Character character) {
+        List<String> showStats = new ArrayList<>();
         showStats.add("My hero stats:");
         showStats.add("Strength: " + character.getStats().getStrength());
         showStats.add("Dexterity: " + character.getStats().getDexterity());
