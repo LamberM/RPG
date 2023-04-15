@@ -1,5 +1,7 @@
 package org.LamberM.game;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.LamberM.character.Character;
 import org.LamberM.utils.MenuChooser;
 import org.LamberM.utils.SystemInReader;
@@ -7,11 +9,17 @@ import org.LamberM.utils.SystemInReader;
 import java.util.List;
 
 public class Round {
+    @Setter // for tests - setter method injection
 
-    private final Character myHero;
-    private final Character enemy;
-    private final MenuChooser duelMenuChooser;
+    private Character myHero;
+    @Setter // for tests - setter method injection
+
+    private Character enemy;
+    @Setter // for tests - setter method injection
+    private MenuChooser duelMenuChooser;
+    @Getter // for tests
     private final int roundCounter = 0;
+    @Setter // for tests
     private int range = 3;
 
 
@@ -59,13 +67,13 @@ public class Round {
 
     private void heroStatsInDuel() {
         System.out.println("My hero");
-        System.out.println("HP: " + myHero.getDuelStats().getDuelHP() + "MP: " + myHero.getDuelStats().getDuelMP());
+        System.out.println("HP: " + myHero.getDuelStats().getHp() + " MP: " + myHero.getDuelStats().getMp());
 
     }
 
     private void enemyStatsInDuel() {
         System.out.println("Enemy");
-        System.out.println("HP: " + enemy.getDuelStats().getDuelHP());
+        System.out.println("HP: " + enemy.getDuelStats().getHp());
     }
 
     private void enemyAttack() {
@@ -84,12 +92,14 @@ public class Round {
     }
 
     private void myHeroAttack() {
-        while (!heroHaveAttackRange()) {
+        if (!heroHaveAttackRange()) {
             System.out.println("You can't have to hit enemy. Your attack range is too small");
             playRound();
         }
-        OffensiveRound offensiveRound = new OffensiveRound(myHero, enemy);
-        offensiveRound.heroAttack();
+        else {
+            OffensiveRound offensiveRound = new OffensiveRound(myHero, enemy);
+            offensiveRound.heroAttack();
+        }
     }
 
     private boolean heroHaveAttackRange() {

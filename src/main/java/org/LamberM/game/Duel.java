@@ -1,12 +1,14 @@
 package org.LamberM.game;
 
 
+import lombok.Setter;
 import org.LamberM.character.Character;
 
 public class Duel {
-
-    private final Character enemy;
-    private final Character myHero;
+    @Setter // for tests - setter method injection
+    private  Character enemy;
+    @Setter // for tests - setter method injection
+    private  Character myHero;
 
     public Duel(Character myHeroParameters, Character enemyParameters) {
         this.myHero = myHeroParameters;
@@ -24,22 +26,22 @@ public class Duel {
         }
         if (enemyWin()) {
             System.out.println("You lost");
-            System.out.println("END GAME");
+            System.out.println("GAME IS OVER");
         } else {
             System.out.println("You won");
-            Level level = new Level();
-            level.addExp();
+//            Level level = new Level();
+//            level.addExp();
             Journey journey = new Journey(myHero);
-            journey.mainMenu();
+            journey.startJourney();
         }
     }
 
     private boolean heroWin() {
-        return enemy.getDuelStats().getDuelHP() <= 0;
+        return enemy.getDuelStats().getHp() <= 0;
     }
 
     private boolean enemyWin() {
-        return myHero.getDuelStats().getDuelHP() <= 0;
+        return myHero.getDuelStats().getHp() <= 0;
     }
 
 

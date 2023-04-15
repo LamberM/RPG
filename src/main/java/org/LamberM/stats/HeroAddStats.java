@@ -1,6 +1,7 @@
 package org.LamberM.stats;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.LamberM.character.Character;
 import org.LamberM.utils.MenuChooser;
 import org.LamberM.utils.SystemInReader;
@@ -8,10 +9,13 @@ import org.LamberM.utils.SystemInReader;
 import java.util.List;
 
 public class HeroAddStats {
-    private final Character myHero;
-    private final MenuChooser addStatsMenuChooser;
+    @Setter // for tests - setter method injection
+    private Character myHero;
+    @Setter // for tests - setter method injection
+    private MenuChooser addStatsMenuChooser;
     @Getter
-    private int currentPoints;
+    @Setter // for tests
+    private int currentPoints = 10;
 
     public HeroAddStats(Character myHero) {
         this.myHero = myHero;
@@ -26,7 +30,6 @@ public class HeroAddStats {
         );
     }
     public void addStats() {
-        currentPoints = 10;
         System.out.println("Your experience points " + currentPoints);
         System.out.println("Your stats for change:");
         System.out.println("Strength: " + myHero.getStats().getStrength());

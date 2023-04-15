@@ -1,129 +1,161 @@
 package org.LamberM.game;
 
 import org.LamberM.UnitTest;
-import org.junit.jupiter.api.Assertions;
+import org.LamberM.character.Enemy;
+import org.LamberM.character.Warrior;
+import org.LamberM.stats.Stats;
+import org.LamberM.utils.MenuChooser;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+
+import static org.mockito.Mockito.*;
 
 
 class RoundTest implements UnitTest {
     @InjectMocks
     Round systemUnderTest;
+    @Mock
+    MenuChooser menuChooserMock;
+    @Mock
+    OffensiveRound offensiveRoundMock;
+    @Mock
+    DefensiveRound defensiveRoundMock;
+    @Mock
+    Warrior myHeroMock;
+    @Mock
+    Enemy enemyMock;
 
     @Test
-    void heroAttackTest(){
+    void givenUserPickAndHeroAndEnemyAndEnoughRange_whenPlayRound_thenMyHeroAndEnemyTryAttack() {
         //given
-        systemUnderTest.duel.setRange(1);
-        int expected = systemUnderTest.enemy.duelStats.getDuelHP()-(systemUnderTest.myHero.attack()-systemUnderTest.enemy.duelStats.getArmor()/10);
+        systemUnderTest.setDuelMenuChooser(menuChooserMock);
+        systemUnderTest.setEnemy(enemyMock);
+        systemUnderTest.setMyHero(myHeroMock);
+        enemyMock = new Enemy("does not matter", new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1));
+        myHeroMock = new Warrior("does not matter");
+        systemUnderTest.setRange(1);
+        when(menuChooserMock.userPick()).thenReturn(1);
         //when
-        systemUnderTest.heroAttack();
+        systemUnderTest.playRound();
         //then
-        int actual = systemUnderTest.enemy.duelStats.getDuelHP();
-        Assertions.assertEquals(expected,actual);
-    }
-    @Test
-    void enemyAttackTest(){
-        //given
-        systemUnderTest.duel.setRange(1);
-        int expected = systemUnderTest.myHero.duelStats.getDuelHP()-(systemUnderTest.enemy.attack()-systemUnderTest.myHero.duelStats.getArmor()/10);
-        //when
-        systemUnderTest.enemyAttack();
-        //then
-        int actual = systemUnderTest.myHero.duelStats.getDuelHP();
-        Assertions.assertEquals(expected,actual);
-    }
-    @Test
-    void offensiveSkillsTest(){
-        //given
-        systemUnderTest.duel.setRange(1);
-        systemUnderTest.myHero.duelStats.setDuelMP(100);
-        int expected = systemUnderTest.enemy.duelStats.getDuelHP()-(systemUnderTest.myHero.attack()-systemUnderTest.enemy.duelStats.getArmor()/10);
-        //when
-        systemUnderTest.offensiveSkills();
-        //then
-        int actual = systemUnderTest.enemy.duelStats.getDuelHP();
-        Assertions.assertEquals(expected,actual);
-    }
-    @Test
-    void heroAttackOrCritOrMissTest()
-    {
-        //given
-        int unexpectedValue = 0;
-        //when;
-        systemUnderTest.heroAttackOrCritOrMiss();
-        //then
-        Assertions.assertNotEquals(unexpectedValue,systemUnderTest.getHeroChance());
-        Assertions.assertNotEquals(unexpectedValue,systemUnderTest.getEnemyChance());
-        Assertions.assertNotEquals(unexpectedValue,systemUnderTest.getCritChance());
-    }
-    @Test
-    void enemyAttackOrCritOrMissTest()
-    {
-        //given
-        int unexpectedValue = 0;
-        //when;
-        systemUnderTest.enemyAttackOrCritOrMiss();
-        //then
-        Assertions.assertNotEquals(unexpectedValue,systemUnderTest.getHeroChance());
-        Assertions.assertNotEquals(unexpectedValue,systemUnderTest.getEnemyChance());
-        Assertions.assertNotEquals(unexpectedValue,systemUnderTest.getCritChance());
-    }
-    @Test
-    void  notEnoughRangeForHeroAttack()
-    {
-        //given
-        systemUnderTest.duel.setRange(4);
-        String expected = "You can't have to hit enemy. Your attack range is too small";
-        //when
-        systemUnderTest.heroAttack();
-        //then
-        String actual="";
-        Assertions.assertEquals(expected,actual);
-    }
-    @Test
-    void  notEnoughRangeForEnemyAttack()
-    {
-        //given
-        systemUnderTest.duel.setRange(4);
-        int expected = 3;
-        //when
-        systemUnderTest.enemyAttack();
-        //then
-        int actual = systemUnderTest.duel.getRange();
-        Assertions.assertEquals(expected,actual);
-    }
-    @Test
-    void  notEnoughRangeForOffensiveSkills()
-    {
-        //given
-        systemUnderTest.duel.setRange(4);
-        int expected = 9999;
-        //when
-        int actual = systemUnderTest.offensiveSkills();
-        //then
-        Assertions.assertEquals(expected,actual);
-    }
-    @Test
-    void  notEnoughMpForOffensiveSkills()
-    {
-        //given
-        systemUnderTest.myHero.duelStats.setDuelMP(1);
-        int expected = 9999;
-        //when
-        int actual = systemUnderTest.offensiveSkills();
-        //then
-        Assertions.assertEquals(expected,actual);
-    }
-    @Test
-    void notEnoughMpForDefensiveSkills()
-    {
-        //given
-        systemUnderTest.myHero.duelStats.setDuelMP(1);
-        int expected = 9999;
-        //when
-        int actual = systemUnderTest.defensiveSkills();
-        //then
-        Assertions.assertEquals(expected,actual);
+        verify(offensiveRoundMock).heroAttack();
+        verify(offensiveRoundMock).enemyAttack();
     }
 
+    @Test
+    void givenUserPickAndHero_whenPlayRound_thenMyHeroCantAttack() {
+        //given
+        systemUnderTest.setDuelMenuChooser(menuChooserMock);
+        systemUnderTest.setEnemy(enemyMock);
+        systemUnderTest.setMyHero(myHeroMock);
+        enemyMock = new Enemy("does not matter", new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1));
+        myHeroMock = new Warrior("does not matter");
+        systemUnderTest.setRange(10);
+        when(menuChooserMock.userPick()).thenReturn(1,1);
+        doThrow(NullPointerException.class).when(systemUnderTest).playRound();
+        //when
+            systemUnderTest.playRound();
+        //then
+        verify(systemUnderTest, times(2)).playRound();
+    }
+
+    @Test
+    void givenUserPickAndHeroAndEnemyAndEnoughRange_whenPlayRound_thenMyHeroCanUseOffensiveSkills() {
+        //given
+        systemUnderTest.setDuelMenuChooser(menuChooserMock);
+        systemUnderTest.setEnemy(enemyMock);
+        systemUnderTest.setMyHero(myHeroMock);
+        enemyMock = new Enemy("does not matter", new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1));
+        myHeroMock = new Warrior("does not matter");
+        systemUnderTest.setRange(1);
+        when(menuChooserMock.userPick()).thenReturn(2);
+        //when
+        systemUnderTest.playRound();
+        //then
+        verify(offensiveRoundMock).offensiveSkills();
+        verify(offensiveRoundMock).enemyAttack();
+    }
+
+    @Test
+    void givenUserPickAndHeroWithNotEnoughMP_whenPlayRound_thenMyHeroCantUseOffensiveSkills() {
+        //given
+        systemUnderTest.setDuelMenuChooser(menuChooserMock);
+        systemUnderTest.setEnemy(enemyMock);
+        systemUnderTest.setMyHero(myHeroMock);
+        enemyMock = new Enemy("does not matter", new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1));
+        myHeroMock = new Warrior("does not matter");
+        myHeroMock.getDuelStats().setMp(0);
+        when(menuChooserMock.userPick()).thenReturn(2,2);
+        doThrow(NullPointerException.class).when(systemUnderTest).playRound();
+        //when
+            systemUnderTest.playRound();
+
+        //then
+        verify(systemUnderTest, times(2)).playRound();
+    }
+
+    @Test
+    void givenUserPickAndHeroAndNotEnoughRange_whenPlayRound_thenMyHeroCantUseOffensiveSkills() {
+        //given
+        systemUnderTest.setDuelMenuChooser(menuChooserMock);
+        systemUnderTest.setEnemy(enemyMock);
+        systemUnderTest.setMyHero(myHeroMock);
+        systemUnderTest.setRange(10);
+        enemyMock = new Enemy("does not matter", new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1));
+        myHeroMock = new Warrior("does not matter");
+        when(menuChooserMock.userPick()).thenReturn(2,2);
+        doThrow(NullPointerException.class).when(systemUnderTest).playRound();
+        //when
+        systemUnderTest.playRound();
+        //then
+        verify(systemUnderTest, times(2)).playRound();
+    }
+
+
+    @Test
+    void givenUserPickAndHeroWithNotEnoughMP_whenPlayRound_thenMyHeroCantUseDefensiveSkills() {        //given
+        systemUnderTest.setDuelMenuChooser(menuChooserMock);
+        systemUnderTest.setEnemy(enemyMock);
+        systemUnderTest.setMyHero(myHeroMock);
+        enemyMock = new Enemy("does not matter", new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1));
+        myHeroMock = new Warrior("does not matter");
+        myHeroMock.getDuelStats().setMp(0);
+        when(menuChooserMock.userPick()).thenReturn(3,3);
+        doThrow(NullPointerException.class).when(systemUnderTest).playRound();
+        //when
+        systemUnderTest.playRound();
+        //then
+        verify(systemUnderTest, times(2)).playRound();
+    }
+    @Test
+    void givenUserPickAndHeroAndEnemyAndEnoughMana_whenPlayRound_thenMyHeroCanUseDefensiveSkills() {
+        //given
+        systemUnderTest.setDuelMenuChooser(menuChooserMock);
+        systemUnderTest.setEnemy(enemyMock);
+        systemUnderTest.setMyHero(myHeroMock);
+        enemyMock = new Enemy("does not matter", new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1));
+        myHeroMock = new Warrior("does not matter");
+        when(menuChooserMock.userPick()).thenReturn(2);
+        //when
+        systemUnderTest.playRound();
+        //then
+        verify(defensiveRoundMock).defensiveSkills();
+        verify(offensiveRoundMock).enemyAttack();
+    }
+    @Test
+    void givenUserPickAndHeroAndEnemywhenPlayRound_thenMyHeroCanUseRest() {
+        //given
+        systemUnderTest.setDuelMenuChooser(menuChooserMock);
+        systemUnderTest.setEnemy(enemyMock);
+        systemUnderTest.setMyHero(myHeroMock);
+        enemyMock = new Enemy("does not matter", new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1));
+        myHeroMock = new Warrior("does not matter");
+        when(menuChooserMock.userPick()).thenReturn(4);
+        //when
+        systemUnderTest.playRound();
+        //then
+        verify(defensiveRoundMock).rest();
+        verify(offensiveRoundMock).enemyAttack();
+    }
 }
