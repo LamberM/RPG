@@ -1,6 +1,9 @@
 package org.LamberM.character;
 
 import org.LamberM.stats.Stats;
+import org.LamberM.utils.MenuChooser;
+
+import java.util.Map;
 
 public class Enemy extends Character {
     public Enemy(String name, Stats stats) {
@@ -8,10 +11,20 @@ public class Enemy extends Character {
     }
 
     @Override
-    public int attack() {
-        System.out.println("Enemy: ");
-        int damage = 20 + getDuelStats().getStrength() + getDuelStats().getDexterity();
-        return damage;
+    public MenuChooser provideDefensiveSkillsMenu() {
+        return null;
+    }
+    @Override
+    public Map<Integer, Runnable> provideDefensiveSkills() {
+        return null;
+    }
+    @Override
+    public MenuChooser provideOffensiveSkillsMenu() {
+        return null;
     }
 
+    @Override
+    public Map<Integer, Runnable> provideOffensiveSkills() {
+        return null;
+    }
 }

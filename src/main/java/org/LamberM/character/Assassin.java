@@ -1,68 +1,42 @@
 package org.LamberM.character;
 
-import lombok.Setter;
 import org.LamberM.stats.Stats;
 import org.LamberM.utils.MenuChooser;
 import org.LamberM.utils.SystemInReader;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Assassin extends Character {
-    @Setter // for tests - setter method injection
-    private MenuChooser offensiveSkillsMenu;
-    @Setter // for tests - setter method injection
-    private MenuChooser defensiveSkillsMenu;
 
     public Assassin(String name) {
         super(name, new Stats(15, 20, 10, 150, 40, 10, 60, 10, 1));
-        offensiveSkillsMenu = new MenuChooser(new SystemInReader(), List.of("1.Hit in the back (20MP)", "2.Critical attack (30MP)", "3.Back to skill menu"));
-        defensiveSkillsMenu = new MenuChooser(new SystemInReader(), List.of("1.Boost dodge and dexterity (20MP)", "2.Back to skill menu"));
     }
 
     @Override
-    public int defensiveSkillsMenu() {
-        if (myHeroCanUseSkill()) {
-            int userChoice = defensiveSkillsMenu.userPick();
-            switch (userChoice) {
-                case 1 -> {
-                    boostDodgeAndDexterity();
-                    return 0;
-                }
-                case 2 -> {
-                    System.out.println("Back to menu");
-                    return 9999;
-                }
-            }
-            return 0;
-        } else {
-            System.out.println("You don't have enough mana points (20MP) ");
-            System.out.println("Back to menu");
-            return 9999;
-        }
+    public MenuChooser provideDefensiveSkillsMenu() {
+        return new MenuChooser(new SystemInReader(), List.of("1.Boost dodge and dexterity (20MP)", "2.Back to skill menu"));
     }
 
     @Override
-    public int offensiveSkillsMenu() {
-        if (myHeroCanUseSkill()) {
-            int userChoice = offensiveSkillsMenu.userPick();
-            switch (userChoice) {
-                case 1 -> {
-                    return hitInTheBack();
-                }
-                case 2 -> {
-                    return criticalAttackSkill();
-                }
-                case 3 -> {
-                    System.out.println("Back to menu");
-                    return 9999;
-                }
-            }
-            return 0;
-        } else {
-            System.out.println("You don't have enough mana points (20MP) ");
-            System.out.println("Back to menu");
-            return 9999;
-        }
+    public Map<Integer, Runnable> provideDefensiveSkills() {
+        Map<Integer, Runnable> defensiveSkillsMap = new HashMap<>();
+        defensiveSkillsMap.put(1, this::boostDodgeAndDexterity);
+        return defensiveSkillsMap;
+    }
+
+    @Override
+    public MenuChooser provideOffensiveSkillsMenu() {
+        return new MenuChooser(new SystemInReader(), List.of("1.Hit in the back (20MP)", "2.Critical attack (30MP)", "3.Back to skill menu"));
+    }
+
+    @Override
+    public Map<Integer, Runnable> provideOffensiveSkills() {
+        Map<Integer, Runnable> offensiveSkillsMap = new HashMap<>();
+        offensiveSkillsMap.put(1, this::hitInTheBack);
+        offensiveSkillsMap.put(2, this::criticalAttackSkill);
+        return offensiveSkillsMap;
     }
 
     //////////////////////////////////// Offensive skills //////////////////////////////////////////////////////////

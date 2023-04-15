@@ -6,64 +6,37 @@ import org.LamberM.stats.Stats;
 import org.LamberM.utils.MenuChooser;
 import org.LamberM.utils.SystemInReader;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Sorcerer extends Character {
-    @Setter // for tests - setter method injection
-    private MenuChooser offensiveSkillsMenu;
-    @Setter // for tests - setter method injection
-    private MenuChooser defensiveSkillsMenu;
 
     public Sorcerer(String name) {
         super(name, new Stats(5, 15, 25, 120, 80, 5, 40, 5, 2));
-        offensiveSkillsMenu = new MenuChooser(new SystemInReader(), List.of("1.Fire ball (20MP)", "2.Snow ball (30MP)", "3.Back to skill menu"));
-        defensiveSkillsMenu = new MenuChooser(new SystemInReader(), List.of("1.Frost armor (20MP)", "2.Back to skill menu"));
     }
 
     @Override
-    public int offensiveSkillsMenu() {
-        if (myHeroCanUseSkill()) {
-            int userChoice = offensiveSkillsMenu.userPick();
-            switch (userChoice) {
-                case 1 -> {
-                    return fireBall();
-                }
-                case 2 -> {
-                    return snowBall();
-                }
-                case 3 -> {
-                    System.out.println("Back to menu");
-                    return 9999;
-                }
-            }
-            return 0;
-        } else {
-            System.out.println("You don't have enough mana points (20MP) ");
-            System.out.println("Back to menu");
-            return 9999;
-        }
+    public MenuChooser provideDefensiveSkillsMenu() {
+        return new MenuChooser(new SystemInReader(), List.of("1.Frost armor (20MP)", "2.Back to skill menu"));
+    }
+    @Override
+    public Map<Integer, Runnable> provideDefensiveSkills() {
+        Map<Integer,Runnable> defensiveSkillsMap = new HashMap<>();
+        defensiveSkillsMap.put(1,this::frostArmor);
+        return defensiveSkillsMap;
+    }
+    @Override
+    public MenuChooser provideOffensiveSkillsMenu() {
+        return new MenuChooser(new SystemInReader(), List.of("1.Fire ball (20MP)", "2.Snow ball (30MP)", "3.Back to skill menu"));
     }
 
     @Override
-    public int defensiveSkillsMenu() {
-        if (myHeroCanUseSkill()) {
-            int userChoice = defensiveSkillsMenu.userPick();
-            switch (userChoice) {
-                case 1 -> {
-                    frostArmor();
-                    return 0;
-                }
-                case 2 -> {
-                    System.out.println("Back to menu");
-                    return 9999;
-                }
-            }
-            return 0;
-        } else {
-            System.out.println("You don't have enough mana points (20MP) ");
-            System.out.println("Back to menu");
-            return 9999;
-        }
+    public Map<Integer, Runnable> provideOffensiveSkills() {
+        Map<Integer,Runnable> offensiveSkillsMap = new HashMap<>();
+        offensiveSkillsMap.put(1,this::fireBall);
+        offensiveSkillsMap.put(2,this::snowBall);
+        return offensiveSkillsMap;
     }
 
     //////////////////////////////////// Offensive skills //////////////////////////////////////////////////////////
