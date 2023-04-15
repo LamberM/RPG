@@ -24,16 +24,14 @@ class HeroCreatorTest implements UnitTest {
     MenuChooser menuChooserMock;
 
     @Test
-    void givenExpectedClassInputReaderAndUserPick_whenCreateHero_givenCreateNewHeroWithName() {
+    void givenExpectedClassInputReaderAndUserPick_whenCreateHero_thenCreateNewHeroWithName() {
         //given
-        Warrior expectedClass = new Warrior("test");
-        systemUnderTest.setClassMenuChooser(menuChooserMock);
-        systemUnderTest.setInputReader(inputReaderMock);
         when(inputReaderMock.read()).thenReturn("test");
         when(menuChooserMock.userPick()).thenReturn(1);
         //when
         Character result = systemUnderTest.createHero();
         //then
+        Warrior expectedClass = new Warrior("test");
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result instanceof Warrior);
         Assertions.assertEquals("test", expectedClass.getName());
@@ -42,14 +40,12 @@ class HeroCreatorTest implements UnitTest {
     @Test
     void givenInvalidValue_whenCreateHero_thenThrowIllegalArgumentException() {
         //given
-        String expectedMessage = "Should never happen";
-        systemUnderTest.setClassMenuChooser(menuChooserMock);
-        systemUnderTest.setInputReader(inputReaderMock);
         when(inputReaderMock.read()).thenReturn("test");
         when(menuChooserMock.userPick()).thenReturn(4);
         //when
         IllegalArgumentException illegalArgumentException = Assertions.assertThrows(IllegalArgumentException.class, () -> systemUnderTest.createHero());
         //then
+        String expectedMessage = "Should never happen, because user must correct pick";
         Assertions.assertTrue(expectedMessage.contains(illegalArgumentException.getMessage()));
     }
 }

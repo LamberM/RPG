@@ -47,7 +47,7 @@ public class HeroCreator {
                 System.out.println("You chose a sorcerer");
                 return new Sorcerer(name);
             }
-            default -> throw new IllegalArgumentException("Should never happen");
+            default -> throw new IllegalArgumentException("Should never happen, because user must correct pick");
         }
 
     }
