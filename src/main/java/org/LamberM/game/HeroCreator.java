@@ -5,6 +5,8 @@ import org.LamberM.character.Assassin;
 import org.LamberM.character.Character;
 import org.LamberM.character.Sorcerer;
 import org.LamberM.character.Warrior;
+import org.LamberM.stats.Stats;
+import org.LamberM.stats.StatsShower;
 import org.LamberM.utils.InputReader;
 import org.LamberM.utils.MenuChooser;
 import org.LamberM.utils.SystemInReader;
@@ -20,13 +22,20 @@ public class HeroCreator {
     private InputReader inputReader;
     @Setter // for tests - setter method injection
     private SystemOutWriter out;
+    @Setter // for tests - setter method injection
+    private StatsShower statsShower;
+
     public HeroCreator() {
         classMenuChooser = new MenuChooser(new SystemInReader(), List.of("1.Warrior", "2.Assassin", "3.Sorcerer", "4.Exit the game"));
         out = new SystemOutWriter();
-        inputReader= new SystemInReader();
+        inputReader = new SystemInReader();
+        statsShower = new StatsShower();
     }
 
     public Character createHero() {
+        statsShower.showStats(Assassin.assassinDefaultStats());
+        statsShower.showStats(Sorcerer.sorcererDefaultStats());
+        statsShower.showStats(Warrior.warriorDefaultStats());
         String name = askForName();
         return askForHeroClass(name);
     }

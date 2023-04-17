@@ -11,7 +11,11 @@ import java.util.Map;
 public class Assassin extends Character {
 
     public Assassin(String name) {
-        super(name, new Stats(15, 20, 10, 150, 40, 10, 60, 10, 1));
+        super(name, assassinDefaultStats());
+    }
+
+    public static Stats assassinDefaultStats() {
+        return new Stats(15, 20, 10, 150, 40, 10, 60, 10, 1);
     }
 
     @Override

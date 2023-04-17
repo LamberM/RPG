@@ -11,7 +11,11 @@ import java.util.Map;
 
 public class Warrior extends Character {
     public Warrior(String name) {
-        super(name, new Stats(20, 15, 10, 200, 40, 5, 100, 5, 1));
+        super(name, warriorDefaultStats());
+    }
+
+    public static Stats warriorDefaultStats() {
+        return new Stats(20, 15, 10, 200, 40, 5, 100, 5, 1);
     }
 
     @Override
@@ -21,21 +25,24 @@ public class Warrior extends Character {
 
     @Override
     public Map<Integer, Runnable> provideDefensiveSkills() {
-        Map<Integer,Runnable> defensiveSkillsMap = new HashMap<>();
-        defensiveSkillsMap.put(1,this::battleCry);
-        defensiveSkillsMap.put(2,this::defensiveCry);
+        Map<Integer, Runnable> defensiveSkillsMap = new HashMap<>();
+        defensiveSkillsMap.put(1, this::battleCry);
+        defensiveSkillsMap.put(2, this::defensiveCry);
         return defensiveSkillsMap;
     }
+
     @Override
     public MenuChooser provideOffensiveSkillsMenu() {
         return new MenuChooser(new SystemInReader(), List.of("1.Double attack (20MP)", "2.Back to skill menu"));
     }
+
     @Override
     public Map<Integer, Runnable> provideOffensiveSkills() {
-        Map<Integer,Runnable> offensiveSkillsMap = new HashMap<>();
-        offensiveSkillsMap.put(1,this::doubleAttack);
+        Map<Integer, Runnable> offensiveSkillsMap = new HashMap<>();
+        offensiveSkillsMap.put(1, this::doubleAttack);
         return offensiveSkillsMap;
     }
+
     //////////////////////////////////// Defensive skills //////////////////////////////////////////////////////////
     private void battleCry() {
         getDuelStats().setStrength(getDuelStats().getStrength() + 10);
