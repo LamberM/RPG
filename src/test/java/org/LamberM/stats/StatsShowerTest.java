@@ -8,17 +8,15 @@ import org.mockito.InjectMocks;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class ShowStatsTest implements UnitTest {
+class StatsShowerTest implements UnitTest {
     @InjectMocks
-    ShowStats systemUnderTest;
+    StatsShower systemUnderTest;
 
     @Test
     void givenListAndWarriorClass_whenShowStats_thenShowWarriorStats() {
         //given
         List<Object> expected = List.of(
-                "My hero stats:",
+                "Stats:",
                 "Strength: 20",
                 "Dexterity: 15",
                 "Intelligence: 10",
@@ -28,11 +26,10 @@ class ShowStatsTest implements UnitTest {
                 "Armor: 100",
                 "Critical attack chance: 5"
         );
-        Warrior warrior = new Warrior("does not matter in test");
         //when
-        systemUnderTest.showStats(warrior);
+        systemUnderTest.showStats(Warrior.warriorDefaultStats());
         //then
-        Assertions.assertEquals(expected.toString(), systemUnderTest.showStats(warrior).toString());
+        Assertions.assertEquals(expected.toString(), systemUnderTest.showStats(Warrior.warriorDefaultStats()).toString());
     }
 
 }
