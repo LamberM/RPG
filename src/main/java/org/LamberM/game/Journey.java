@@ -2,9 +2,10 @@ package org.LamberM.game;
 
 import lombok.Setter;
 import org.LamberM.character.Character;
-import org.LamberM.stats.ShowStats;
+import org.LamberM.stats.StatsShower;
 import org.LamberM.utils.MenuChooser;
 import org.LamberM.utils.SystemInReader;
+import org.LamberM.utils.SystemOutWriter;
 
 import java.util.List;
 
@@ -12,31 +13,32 @@ public class Journey {
     @Setter // for tests - setter method injection
     private MenuChooser journeyMenuChooser;
     @Setter // for tests - setter method injection
-    private MenuChooser newJourneyMenuChooser;
+    private StatsShower statsShower;
     @Setter // for tests - setter method injection
-    private  Character myHero;
+    private SystemOutWriter outWriter;
+    @Setter // for tests - setter method injection
+    private DuelMaker duelMaker;
+    private final EnemyCreator enemyCreator;
 
-    public Journey(Character myHero) {
-        this.myHero = myHero;
+    public Journey() {
         journeyMenuChooser = new MenuChooser(new SystemInReader(), List.of("1.Fight", "2.Look at stats", "3.Add stats points", "4.Exit the game"));
+        statsShower = new StatsShower();
+        outWriter = new SystemOutWriter();
+        duelMaker = new DuelMaker();
+        enemyCreator = new EnemyCreator();
     }
 
-    public void startJourney() {
-        System.out.println("Hello " + myHero.getName());
-        System.out.println("Are you ready for adventure ?");
-        System.out.println("Your choice possibilities:");
+    public void startJourney(Character myHero) {
+        outWriter.show("Hello " + myHero.getName());
+        outWriter.show("Are you ready for adventure ?");
+        outWriter.show("Your choice possibilities:");
         int userChoice = journeyMenuChooser.userPick();
         switch (userChoice) {
             case 1 -> {
-                EnemyCreator enemyCreator = new EnemyCreator();
                 Character enemy = enemyCreator.createEnemy();
-                Duel duel = new Duel(myHero, enemy);
-                duel.duelMenu();
+                duelMaker.duelMenu(myHero, enemy);
             }
-            case 2 -> {
-                ShowStats show = new ShowStats();
-                show.showStats(myHero);
-            }
+            case 2 -> statsShower.showStats(myHero.getStats());
             case 3 -> {
 //                Level level = new Level();
 //                level.lvlUP();
@@ -50,7 +52,7 @@ public class Journey {
 //                    level.setLvlToCompare(level.getLvl() + 1);
 //                }
             }
-            case 4 -> System.out.println("See you later, bye");
+            case 4 -> outWriter.show("See you later, bye");
         }
     }
 }
