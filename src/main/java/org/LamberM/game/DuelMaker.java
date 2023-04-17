@@ -22,14 +22,18 @@ public class DuelMaker {
         int roundCounter = 0;
         while (!heroWin(enemy) || !enemyWin(myHero)) {
             roundCounter++;
-            outWriter.show("RoundMaker number " + roundCounter);
+            outWriter.setText("RoundMaker number " + roundCounter);
+            outWriter.show();
             roundMaker.playRound(myHero,enemy);
         }
         if (enemyWin(myHero)) {
-            outWriter.show("You lost");
-            outWriter.show("GAME IS OVER");
+            outWriter.setText("You lost");
+            outWriter.show();
+            outWriter.setText("GAME IS OVER");
+            outWriter.show();
         } else {
-            System.out.println("You won");
+            outWriter.setText("You won");
+            outWriter.show();
 //            Level level = new Level();
 //            level.addExp();
             journey.startJourney(myHero);

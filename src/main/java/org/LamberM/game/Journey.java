@@ -29,9 +29,12 @@ public class Journey {
     }
 
     public void startJourney(Character myHero) {
-        outWriter.show("Hello " + myHero.getName());
-        outWriter.show("Are you ready for adventure ?");
-        outWriter.show("Your choice possibilities:");
+        outWriter.setText("Hello " + myHero.getName());
+        outWriter.show();
+        outWriter.setText("Are you ready for adventure ?");
+        outWriter.show();
+        outWriter.setText("Your choice possibilities:");
+        outWriter.show();
         int userChoice = journeyMenuChooser.userPick();
         switch (userChoice) {
             case 1 -> {
@@ -52,7 +55,10 @@ public class Journey {
 //                    level.setLvlToCompare(level.getLvl() + 1);
 //                }
             }
-            case 4 -> outWriter.show("See you later, bye");
+            case 4 -> {
+                outWriter.setText("See you later, bye");
+                outWriter.show();
+            }
         }
     }
 }

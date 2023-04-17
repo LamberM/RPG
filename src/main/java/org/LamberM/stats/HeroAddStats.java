@@ -31,18 +31,27 @@ public class HeroAddStats {
         );
     }
     public void addStats(Character myHero) {
-        outWriter.show("Your experience points " + currentPoints);
-        outWriter.show("Your stats for change:");
-        outWriter.show("Strength: " + myHero.getStats().getStrength());
-        outWriter.show("Dexterity: " + myHero.getStats().getDexterity());
-        outWriter.show("Intelligence: " + myHero.getStats().getIntelligence());
-        outWriter.show("Add stats points");
+        outWriter.setText("Your experience points " + currentPoints);
+        outWriter.show();
+        outWriter.setText("Your stats for change:");
+        outWriter.show();
+        outWriter.setText("Strength: " + myHero.getStats().getStrength());
+        outWriter.show();
+        outWriter.setText("Dexterity: " + myHero.getStats().getDexterity());
+        outWriter.show();
+        outWriter.setText("Intelligence: " + myHero.getStats().getIntelligence());
+        outWriter.show();
+        outWriter.setText("Add stats points");
+        outWriter.show();
         int userChoice = addStatsMenuChooser.userPick();
         switch (userChoice) {
             case 1 -> addStrength(myHero);
             case 2 -> addDexterity(myHero);
             case 3 -> addIntelligence(myHero);
-            case 4 -> outWriter.show("Back to menu");
+            case 4 -> {
+                outWriter.setText("Back to menu");
+                outWriter.show();
+            }
         }
 
     }
@@ -53,30 +62,36 @@ public class HeroAddStats {
 
     private void addStrength(Character myHero) {
         if (currentPointsEqualsZero()) {
-            outWriter.show("You don't have enough points");
+            outWriter.setText("You don't have enough points");
+            outWriter.show();
         } else {
             myHero.getStats().setStrength(myHero.getStats().getStrength() + 5);
-            outWriter.show("Strength: " + myHero.getStats().getStrength());
+            outWriter.setText("Strength: " + myHero.getStats().getStrength());
+            outWriter.show();
             currentPoints = currentPoints - 5;
         }
     }
 
     private void addDexterity(Character myHero) {
         if (currentPointsEqualsZero()) {
-            outWriter.show("You don't have enough points");
+            outWriter.setText("You don't have enough points");
+            outWriter.show();
         } else {
             myHero.getStats().setDexterity(myHero.getStats().getDexterity() + 5);
-            outWriter.show("Dexterity: " + myHero.getStats().getDexterity());
+            outWriter.setText("Dexterity: " + myHero.getStats().getDexterity());
+            outWriter.show();
             currentPoints = currentPoints - 5;
         }
     }
 
     private void addIntelligence(Character myHero) {
         if (currentPointsEqualsZero()) {
-            outWriter.show("You don't have enough points");
+            outWriter.setText("You don't have enough points");
+            outWriter.show();
         } else {
             myHero.getStats().setIntelligence(myHero.getStats().getIntelligence() + 5);
-            outWriter.show("Intelligence:" + myHero.getStats().getIntelligence());
+            outWriter.setText("Intelligence:" + myHero.getStats().getIntelligence());
+            outWriter.show();
             currentPoints = currentPoints - 5;
         }
     }

@@ -1,29 +1,39 @@
 package org.LamberM.game;
 
 
+import lombok.Setter;
 import org.LamberM.character.Character;
+import org.LamberM.utils.SystemOutWriter;
 
 import java.util.Map;
 import java.util.Random;
 
 public class OffensiveRoundMaker {
-
+    @Setter // for tests - setter method injection
+    private SystemOutWriter outWriter;
     private int criticalChance;
     private int attackChance;
     private int dodgeChance;
+
+    public OffensiveRoundMaker() {
+        this.outWriter = new SystemOutWriter();
+    }
 
     public void attack(Character attacker , Character defender) {
         attackOrCriticalOrMiss(attacker,defender);
         int attack = 20 + attacker.getDuelStats().getStrength() + attacker.getDuelStats().getDexterity();
         if (attackerMiss()) {
-            System.out.println("You missed");
+            outWriter.setText("You missed");
+            outWriter.show();
         } else {
             if (criticalAttack()) {
                 int critical = 2 * attack;
-                System.out.println("Critical attack for: " + critical + "!!!!!!!!!!!!");
+                outWriter.setText("Critical attack for: " + critical + "!!!!!!!!!!!!");
+                outWriter.show();
                 defender.getDuelStats().setHp(defender.getDuelStats().getHp() - (critical - (defender.getDuelStats().getArmor() / 10)));
             } else {
-                System.out.println("Attack for: " + attack);
+                outWriter.setText("Attack for: " + attack);
+                outWriter.show();
                 defender.getDuelStats().setHp(defender.getDuelStats().getHp() - (attack - (defender.getDuelStats().getArmor() / 10)));
             }
         }
@@ -34,15 +44,18 @@ public class OffensiveRoundMaker {
             Map<Integer, Runnable> offensiveSkillsMap = myHero.provideOffensiveSkills();
             Runnable defensiveSkill = offensiveSkillsMap.get(userChoice);
             if (defensiveSkill == null) {
-                System.out.println("Back to menu");
+                outWriter.setText("Back to menu");
+                outWriter.show();
                 return 9999;
             } else {
                 defensiveSkill.run();
                 return 0;
             }
         } else {
-            System.out.println("You don't have enough mana points (20MP) ");
-            System.out.println("Back to menu");
+            outWriter.setText("You don't have enough mana points (20MP) ");
+            outWriter.show();
+            outWriter.setText("Back to menu");
+            outWriter.show();
             return 9999;
         }
     }

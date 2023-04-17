@@ -61,22 +61,27 @@ public class RoundMaker {
     }
 
     private void heroStatsInDuel(Character myHero) {
-        outWriter.show("My hero");
-        outWriter.show("HP: " + myHero.getDuelStats().getHp() + " MP: " + myHero.getDuelStats().getMp());
-
+        outWriter.setText("My hero");
+        outWriter.show();
+        outWriter.setText("HP: " + myHero.getDuelStats().getHp() + " MP: " + myHero.getDuelStats().getMp());
+        outWriter.show();
     }
 
     private void enemyStatsInDuel(Character enemy) {
-        outWriter.show("Enemy");
-        outWriter.show("HP: " + enemy.getDuelStats().getHp());
+        outWriter.setText("Enemy");
+        outWriter.show();
+        outWriter.setText("HP: " + enemy.getDuelStats().getHp());
+        outWriter.show();
     }
 
     private void enemyAttack(Character enemy,Character myHero) {
         if (enemyCanAttack(enemy)) {
             offensiveRoundMaker.attack(enemy,myHero);
         } else {
-            outWriter.show("I can't have to hit enemy. My attack range is too small");
-            outWriter.show("Step forward");
+            outWriter.setText("I can't have to hit enemy. My attack range is too small");
+            outWriter.show();
+            outWriter.setText("Step forward");
+            outWriter.show();
             range = range - 1;
         }
     }
@@ -87,7 +92,8 @@ public class RoundMaker {
 
     private void myHeroAttack(Character myHero, Character enemy) {
         if (!heroHaveAttackRange(myHero)) {
-            outWriter.show("You can't have to hit enemy. Your attack range is too small");
+            outWriter.setText("You can't have to hit enemy. Your attack range is too small");
+            outWriter.show();
             playRound(myHero,enemy);
         }
         else {
@@ -105,11 +111,13 @@ public class RoundMaker {
                 offensiveRoundMaker.offensiveSkills(myHero);
                 enemyAttack(enemy,myHero);
             } else {
-                outWriter.show("You can't have to hit enemy. Your attack range is too small");
+                outWriter.setText("You can't have to hit enemy. Your attack range is too small");
+                outWriter.show();
                 playRound(myHero,enemy);
             }
         } else {
-            outWriter.show("Not enough mana points to use offensive skills");
+            outWriter.setText("Not enough mana points to use offensive skills");
+            outWriter.show();
             playRound(myHero,enemy);
         }
     }
@@ -119,7 +127,8 @@ public class RoundMaker {
             defensiveRoundMaker.defensiveSkills(myHero);
             enemyAttack(enemy,myHero);
         } else {
-            outWriter.show("Not enough mana points to use defensive skills");
+            outWriter.setText("Not enough mana points to use defensive skills");
+            outWriter.show();
             playRound(myHero,enemy);
         }
     }

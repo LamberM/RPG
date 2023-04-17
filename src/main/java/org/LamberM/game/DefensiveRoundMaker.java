@@ -8,10 +8,10 @@ import java.util.Map;
 
 public class DefensiveRoundMaker {
     @Setter // for tests - setter method injection
-    private SystemOutWriter out;
+    private SystemOutWriter outWriter;
 
     public DefensiveRoundMaker() {
-        this.out = new SystemOutWriter();
+        this.outWriter = new SystemOutWriter();
     }
 
     public int defensiveSkills(Character myHero) {
@@ -20,15 +20,18 @@ public class DefensiveRoundMaker {
             Map<Integer, Runnable> defensiveSkillsMap = myHero.provideDefensiveSkills();
             Runnable defensiveSkill = defensiveSkillsMap.get(userChoice);
             if (defensiveSkill == null) {
-                out.show("Back to menu");
+                outWriter.setText("Back to menu");
+                outWriter.show();
                 return 9999;
             } else {
                 defensiveSkill.run();
                 return 0;
             }
         } else {
-            out.show("You don't have enough mana points (20MP) ");
-            out.show("Back to menu");
+            outWriter.setText("You don't have enough mana points (20MP) ");
+            outWriter.show();
+            outWriter.setText("Back to menu");
+            outWriter.show();
             return 9999;
         }
     }
@@ -41,8 +44,10 @@ public class DefensiveRoundMaker {
             myHero.getDuelStats().setHp(myHero.getDuelStats().getHp());
             myHero.getDuelStats().setMp(myHero.getDuelStats().getMp());
         } else {
-            out.show("Your HP: " + myHero.getDuelStats().getHp());
-            out.show("Your MP: " + myHero.getDuelStats().getMp());
+            outWriter.setText("Your HP: " + myHero.getDuelStats().getHp());
+            outWriter.show();
+            outWriter.setText("Your MP: " + myHero.getDuelStats().getMp());
+            outWriter.show();
         }
     }
 

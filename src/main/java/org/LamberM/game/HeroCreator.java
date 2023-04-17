@@ -5,7 +5,6 @@ import org.LamberM.character.Assassin;
 import org.LamberM.character.Character;
 import org.LamberM.character.Sorcerer;
 import org.LamberM.character.Warrior;
-import org.LamberM.stats.Stats;
 import org.LamberM.stats.StatsShower;
 import org.LamberM.utils.InputReader;
 import org.LamberM.utils.MenuChooser;
@@ -21,13 +20,13 @@ public class HeroCreator {
     @Setter // for tests - setter method injection
     private InputReader inputReader;
     @Setter // for tests - setter method injection
-    private SystemOutWriter out;
+    private SystemOutWriter outWriter;
     @Setter // for tests - setter method injection
     private StatsShower statsShower;
 
     public HeroCreator() {
         classMenuChooser = new MenuChooser(new SystemInReader(), List.of("1.Warrior", "2.Assassin", "3.Sorcerer", "4.Exit the game"));
-        out = new SystemOutWriter();
+        outWriter = new SystemOutWriter();
         inputReader = new SystemInReader();
         statsShower = new StatsShower();
     }
@@ -41,24 +40,28 @@ public class HeroCreator {
     }
 
     private String askForName() {
-        out.show("Enter your character's name");
+        outWriter.setText("Enter your character's name");
+        outWriter.show();
         return inputReader.read();
     }
 
     private Character askForHeroClass(String name) {
-        out.show("Choose a class");
+        outWriter.setText("Choose a class");
         int userChoice = classMenuChooser.userPick();
         switch (userChoice) {
             case 1 -> {
-                out.show("You chose a warrior");
+                outWriter.setText("You chose a warrior");
+                outWriter.show();
                 return new Warrior(name);
             }
             case 2 -> {
-                out.show("You chose a assassin");
+                outWriter.setText("You chose a assassin");
+                outWriter.show();
                 return new Assassin(name);
             }
             case 3 -> {
-                out.show("You chose a sorcerer");
+                outWriter.setText("You chose a sorcerer");
+                outWriter.show();
                 return new Sorcerer(name);
             }
             default -> throw new IllegalArgumentException("Should never happen, because user must correct pick");
