@@ -6,6 +6,7 @@ import org.LamberM.character.Character;
 import org.LamberM.character.Warrior;
 import org.LamberM.utils.InputReader;
 import org.LamberM.utils.MenuChooser;
+import org.LamberM.utils.SystemOutWriter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,6 +23,8 @@ class HeroCreatorTest implements UnitTest {
     InputReader inputReaderMock;
     @Mock
     MenuChooser menuChooserMock;
+    @Mock
+    SystemOutWriter systemOutWriterMock;
 
     @Test
     void givenExpectedClassInputReaderAndUserPick_whenCreateHero_thenCreateNewHeroWithName() {
