@@ -5,21 +5,22 @@ import lombok.Setter;
 import org.LamberM.character.Character;
 import org.LamberM.utils.MenuChooser;
 import org.LamberM.utils.SystemInReader;
+import org.LamberM.utils.SystemOutWriter;
 
 import java.util.List;
 
 public class HeroAddStats {
     @Setter // for tests - setter method injection
-    private Character myHero;
-    @Setter // for tests - setter method injection
     private MenuChooser addStatsMenuChooser;
+    @Setter // for tests - setter method injection
+    private SystemOutWriter outWriter;
     @Getter
     @Setter // for tests
     private int currentPoints = 10;
 
-    public HeroAddStats(Character myHero) {
-        this.myHero = myHero;
-        currentPoints = 0;
+
+    public HeroAddStats() {
+        outWriter = new SystemOutWriter();
         addStatsMenuChooser = new MenuChooser(new SystemInReader(),
                 List.of(
                         "1.Strength (cost=5pts)",
@@ -29,53 +30,53 @@ public class HeroAddStats {
                 )
         );
     }
-    public void addStats() {
-        System.out.println("Your experience points " + currentPoints);
-        System.out.println("Your stats for change:");
-        System.out.println("Strength: " + myHero.getStats().getStrength());
-        System.out.println("Dexterity: " + myHero.getStats().getDexterity());
-        System.out.println("Intelligence: " + myHero.getStats().getIntelligence());
-        System.out.println("Add stats points");
+    public void addStats(Character myHero) {
+        outWriter.show("Your experience points " + currentPoints);
+        outWriter.show("Your stats for change:");
+        outWriter.show("Strength: " + myHero.getStats().getStrength());
+        outWriter.show("Dexterity: " + myHero.getStats().getDexterity());
+        outWriter.show("Intelligence: " + myHero.getStats().getIntelligence());
+        outWriter.show("Add stats points");
         int userChoice = addStatsMenuChooser.userPick();
         switch (userChoice) {
-            case 1 -> addStrength();
-            case 2 -> addDexterity();
-            case 3 -> addIntelligence();
-            case 4 -> System.out.println("Back to menu");
+            case 1 -> addStrength(myHero);
+            case 2 -> addDexterity(myHero);
+            case 3 -> addIntelligence(myHero);
+            case 4 -> outWriter.show("Back to menu");
         }
 
     }
 
-    public boolean currentPointsIsNull() {
+    public boolean currentPointsEqualsZero() {
         return currentPoints == 0;
     }
 
-    private void addStrength() {
-        if (currentPointsIsNull()) {
-            System.out.println("You don't have enough points");
+    private void addStrength(Character myHero) {
+        if (currentPointsEqualsZero()) {
+            outWriter.show("You don't have enough points");
         } else {
             myHero.getStats().setStrength(myHero.getStats().getStrength() + 5);
-            System.out.println("Strength: " + myHero.getStats().getStrength());
+            outWriter.show("Strength: " + myHero.getStats().getStrength());
             currentPoints = currentPoints - 5;
         }
     }
 
-    private void addDexterity() {
-        if (currentPointsIsNull()) {
-            System.out.println("You don't have enough points");
+    private void addDexterity(Character myHero) {
+        if (currentPointsEqualsZero()) {
+            outWriter.show("You don't have enough points");
         } else {
             myHero.getStats().setDexterity(myHero.getStats().getDexterity() + 5);
-            System.out.println("Dexterity: " + myHero.getStats().getDexterity());
+            outWriter.show("Dexterity: " + myHero.getStats().getDexterity());
             currentPoints = currentPoints - 5;
         }
     }
 
-    private void addIntelligence() {
-        if (currentPointsIsNull()) {
-            System.out.println("You don't have enough points");
+    private void addIntelligence(Character myHero) {
+        if (currentPointsEqualsZero()) {
+            outWriter.show("You don't have enough points");
         } else {
             myHero.getStats().setIntelligence(myHero.getStats().getIntelligence() + 5);
-            System.out.println("Intelligence:" + myHero.getStats().getIntelligence());
+            outWriter.show("Intelligence:" + myHero.getStats().getIntelligence());
             currentPoints = currentPoints - 5;
         }
     }
