@@ -15,16 +15,16 @@ class StatsShowerTest implements UnitTest {
     @Test
     void givenListAndWarriorClass_whenShowStats_thenShowWarriorStats() {
         //given
-        List<Object> expected = List.of(
-                "Stats:",
-                "Strength: 20",
-                "Dexterity: 15",
-                "Intelligence: 10",
-                "HP: 200",
-                "MP: 40",
-                "Dodge: 5",
-                "Armor: 100",
-                "Critical attack chance: 5"
+        String expected = (
+                "Stats:"+
+                "\nStrength: 20"+
+                "\nDexterity: 15"+
+                "\nIntelligence: 10"+
+                "\nHP: 200"+
+                "\nMP: 40"+
+                "\nDodge: 5"+
+                "\nArmor: 100"+
+                "\nCritical attack chance: 5"
         );
         //when
         systemUnderTest.showStats(Warrior.warriorDefaultStats());
