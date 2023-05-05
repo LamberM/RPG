@@ -44,17 +44,10 @@ public class Assassin extends Character {
     }
 
     //////////////////////////////////// Offensive skills //////////////////////////////////////////////////////////
-    private boolean currentMpIsEnoughToUseCriticalAttack() {
-        return getDuelStats().getMp() >= 30;
-    }
 
     private int criticalAttackSkill() {
-        if (currentMpIsEnoughToUseCriticalAttack()) {
-            return (40 + (getDuelStats().getDexterity() / 5));
-        } else {
-            System.out.println("You don't have enough mana point");
-            return 9999;
-        }
+        getDuelStats().setMp(getDuelStats().getMp() - 20);
+        return (30 + (getDuelStats().getDexterity() / 5));
     }
 
     private int hitInTheBack() {

@@ -20,7 +20,7 @@ public class Warrior extends Character {
 
     @Override
     public MenuChooser provideDefensiveSkillsMenu() {
-        return new MenuChooser(new SystemInReader(), List.of("1.Battle cry (20MP)", "2.Defensive cry (20MP)", "2.Back to skill menu"));
+        return new MenuChooser(new SystemInReader(), List.of("1.Battle cry (20MP)", "2.Defensive cry (20MP)", "3.Back to skill menu"));
     }
 
     @Override

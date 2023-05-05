@@ -6,8 +6,11 @@ import org.LamberM.utils.MenuChooser;
 import java.util.Map;
 
 public class Enemy extends Character {
-    public Enemy(String name, Stats stats) {
-            super(name, new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1));
+    public Enemy(String name) {
+            super(name,enemyDefaultStats() );
+    }
+    public static Stats enemyDefaultStats() {
+        return new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1);
     }
 
     @Override

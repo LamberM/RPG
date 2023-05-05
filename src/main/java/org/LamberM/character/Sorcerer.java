@@ -50,18 +50,10 @@ public class Sorcerer extends Character {
         return 30 + (getDuelStats().getIntelligence() / 5);
     }
 
-    private boolean currentMpIsEnoughToUseSnowBall() {
-        return getDuelStats().getMp() >= 30;
-    }
 
     private int snowBall() {
-        if (currentMpIsEnoughToUseSnowBall()) {
             getDuelStats().setMp(getDuelStats().getMp() - 30);
-            return 45 + (getDuelStats().getIntelligence() / 5);
-        } else {
-            System.out.println("You don't have enough mana point");
-            return 9999;
-        }
+            return 30 + (getDuelStats().getIntelligence() / 5);
     }
 
     //////////////////////////////////// Defensive skills //////////////////////////////////////////////////////////
