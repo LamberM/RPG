@@ -14,45 +14,32 @@ public class DefensiveRoundMaker {
         this.outWriter = new SystemOutWriter();
     }
 
-    public int defensiveSkills(Character myHero) {
-        if (myHeroCanUseSkill(myHero)) {
+    public void defensiveSkills(Character myHero) {
             int userChoice = myHero.provideDefensiveSkillsMenu().userPick();
             Map<Integer, Runnable> defensiveSkillsMap = myHero.provideDefensiveSkills();
             Runnable defensiveSkill = defensiveSkillsMap.get(userChoice);
             if (defensiveSkill == null) {
                 outWriter.setText("Back to menu");
                 outWriter.show();
-                return 9999;
             } else {
                 defensiveSkill.run();
-                return 0;
             }
-        } else {
-            outWriter.setText("You don't have enough mana points (20MP) ");
-            outWriter.show();
-            outWriter.setText("Back to menu");
-            outWriter.show();
-            return 9999;
         }
-    }
 
     public void rest(Character myHero) {
-        int currentHp = myHero.getDuelStats().getHp() + 20;
-        int currentMp = myHero.getDuelStats().getMp() + 20;
+        int hpBeforeRest = myHero.getDuelStats().getHp();
+        int mpBeforeRest = myHero.getDuelStats().getMp();
+        myHero.getDuelStats().setHp(myHero.getDuelStats().getHp() + 20);
+        myHero.getDuelStats().setMp(myHero.getDuelStats().getMp() + 20);
 
-        if (currentHp >= myHero.getDuelStats().getHp() || currentMp >= myHero.getDuelStats().getMp()) {
-            myHero.getDuelStats().setHp(myHero.getDuelStats().getHp());
-            myHero.getDuelStats().setMp(myHero.getDuelStats().getMp());
+        if (myHero.getDuelStats().getHp() >=hpBeforeRest || myHero.getDuelStats().getMp()>= mpBeforeRest) {
+            myHero.getDuelStats().setHp(hpBeforeRest);
+            myHero.getDuelStats().setMp(mpBeforeRest);
         } else {
-            outWriter.setText("Your HP: " + myHero.getDuelStats().getHp());
-            outWriter.show();
-            outWriter.setText("Your MP: " + myHero.getDuelStats().getMp());
+            outWriter.setText("Your HP: " + myHero.getDuelStats().getHp()+
+            "\nYour MP: " + myHero.getDuelStats().getMp());
             outWriter.show();
         }
-    }
-
-    private boolean myHeroCanUseSkill(Character myHero) {
-        return myHero.getDuelStats().getMp() >= 20;
     }
 
 }

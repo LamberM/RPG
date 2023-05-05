@@ -13,36 +13,29 @@ public class Journey {
     @Setter // for tests - setter method injection
     private MenuChooser journeyMenuChooser;
     @Setter // for tests - setter method injection
-    private StatsShower statsShower;
-    @Setter // for tests - setter method injection
     private SystemOutWriter outWriter;
     @Setter // for tests - setter method injection
     private DuelMaker duelMaker;
-    private final EnemyCreator enemyCreator;
+    @Setter // for tests - setter method injection
+    private StatsShower statsShower;
 
     public Journey() {
         journeyMenuChooser = new MenuChooser(new SystemInReader(), List.of("1.Fight", "2.Look at stats", "3.Add stats points", "4.Exit the game"));
-        statsShower = new StatsShower();
         outWriter = new SystemOutWriter();
         duelMaker = new DuelMaker();
-        enemyCreator = new EnemyCreator();
+        statsShower = new StatsShower();
     }
 
-    public void startJourney(Character myHero) {
-        outWriter.setText("Hello " + myHero.getName());
-        outWriter.show();
-        outWriter.setText("Are you ready for adventure ?");
-        outWriter.show();
-        outWriter.setText("Your choice possibilities:");
-        outWriter.show();
+    public void startJourney(Character myHero,Character enemy) {
+        outWriter.setText("Hello" + myHero.getName()+
+                "\nAre you ready for adventure ?"+
+                "\nYour choice possibilities:");
+         outWriter.show();
         int userChoice = journeyMenuChooser.userPick();
         switch (userChoice) {
-            case 1 -> {
-                Character enemy = enemyCreator.createEnemy();
-                duelMaker.duelMenu(myHero, enemy);
-            }
+            case 1 -> duelMaker.duelMenu(myHero,enemy);
             case 2 -> statsShower.showStats(myHero.getStats());
-            case 3 -> {
+//            case 3 -> {
 //                Level level = new Level();
 //                level.lvlUP();
 //                if (!level.getLvlUp()) {
@@ -54,7 +47,7 @@ public class Journey {
 //                    }
 //                    level.setLvlToCompare(level.getLvl() + 1);
 //                }
-            }
+//            }
             case 4 -> {
                 outWriter.setText("See you later, bye");
                 outWriter.show();

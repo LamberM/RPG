@@ -38,26 +38,27 @@ public class OffensiveRoundMaker {
             }
         }
     }
-    public int offensiveSkills(Character myHero) {
-        if (myHeroCanUseSkill(myHero)) {
+    public void offensiveSkills(Character myHero , Character enemy) {
             int userChoice = myHero.provideOffensiveSkillsMenu().userPick();
             Map<Integer, Runnable> offensiveSkillsMap = myHero.provideOffensiveSkills();
-            Runnable defensiveSkill = offensiveSkillsMap.get(userChoice);
-            if (defensiveSkill == null) {
+            Runnable offensiveSkill = offensiveSkillsMap.get(userChoice);
+            if (offensiveSkill == null) {
                 outWriter.setText("Back to menu");
                 outWriter.show();
-                return 9999;
             } else {
-                defensiveSkill.run();
-                return 0;
+                offensiveSkill.run();
+                attackOrCriticalOrMiss(myHero,enemy);
+                if (attackerMiss()){
+                    outWriter.setText("You missed");
+                    outWriter.show();
+                }
+                else {
+                    if (criticalAttack()){
+
+                    }
+                }
+
             }
-        } else {
-            outWriter.setText("You don't have enough mana points (20MP) ");
-            outWriter.show();
-            outWriter.setText("Back to menu");
-            outWriter.show();
-            return 9999;
-        }
     }
 
     private void attackOrCriticalOrMiss(Character attacker , Character defender) {
@@ -65,9 +66,6 @@ public class OffensiveRoundMaker {
         attackChance = attacker.getDuelStats().getDexterity() + draw.nextInt(101);
         dodgeChance = defender.getDuelStats().getDodge() + draw.nextInt(101);
         criticalChance = attacker.getDuelStats().getCriticalChance() + draw.nextInt(101);
-    }
-    private boolean myHeroCanUseSkill(Character myHero) {
-        return myHero.getDuelStats().getMp() >= 20;
     }
     private boolean attackerMiss() {
         return dodgeChance >= attackChance;

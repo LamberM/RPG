@@ -10,8 +10,7 @@ public class EnemyCreator {
 
     public Character createEnemy() {
         String name = createName();
-        Stats stats = generateStats();
-        return new Enemy(name, stats);
+        return new Enemy(name);
     }
 
     private String createName() {
@@ -27,11 +26,11 @@ public class EnemyCreator {
         return "Glen";
     }
 
-    private Stats generateStats() {
+//    private Stats generateStats() {
 //        Random draw = new Random();
 //        int num = draw.nextInt(5);
 //        return new Stats(15 + num, 20 + num, 10 + num, 150 + (num * 10), 1, 10 + num, 60 + (num * 5), 10 + num, 1);
-        return new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1);
-    }
+//        return new Stats(15, 20, 10, 150, 1, 10, 60, 10, 1);
+//    }
 
 }
