@@ -21,7 +21,7 @@ public class OffensiveRoundMaker {
 
     public void attack(Character attacker , Character defender) {
         attackOrCriticalOrMiss(attacker,defender);
-        int attack = 20 + attacker.getDuelStats().getStrength() + attacker.getDuelStats().getDexterity();
+        int attack = (20 + attacker.getDuelStats().getStrength() + attacker.getDuelStats().getDexterity()) - (defender.getDuelStats().getArmor() / 10);
         if (attackerMiss()) {
             outWriter.setText("You missed");
             outWriter.show();
@@ -30,11 +30,11 @@ public class OffensiveRoundMaker {
                 int critical = 2 * attack;
                 outWriter.setText("Critical attack for: " + critical + "!!!!!!!!!!!!");
                 outWriter.show();
-                defender.getDuelStats().setHp(defender.getDuelStats().getHp() - (critical - (defender.getDuelStats().getArmor() / 10)));
+                defender.getDuelStats().setHp(defender.getDuelStats().getHp() - critical);
             } else {
                 outWriter.setText("Attack for: " + attack);
                 outWriter.show();
-                defender.getDuelStats().setHp(defender.getDuelStats().getHp() - (attack - (defender.getDuelStats().getArmor() / 10)));
+                defender.getDuelStats().setHp(defender.getDuelStats().getHp() - attack);
             }
         }
     }
@@ -48,13 +48,21 @@ public class OffensiveRoundMaker {
             } else {
                 offensiveSkill.run();
                 attackOrCriticalOrMiss(myHero,enemy);
+                int attack = - (enemy.getDuelStats().getArmor() / 10);
                 if (attackerMiss()){
                     outWriter.setText("You missed");
                     outWriter.show();
                 }
                 else {
-                    if (criticalAttack()){
-
+                    if (!criticalAttack()){outWriter.setText("Attack for: " + attack);
+                        outWriter.show();
+                        enemy.getDuelStats().setHp(enemy.getDuelStats().getHp() - attack );
+                    }
+                    else {
+                        int critical = 2 * attack;
+                        outWriter.setText("Critical attack for: " + critical + "!!!!!!!!!!!!");
+                        outWriter.show();
+                        enemy.getDuelStats().setHp(enemy.getDuelStats().getHp() - critical );
                     }
                 }
 

@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -36,13 +39,14 @@ class DefensiveRoundMakerTest implements UnitTest {
     void givenWarriorAndProvider_whenDefensiveSkills_thenCanUseBattleCry(){
         //given
         int userChoice=1;
-        Warrior givenWarrior = mock(Warrior.class);
+        Warrior givenWarrior = new Warrior("does not matter");
         MenuChooser menuChooserMock = mock(MenuChooser.class);
         when(menuChooserMock.userPick()).thenReturn(givenWarrior.provideDefensiveSkillsMenu().userPick());
-        when(menuChooserMock.userPick()).thenReturn(userChoice);
-//        when(givenWarrior.provideDefensiveSkillsMenu().userPick()).thenReturn(menuChooserMock.userPick());
-//        when(givenWarrior.provideDefensiveSkillsMenu().userPick()).thenReturn(userChoice);
-        when(givenWarrior.provideDefensiveSkills().get(userChoice));
+        when(givenWarrior.provideDefensiveSkillsMenu().userPick()).thenReturn(userChoice);
+        Map<Integer,Runnable> defSkillsMap = new HashMap<>();
+        when(defSkillsMap).thenReturn(givenWarrior.provideDefensiveSkills());
+        Runnable useDefSkill = null;
+        when(useDefSkill).thenReturn(givenWarrior.provideDefensiveSkills().get(userChoice));
         //when
         systemUnderTest.defensiveSkills(givenWarrior);
         //then
