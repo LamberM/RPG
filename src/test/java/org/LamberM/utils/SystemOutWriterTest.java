@@ -12,10 +12,9 @@ class SystemOutWriterTest implements UnitTest {
     @Test
     void givenText_whenWrite_thenShowText(){
         //given
-        systemUnderTest.setText("TEEEEEST");
         //when
-        String actual = systemUnderTest.show();
+        String actual = systemUnderTest.show("TEEEEEST");
         //then
-        Assertions.assertEquals(systemUnderTest.getText(),actual);
+        Assertions.assertEquals("TEEEEEST",actual);
     }
 }
