@@ -3,9 +3,6 @@ package org.LamberM.game;
 import org.LamberM.UnitTest;
 import org.LamberM.character.Enemy;
 import org.LamberM.character.Warrior;
-import org.LamberM.stats.Stats;
-import org.LamberM.utils.SystemOutWriter;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -17,8 +14,6 @@ class DuelMakerTest implements UnitTest {
     @InjectMocks
     DuelMaker systemUnderTest;
     @Mock
-    SystemOutWriter systemOutWriterMock;
-    @Mock
     RoundMaker roundMakerMock;
     @Mock
     Journey journeyMock;
@@ -26,45 +21,39 @@ class DuelMakerTest implements UnitTest {
     @Test
     void givenHeroEnemyAndSetMyHeroHpToZero_whenDuelMenu_thenEnemyWin(){
         //given
-        Enemy enemyMock = mock(Enemy.class);
-        Warrior myHeroMock = mock(Warrior.class);
-        Stats statsMock = mock(Stats.class);
-        when(myHeroMock.getDuelStats()).thenReturn(statsMock);
-        when(enemyMock.getDuelStats()).thenReturn(statsMock);
-        myHeroMock.getDuelStats().setHp(0);
+        Warrior givenHero = new Warrior("does not matter");
+        Enemy enemy = new Enemy("does not matter");
+        givenHero.getDuelStats().setHp(-1);
         //when
-        systemUnderTest.duelMenu(myHeroMock,enemyMock);
+        systemUnderTest.duelMenu(givenHero,enemy);
         //then
-        String expected = "Round number 1\nYou lost\nGAME IS OVER";
-        Assertions.assertEquals(expected, systemOutWriterMock.show());
+        verifyNoInteractions(roundMakerMock);
     }
     @Test
     void givenHeroEnemyAndSetEnemyHpToZero_whenDuelMenu_thenHeroWin(){
         //given
-        Enemy enemyMock = mock(Enemy.class);
-        Warrior myHeroMock = mock(Warrior.class);
-        Stats statsMock = mock(Stats.class);
-        when(myHeroMock.getDuelStats()).thenReturn(statsMock);
-        when(enemyMock.getDuelStats()).thenReturn(statsMock);
-        enemyMock.getDuelStats().setHp(0);
+        Warrior givenHero = new Warrior("does not matter");
+        Enemy enemy = new Enemy("does not matter");
+        enemy.getDuelStats().setHp(-1);
         //when
-        systemUnderTest.duelMenu(myHeroMock,enemyMock);
+        systemUnderTest.duelMenu(givenHero,enemy);
         //then
-//        String expected = "Round number 1\nYou won";
-//        Assertions.assertEquals(expected, systemOutWriterMock.show());
-        verify(journeyMock).startJourney(myHeroMock,enemyMock);
+        verify(journeyMock).startJourney(givenHero,enemy);
+        verifyNoInteractions(roundMakerMock);
     }
     @Test
     void givenHeroAndEnemy_whenDuelMenu_thenRoundMaker(){
         //given
-        Enemy enemyMock = mock(Enemy.class);
-        Warrior myHeroMock = mock(Warrior.class);
-        Stats statsMock = mock(Stats.class);
-        when(myHeroMock.getDuelStats()).thenReturn(statsMock);
-        when(enemyMock.getDuelStats()).thenReturn(statsMock);
+        Warrior givenHero = new Warrior("does not matter");
+        Enemy enemy = new Enemy("does not matter");
+        doAnswer(invocation -> {
+            Warrior givenHero1 = invocation.getArgument(0);
+            givenHero1.getDuelStats().setHp(-1);
+            return null;
+        }).when(roundMakerMock).playRound(givenHero,enemy);
         //when
-        systemUnderTest.duelMenu(myHeroMock, enemyMock);
+        systemUnderTest.duelMenu(givenHero, enemy);
         //then
-        verify(roundMakerMock).playRound(enemyMock,myHeroMock);
+        verify(roundMakerMock).playRound(givenHero,enemy);
     }
 }

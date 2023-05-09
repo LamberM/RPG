@@ -4,6 +4,7 @@ import org.LamberM.UnitTest;
 import org.LamberM.character.Warrior;
 import org.LamberM.stats.StatsShower;
 import org.LamberM.utils.MenuChooser;
+import org.LamberM.utils.OutputWriter;
 import org.LamberM.utils.SystemOutWriter;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +20,7 @@ class JourneyTest implements UnitTest {
     @Mock
     StatsShower showStatsMock;
     @Mock
-    SystemOutWriter systemOutWriterMock;
+    OutputWriter outputWriterMock;
     @Mock
     DuelMaker duelMakerMock;
     @Mock
@@ -52,10 +53,14 @@ class JourneyTest implements UnitTest {
     void givenUserPick_whenContinueJourney_thenGameIsEnd() {
         //given
         Warrior givenHero = new Warrior("does not matter");
+        String text = "Hello " + givenHero.getName() +
+        "\nAre you ready for adventure ?" +
+                "\nYour choice possibilities:";
         when(journeyMenuChooserMock.userPick()).thenReturn(4);
+
         //when
         systemUnderTest.startJourney(givenHero,enemyCreatorMock.createEnemy());
         //then
-        verify(systemOutWriterMock,times(2)).show();
+        verify(outputWriterMock).show(text);
     }
 }

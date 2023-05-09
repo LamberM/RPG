@@ -4,6 +4,7 @@ import lombok.Setter;
 import org.LamberM.character.Character;
 import org.LamberM.stats.StatsShower;
 import org.LamberM.utils.MenuChooser;
+import org.LamberM.utils.OutputWriter;
 import org.LamberM.utils.SystemInReader;
 import org.LamberM.utils.SystemOutWriter;
 
@@ -13,7 +14,7 @@ public class Journey {
     @Setter // for tests - setter method injection
     private MenuChooser journeyMenuChooser;
     @Setter // for tests - setter method injection
-    private SystemOutWriter outWriter;
+    private OutputWriter outputWriter;
     @Setter // for tests - setter method injection
     private DuelMaker duelMaker;
     @Setter // for tests - setter method injection
@@ -21,19 +22,18 @@ public class Journey {
 
     public Journey() {
         journeyMenuChooser = new MenuChooser(new SystemInReader(), List.of("1.Fight", "2.Look at stats", "3.Add stats points", "4.Exit the game"));
-        outWriter = new SystemOutWriter();
+        outputWriter = new SystemOutWriter();
         duelMaker = new DuelMaker();
         statsShower = new StatsShower();
     }
 
-    public void startJourney(Character myHero,Character enemy) {
-        outWriter.setText("Hello" + myHero.getName()+
-                "\nAre you ready for adventure ?"+
+    public void startJourney(Character myHero, Character enemy) {
+        outputWriter.show("Hello " + myHero.getName() +
+                "\nAre you ready for adventure ?" +
                 "\nYour choice possibilities:");
-         outWriter.show();
         int userChoice = journeyMenuChooser.userPick();
         switch (userChoice) {
-            case 1 -> duelMaker.duelMenu(myHero,enemy);
+            case 1 -> duelMaker.duelMenu(myHero, enemy);
             case 2 -> statsShower.showStats(myHero.getStats());
 //            case 3 -> {
 //                Level level = new Level();
@@ -48,10 +48,7 @@ public class Journey {
 //                    level.setLvlToCompare(level.getLvl() + 1);
 //                }
 //            }
-            case 4 -> {
-                outWriter.setText("See you later, bye");
-                outWriter.show();
-            }
+            case 4 -> outputWriter.show("See you later, bye");
         }
     }
 }
