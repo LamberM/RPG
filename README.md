@@ -2,5 +2,6 @@
 This is my RPG home project where I'm learning java.
 
 ## TODO
-- upgrade game, stats, utils tests
+- repair OffensiveRoundMaker
+- repair Assassin,Sorcerer,Warrior, OffensiveRoundMaker Tests
 - can add chance for freeze or stun
