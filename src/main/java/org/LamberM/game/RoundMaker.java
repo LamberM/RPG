@@ -45,8 +45,7 @@ public class RoundMaker {
             case 1 -> {
                 while (!myHeroHaveAttackRange(myHero)){
                     tries++;
-                    outWriter.setText("You can't have to hit enemy. Your attack range is too small");
-                    outWriter.show();
+                    outWriter.show("You can't have to hit enemy. Your attack range is too small");
                     if (tries > 5) {
                         throw new IllegalArgumentException("You made mistakes too much");
                     }
@@ -57,14 +56,13 @@ public class RoundMaker {
                 }
                 else {
                     range = range - 1;
-                    outWriter.setText("I can't attack.\nI must take step forward");
+                    outWriter.show("I can't attack.\nI must take step forward");
                 }
             }
             case 2 -> {
                 while (!myHeroCanUseSkill(myHero)||!myHeroHaveAttackRange(myHero)) {
                     tries++;
-                    outWriter.setText("You can't have to hit enemy. Your attack range is too small or hero don't enough mana points to use offensive skills (20MP)");
-                    outWriter.show();
+                    outWriter.show("You can't have to hit enemy. Your attack range is too small or hero don't enough mana points to use offensive skills (20MP)");
                     if (tries > 5) {
                         throw new IllegalArgumentException("You made mistakes too much");
                     }
@@ -75,14 +73,13 @@ public class RoundMaker {
                 }
                 else {
                     range = range - 1;
-                    outWriter.setText("I can't attack.\nI must take step forward");
+                    outWriter.show("I can't attack.\nI must take step forward");
                 }
             }
             case 3 -> {
                 while (!myHeroCanUseSkill(myHero)) {
                     tries++;
-                    outWriter.setText("Not enough mana points to use defensive skills (20MP)");
-                    outWriter.show();
+                    outWriter.show("Not enough mana points to use defensive skills (20MP)");
                     if (tries > 5) {
                         throw new IllegalArgumentException("You made mistakes too much");
                     }
@@ -93,7 +90,7 @@ public class RoundMaker {
                     }
                     else {
                         range = range - 1;
-                        outWriter.setText("I can't attack.\nI must take step forward");
+                        outWriter.show("I can't attack.\nI must take step forward");
                     }
                 }
             case 4 -> {
@@ -103,7 +100,7 @@ public class RoundMaker {
                 }
                 else {
                     range = range - 1;
-                    outWriter.setText("I can't attack.\nI must take step forward");
+                    outWriter.show("I can't attack.\nI must take step forward");
                 }
             }
             case 5 -> {
@@ -113,16 +110,15 @@ public class RoundMaker {
                 }
                 else {
                     range = range - 1;
-                    outWriter.setText("I can't attack.\nI must take step forward");
+                    outWriter.show("I can't attack.\nI must take step forward");
                 }
             }
         }
     }
     private void roundMenu(Character myHero,Character enemy){
-        outWriter.setText("Range: " + range+"\n"+
+        outWriter.show("Range: " + range+"\n"+
                         "My hero"+ "\n"+ "HP: " + myHero.getDuelStats().getHp() + " MP: " + myHero.getDuelStats().getMp() +"\n"+
                 "Enemy"+"\n"+"HP: " + enemy.getDuelStats().getHp());
-        outWriter.show();
     }
     private boolean enemyCanAttack(Character enemy) {
         return enemy.getDuelStats().getAttackRange() >= range;
