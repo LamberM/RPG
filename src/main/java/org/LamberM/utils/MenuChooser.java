@@ -12,9 +12,9 @@ public class MenuChooser {
         this.minValueChoice = 1;
         this.maxValueChoice = menu.size();
         this.menu = menu;
-        this.outWriter = new SystemOutWriter();
+        this.outputWriter = new SystemOutWriter();
     }
-    private SystemOutWriter outWriter;
+    private final OutputWriter outputWriter;
     private final InputReader inputReader;
     private final int minValueChoice;
     private final int maxValueChoice;
@@ -22,8 +22,7 @@ public class MenuChooser {
 
     private void showMenu() {
         for (String line : this.menu) {
-            outWriter.setText(line);
-            outWriter.show();
+            outputWriter.show(line);
         }
     }
 
@@ -37,13 +36,11 @@ public class MenuChooser {
         int userChoice = Integer.parseInt(inputReader.read());
         while (!requiredValue(userChoice)) {
             tries++;
-            outWriter.setText("Tries: " + tries);
-            outWriter.show();
+            outputWriter.show("Tries: " + tries);
             if (tries > 5) {
                 throw new IllegalArgumentException("You made mistakes too much");
             }
-            outWriter.setText("You entered the wrong number. Try again");
-            outWriter.show();
+            outputWriter.show("You entered the wrong number. Try again");
             userChoice = Integer.parseInt(inputReader.read());
         }
         return userChoice;
