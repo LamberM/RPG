@@ -3,18 +3,22 @@ package org.LamberM.character;
 
 import org.LamberM.stats.Stats;
 import org.LamberM.utils.MenuChooser;
+import org.LamberM.utils.OutputWriter;
 import org.LamberM.utils.SystemInReader;
+import org.LamberM.utils.SystemOutWriter;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 public class Sorcerer extends Character {
 
+    private final OutputWriter outputWriter;
     public Sorcerer(String name) {
         super(name, sorcererDefaultStats());
+        outputWriter = new SystemOutWriter();
     }
-
     public static Stats sorcererDefaultStats() {
         return new Stats(5, 15, 25, 120, 80, 5, 40, 5, 2);
     }
@@ -60,7 +64,7 @@ public class Sorcerer extends Character {
     private void frostArmor() {
         getDuelStats().setArmor(getDuelStats().getArmor() + 10);
         getDuelStats().setMp(getDuelStats().getMp() - 20);
-        System.out.println("I feel freeze");
+        outputWriter.show("I feel freeze");
     }
 
 }

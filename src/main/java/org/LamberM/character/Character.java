@@ -5,6 +5,7 @@ import org.LamberM.stats.Stats;
 import org.LamberM.utils.MenuChooser;
 
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 public abstract class Character {
 
@@ -15,6 +16,7 @@ public abstract class Character {
     @Getter
     private Stats duelStats;
 
+
     public Character(String name, Stats statsParameters) {
         this.name = name;
         this.stats = statsParameters;
@@ -24,5 +26,5 @@ public abstract class Character {
     public abstract MenuChooser provideDefensiveSkillsMenu();
     public abstract Map <Integer,Runnable> provideDefensiveSkills();
     public abstract MenuChooser provideOffensiveSkillsMenu();
-    public abstract Map <Integer,Runnable> provideOffensiveSkills();
+    public abstract Map <Integer, Runnable> provideOffensiveSkills();
 }

@@ -2,22 +2,26 @@ package org.LamberM.character;
 
 import org.LamberM.stats.Stats;
 import org.LamberM.utils.MenuChooser;
+import org.LamberM.utils.OutputWriter;
 import org.LamberM.utils.SystemInReader;
+import org.LamberM.utils.SystemOutWriter;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 public class Assassin extends Character {
 
     public Assassin(String name) {
         super(name, assassinDefaultStats());
+        outputWriter = new SystemOutWriter();
     }
 
     public static Stats assassinDefaultStats() {
         return new Stats(15, 20, 10, 150, 40, 10, 60, 10, 1);
     }
-
+    private final OutputWriter outputWriter;
     @Override
     public MenuChooser provideDefensiveSkillsMenu() {
         return new MenuChooser(new SystemInReader(), List.of("1.Boost dodge and dexterity (20MP)", "2.Back to skill menu"));
@@ -61,7 +65,7 @@ public class Assassin extends Character {
         getDuelStats().setDodge(getDuelStats().getDodge() + 5);
         getDuelStats().setCriticalChance(getDuelStats().getCriticalChance() + 5);
         getDuelStats().setMp(getDuelStats().getMp() - 20);
-        System.out.println("I'm feeling agile like ninja");
+        outputWriter.show("I'm feeling agile like ninja");
     }
 
 }

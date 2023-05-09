@@ -4,6 +4,7 @@ import org.LamberM.stats.Stats;
 import org.LamberM.utils.MenuChooser;
 
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 public class Enemy extends Character {
     public Enemy(String name) {

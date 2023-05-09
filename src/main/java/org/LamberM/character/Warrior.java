@@ -3,15 +3,21 @@ package org.LamberM.character;
 import lombok.Setter;
 import org.LamberM.stats.Stats;
 import org.LamberM.utils.MenuChooser;
+import org.LamberM.utils.OutputWriter;
 import org.LamberM.utils.SystemInReader;
+import org.LamberM.utils.SystemOutWriter;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 public class Warrior extends Character {
+   @Setter // - for tests Setter Method Injection
+    private OutputWriter outputWriter;
     public Warrior(String name) {
         super(name, warriorDefaultStats());
+        outputWriter=new SystemOutWriter();
     }
 
     public static Stats warriorDefaultStats() {
@@ -49,7 +55,7 @@ public class Warrior extends Character {
         getDuelStats().setArmor(getDuelStats().getArmor() + 5);
         getDuelStats().setCriticalChance(getDuelStats().getCriticalChance() + 2);
         getDuelStats().setMp((getDuelStats().getMp() - 20));
-        System.out.println("WAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRR");
+        outputWriter.show("WAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRRRRR");
     }
 
     private void defensiveCry() {
@@ -57,7 +63,7 @@ public class Warrior extends Character {
         getDuelStats().setArmor(getDuelStats().getArmor() + 10);
         getDuelStats().setDodge(getDuelStats().getDodge() + 2);
         getDuelStats().setMp((getDuelStats().getMp() - 20));
-        System.out.println("BAAAAAAAAAAAAAAAAAAAAAAAACCCCCKKKKKKKKKKKKKK");
+        outputWriter.show("BAAAAAAAAAAAAAAAAAAAAAAAACCCCCKKKKKKKKKKKKKK");
     }
 
     //////////////////////////////////// Offensive skills //////////////////////////////////////////////////////////
